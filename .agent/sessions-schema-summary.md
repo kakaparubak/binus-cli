@@ -1,0 +1,3 @@
+The session schema diagnostic helper is ready at [session_schema.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/examples/session_schema.rs). It accepts one validated `--class ID`, uses the existing protected credential loader and request headers, and emits structural schema metadata only. I made no live API calls.
+
+Fmt, the example build, its two synthetic tests, and Clippy passed. Full `cargo test` repeatedly had one Courses timing test fail; the details and the selected-class release run command are in [sessions-schema-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/sessions-schema-evidence.md). The brief handoff is in [sessions-schema-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/sessions-schema-summary.md).

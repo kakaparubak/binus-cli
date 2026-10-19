@@ -1,0 +1,37 @@
+# Approved Sessions-list implementation: actual schema verified
+
+Work ONLY /home/abdel/Documents/Coding/binus-cli, gpt-6-luna. User approved next bounded `binus courses sessions list --class <class-id>` after Courses accepted. Schemahelper ready; parenthostside live reads SUCCEEDED with currentauth (no browser). Don'tprobeagain/asklogin/readrealcredentialsinsandbox. Namespace /homeuid65534 remains; parentrunsrealcommandsoutside sandbox. No commits/push, noBINUSwrites, refresh, materialdetail/download/forumfeatures/SQLite/offline.
+
+## Ground truth, not guesses
+Parent normalSSH ran acceptedrelease `courses list --period2610`, sortedrows by(course_code,class_code,class_id), selected FIRST LEC and FIRST LAB independently, keptrealIDs onlyinprocess. Called built session_schema with eachclass once. BothHTTP200, root OBJECT containing sessions[] (13LEC/6LAB) plus classmetadata and lecturers[]. NOobservedpagination/total/continuationfields.
+Rootfields/types:
+academicCareer:string,academicCareerId:string,academicPeriod:string,academicPeriodId:string,classCode:string,classGroupId:null,classNumber:integer,courseCode:string,courseId:string,courseTitleEn:string,crseId:string,institution:string,nSksp:string,nSkst:string,revision:number,ssrComponent:string,lecturers:array,sessions:array.
+AUTHORITATIVE session fields from union walker:
+sessions.id:string
+sessions.classSessionNumber:string
+sessions.courseTopicId:string
+sessions.dateEnd:string
+sessions.hasForumContent:boolean
+sessions.status:integer
+No title/topictext/startdate/deliverymetadata in sessionrows. DO NOT invent those or auto-fetchsessionresources/topics tofillthem. Existinghelper record_field_types wronglypicksfirstrootarraylecturers; IGNOREthatderivedfield. Actualunion_field_types androot_object_array_counts above prove sessions[] shape explicitly. Do notusefirstnestedarray heuristic inproductparser.
+
+Outputminimal data perrow (stableIDs usablelater): session_id<-id,class_id<-requestedclass,session_number<-classSessionNumber,course_topic_id<-courseTopicId,date_end<-dateEnd,has_forum_content bool,source_status rawinteger. Preserve rawsessionnumber string/order (notguessnumericsequence). No interpretationofstatus int asattendance/completion/submission; date_end NOTassignmentdeadline. Normalize year0001-01-01 sentinel to null unknown whilepreservingraw source_date_end string ifneeded; do notapplymachineTZto naivevalues. Do notemitlecturernames/IDs/userCodes/pictureURLs/rawmetadata orstudentIDs. No materiallinks or hiddenrequestfanout. Sparse/missingmetadata remains expliciterror/unknown, not fabricatedtitle.
+
+Need verifypublicfrontendcallsite for sessions.id as stableClassSessionID ifuseful, but donotstall onanotherprobe: routeandnamedshapealreadyverified andpreviouscoverage135sessions usedit. RequiredID notempty; otherfieldstypematchabove. Rootmissing/wrongtype sessions (evenlecturersarraypresent) invalidschema. Rootarray NOTvalid. Legitimate sessions[]emptycompleteempty. Duplicate exactsessionrows dedupe stable(classid,sessionid); conflictingrows sameID visiblyerror/warningincomplete notsilentlypickone. Session-list retrieval ONEclass atomic onmalformedrow accepted for boundedfirstslice: expliciterror/nofalsecomplete, documenttest. Never outputunknownpartialasemptycomplete. Unknown paginationindicators ifpresent/nonempty ->unsupportedpagination/incomplete ratherthanclaimcomplete; noobservedpaginationdon'tinventpagequery.
+
+JSON newcommandcommon schema_version1,statuscomplete/error,data[],coverage with discovery_complete/complete and explicitselectedCLASS scope (e.g classes[{class_id,status}]); errorssanitizedcode/stage/class_id/httpstatus, warnings[],fetched_at actualUTC. Preserveexisting Courses periods/list JSONunchanged. CLIusage2 for missing/unsafeclass BEFOREcredentialread. Missingcreds structurednot_logged_in currenttimestamp. Complete0/error1; partial3ifrealpartialcase (do notforcefakepartial). ReusesavedCredentialRecord/headerbuilder, fixedHTTPS GET https://apim-bm7-prod-web.azure-api.net/func-bm7-course-prod/ClassSession/Class/{classId}/Student, disable redirects/Cookies/noquery/body,30soverall20srequest inclbody/8MiBbodycap. 401403reauth vs500upstreamnotexpiry. ValidationURLsegmentssafe no slash/query/dotsegmentinjection. Reuseexisingsafe_segment unlesshelperstricterlettersnums_- requiresconsistent documentedchoice; genuineIDs GUID accepted.
+
+Production requestendpoint/limits fixed; testloopback/limits variant MUST #[cfg(test)] only (learnedpriorreview). Reuse existingprivatepatternnotproductionbaseURL/envflag. SharedCLI preservedbothbinsauth. Newservice module sessions.rs small/clear; don'tcopyentirecourseclient/CLI orrefactorauth. Minimalgenericcommonrequest/envelopehelper ifneeded butkeepcoursebehaviorstable.
+
+## Existingbaselineflakiness needs narrow test-only stabilization
+Schemajobreported2failedfullsuite runs; parentreproduced normalhost cargo test:37pass/1fail courses::tests::shared_absolute_budget_includes_headers_discovery_and_all_components, courses.rs1017 expectedpartial goterror. Thiswaspriorreviewnonblockinglowtimingslacknowactualrepro. Currentthirdscenario first2headers50+50ms,overall140ms,final100ms; leaves40ms fornetwork/client/scheduling beforefirstcomponentsuccess, insufficient. FIXONLY testfixture/timing/synchronization (no prodtimeoutrelaxation, no weakeningexpectedpartial toallowerror, no ignoredtest). Use generous >=1sbudget orcontrolledsynchronization and finaldelaylowerthanperrequestbudgetbutcombinedacrossdiscovery/components exceedssharedbudget, so sameactualbugstillcaught. Ensure clientsetup overhead isn'tmistakenforservicefailure. Avoidserverthreadleaks/panics onexpectedclosedrequests. Repeatrelevanttestseveral timeswithfullsuite tovalidate lessflaky. Do not reopenCoursesfeaturearchitecture; productioncode alreadyaccepted.
+
+## Tests BEFORE implementation (realservice/CLI notonlyparser)
+- Namedobject.sessions vswrongroot/wrongarray/lecturers-only, correctexactfieldmapping/nolecturerleaks, rawintegerstatus/numberstring, date sentinel/naivepreservation, emptyarray andexactduplicates/conflictingduplicates/malformedrowatomic.
+- LocalHTTPsyntheticactualservicepipeline requestGET/path/headers/Bearer; noCookie/query/body;200schema;401403vs500;invalidJSON/network/timeout/bodycap;redirectnotfollowed/noforwardtoken. Configtestorigin/limits cfgtestonlyvalidatedloopback, neverrealcredentials.
+- SharedCLI nestingclassflagusage2 BEFOREcreds, missingcredsJSONtimestamp, service-generatedenvelopesactualserialized/exitselection completeempty/error(andpartialifdefined). Bothnew/oldbinexistingauth/course testskeeppassing.
+- Tight timeouttests with sane schedulingmargins, actualproductionpipeline notduplicatedfake.
+
+Run cargo test (INCLUDINGhelpertests separately ifcargo testdoesnotrunexamples),fmt --check,clippy --all-targets -- -Dwarnings,debugbuild,releasebuild,bothhelp+newsubcommandhelp. No LIVEAPIinsandbox; parentwillrunreleasecourseslistthennewsessionslist for2same selectedsamples andverifycount/dedupe/coverage. Do notfail/stopimplementationbecausesandboxauthstorageunavailable (known, operationallyhandled).
+
+Write detailed evidence `.agent/sessions-list-evidence.md`, finalsummary separate `.agent/sessions-list-summary.md`. Actualfiles/counts/commands/remaininglimits, no selfreferenceoverwritingevidence. Newcommandshouldactuallywork endtoend beforehandoff; no stubs. No codingbeyondboundedselectedclassmetadata+flakytestfix. Ifmodelcapacity doNOTswitch, preservework/reporthonestly. Finalparentreview+hostsidereadsrequiredforacceptance.
