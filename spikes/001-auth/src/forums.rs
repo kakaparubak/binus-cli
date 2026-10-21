@@ -1078,7 +1078,15 @@ mod tests {
         let listener = TcpListener::bind("127.0.0.1:0").unwrap();
         let addr = listener.local_addr().unwrap();
         drop(listener);
-        let out = list_inner(&record(), "c", "s", target(format!("http://{addr}"))).await;
+        // Windows may retry a refused connection before reporting it. This case
+        // checks error classification, not the separately tested deadline.
+        let refused = custom_target(
+            format!("http://{addr}"),
+            Duration::from_secs(20),
+            Duration::from_secs(10),
+            CAP,
+        );
+        let out = list_inner(&record(), "c", "s", refused).await;
         assert_eq!(out.status, "error");
         assert_eq!(out.errors[0].code, "network_error");
         assert_eq!(out.errors[0].http_status, None);

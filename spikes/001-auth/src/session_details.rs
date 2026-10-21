@@ -1065,7 +1065,12 @@ mod tests {
             reply(&mut stream, 200, "OK", &fixture().to_string(), "");
             request
         });
-        let value = show_inner(&record(), "s-1", Some(target(format!("http://{addr}")))).await;
+        // Let Windows finish its connection-refusal retries. Deadline behavior
+        // has dedicated tests; this fixture checks partial-result retention.
+        let mut refused = target(format!("http://{addr}"));
+        refused.total = Duration::from_secs(20);
+        refused.request = Duration::from_secs(10);
+        let value = show_inner(&record(), "s-1", Some(refused)).await;
         let primary_request = handle.join().unwrap();
         assert!(primary_request.starts_with("GET /func-bm7-course-prod/ClassSession/Session/s-1/Resource/Student?isWeb=true HTTP/1.1"));
         let (out, code) = crate::cli::courses_output(value);

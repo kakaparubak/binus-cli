@@ -530,9 +530,12 @@ mod tests {
         let listener = TcpListener::bind("127.0.0.1:0").unwrap();
         let addr = listener.local_addr().unwrap();
         drop(listener);
-        let (out, code) = crate::cli::courses_output(
-            list_test(&record(), "c", target(format!("http://{addr}"))).await,
-        );
+        // Connection refusal can take several seconds on Windows. Keep this
+        // classification fixture separate from the intentional timeout tests.
+        let mut refused = target(format!("http://{addr}"));
+        refused.total = Duration::from_secs(20);
+        refused.request = Duration::from_secs(10);
+        let (out, code) = crate::cli::courses_output(list_test(&record(), "c", refused).await);
         assert_eq!(code, std::process::ExitCode::from(1));
         assert_eq!(out["errors"][0]["code"], "network_error");
     }

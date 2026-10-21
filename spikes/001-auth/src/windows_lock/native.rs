@@ -417,8 +417,12 @@ mod tests {
         let name = private_test_name("BadDescriptor");
         let token = effective_token().expect("effective token");
         let (_sid_backing, sid) = unsafe { user_sid(token.0.0).expect("user SID") };
+        // Windows strips undefined access bits when storing a kernel-object
+        // DACL. Omit the valid WRITE_DAC right instead, while retaining every
+        // right needed to open and inspect this deliberately mismatched mutex.
+        let mismatching_mask = MUTEX_ALL_ACCESS & !0x0004_0000; // WRITE_DAC
         let (_acl_storage, sd) =
-            unsafe { descriptor(sid, MUTEX_ALL_ACCESS | 0x100).expect("test security descriptor") };
+            unsafe { descriptor(sid, mismatching_mask).expect("test security descriptor") };
         let mut attrs = SECURITY_ATTRIBUTES {
             nLength: std::mem::size_of::<SECURITY_ATTRIBUTES>() as u32,
             lpSecurityDescriptor: (&sd as *const SECURITY_DESCRIPTOR).cast_mut().cast(),

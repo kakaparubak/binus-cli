@@ -4,8 +4,7 @@ use futures_util::{SinkExt, StreamExt};
 use rustix::fs::{self as rfs, AtFlags, Mode, OFlags};
 use serde::Serialize;
 use serde_json::{Value, json};
-#[cfg(all(windows, test))]
-use std::fs;
+
 #[cfg(not(windows))]
 use std::path::Path;
 use std::path::PathBuf;
@@ -1461,6 +1460,7 @@ process.stdout.write(JSON.stringify(ready));
         );
     }
 
+    #[cfg(not(windows))]
     #[test]
     fn missing_record_and_metadata_read_error_are_distinct() {
         let temp = tempfile::tempdir().unwrap();
