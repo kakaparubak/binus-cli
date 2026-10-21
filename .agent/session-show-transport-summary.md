@@ -1,0 +1,5 @@
+Added SHOW transport tests for two-source request properties, 401/403 versus 500 handling, invalid JSON and roots, and oversized declared or chunked bodies. Added CLI checks for missing-ID usage and a current-year `fetched_at`. No production logic changed.
+
+Validation passed: `cargo test --all-targets` (61 library, 10 CLI, 4 example tests), formatting, Clippy, debug and release builds, and help checks for both binaries.
+
+**This pass does not complete the requested matrix.** The extra-call honeypot observer, redirect destination check, deadline timing tests, and closed-port partial failure test remain uncovered. Exact evidence and limitations are in [session-show-transport-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/session-show-transport-evidence.md) and [session-show-transport-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/session-show-transport-summary.md).

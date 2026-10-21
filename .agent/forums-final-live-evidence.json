@@ -1,0 +1,87 @@
+[
+  {
+    "stage": "list",
+    "class_sample": 0,
+    "session_sample": 0,
+    "exit_code": 0,
+    "status": "complete",
+    "rows": 1,
+    "unique_threads": 1,
+    "coverage": {
+      "complete": true,
+      "declared_total": 1,
+      "pages_fetched": 1,
+      "scope": "selected_session"
+    },
+    "errors": [],
+    "scope_matches": true
+  },
+  {
+    "stage": "show",
+    "class_sample": 0,
+    "exit_code": 0,
+    "status": "complete",
+    "coverage": {
+      "complete": true,
+      "scope": "selected_thread"
+    },
+    "errors": [],
+    "title_present": true,
+    "body_characters": 165,
+    "scope_matches": true,
+    "attachments": 1,
+    "attachment_urls_absent": true,
+    "personal_fields_absent": true
+  },
+  {
+    "stage": "list",
+    "class_sample": 0,
+    "session_sample": 1,
+    "exit_code": 0,
+    "status": "complete",
+    "rows": 0,
+    "unique_threads": 0,
+    "coverage": {
+      "complete": true,
+      "declared_total": 0,
+      "pages_fetched": 1,
+      "scope": "selected_session"
+    },
+    "errors": [],
+    "scope_matches": true
+  },
+  {
+    "stage": "list",
+    "class_sample": 1,
+    "session_sample": 0,
+    "exit_code": 0,
+    "status": "complete",
+    "rows": 4,
+    "unique_threads": 4,
+    "coverage": {
+      "complete": true,
+      "declared_total": 4,
+      "pages_fetched": 1,
+      "scope": "selected_session"
+    },
+    "errors": [],
+    "scope_matches": true
+  },
+  {
+    "stage": "show",
+    "class_sample": 1,
+    "exit_code": 0,
+    "status": "complete",
+    "coverage": {
+      "complete": true,
+      "scope": "selected_thread"
+    },
+    "errors": [],
+    "title_present": true,
+    "body_characters": 83,
+    "scope_matches": true,
+    "attachments": 1,
+    "attachment_urls_absent": true,
+    "personal_fields_absent": true
+  }
+]

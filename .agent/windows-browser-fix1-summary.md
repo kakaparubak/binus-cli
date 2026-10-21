@@ -1,0 +1,3 @@
+Implemented the three requested Windows browser fixes and saved the before/after hashes, proof map, and verification results in [the evidence log](/home/abdel/Documents/Coding/binus-cli/.agent/windows-browser-fix1-evidence.md). The separate [summary](/home/abdel/Documents/Coding/binus-cli/.agent/windows-browser-fix1-summary.md) records the outcome.
+
+Serial Linux all-target tests, formatting, Clippy with warnings denied, the release build, and Windows MSVC checks passed. Windows all-target checking reports five existing `credential_size` example warnings. **Native Windows lifecycle tests were typechecked but not run** on this Linux machine, so runtime proof remains pending.

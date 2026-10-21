@@ -1,0 +1,5 @@
+Implemented the three source corrections and added SHOW pipeline tests for component mapping, malformed progress data, duplicate handling, partial source retention, and empty results.
+
+Verification passed: `cargo test --all-targets` (58 library, 10 CLI, 4 example tests), formatting, Clippy with warnings denied, debug and release builds, and `courses sessions --help` for both binaries.
+
+**The requested acceptance matrix is not complete.** SHOW-specific coverage remains for redirects, transport and body-cap failures, deadline behavior, several schema cases, and request-header assertions. I did not perform live verification. The remaining gaps and commands are recorded in [review evidence](/home/abdel/Documents/Coding/binus-cli/.agent/session-show-review-fix-evidence.md); the separate [summary](/home/abdel/Documents/Coding/binus-cli/.agent/session-show-review-fix-summary.md) records the correction results.

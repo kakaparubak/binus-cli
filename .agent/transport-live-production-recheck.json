@@ -1,0 +1,84 @@
+[
+  {
+    "stage": "courses",
+    "attempt": 1,
+    "exit_code": 0,
+    "seconds": 0.722,
+    "errors": []
+  },
+  {
+    "stage": "sessions",
+    "attempt": 1,
+    "exit_code": 1,
+    "seconds": 17.415,
+    "errors": [
+      "network_error"
+    ]
+  },
+  {
+    "stage": "sessions",
+    "attempt": 2,
+    "exit_code": 0,
+    "seconds": 0.332,
+    "errors": []
+  },
+  {
+    "stage": "show",
+    "component": "LEC",
+    "attempt": 1,
+    "exit_code": 3,
+    "seconds": 0.437,
+    "status": "partial",
+    "coverage": {
+      "additional": "complete",
+      "complete": false,
+      "discovery_complete": false,
+      "primary": "failed",
+      "scope": "selected_session",
+      "selected_sessions": 1
+    },
+    "errors": [
+      {
+        "source": "primary",
+        "stage": "primary",
+        "code": "source_count_mismatch"
+      }
+    ],
+    "topic_present": false,
+    "component_matches_class": false,
+    "primary_count": null,
+    "additional_count": 1
+  },
+  {
+    "stage": "show",
+    "component": "LEC",
+    "attempt": 2,
+    "exit_code": 1,
+    "seconds": 33.765,
+    "status": "error",
+    "coverage": {
+      "additional": "failed",
+      "complete": false,
+      "discovery_complete": false,
+      "primary": "failed",
+      "scope": "selected_session",
+      "selected_sessions": 1
+    },
+    "errors": [
+      {
+        "source": "primary",
+        "stage": "request",
+        "code": "network_error"
+      },
+      {
+        "source": "additional",
+        "stage": "request",
+        "code": "network_error"
+      }
+    ],
+    "topic_present": false,
+    "component_matches_class": false,
+    "primary_count": null,
+    "additional_count": null
+  }
+]

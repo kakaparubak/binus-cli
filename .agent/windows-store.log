@@ -1,0 +1,1993 @@
+OpenAI Codex v0.162.1
+--------
+workdir: /home/abdel/Documents/Coding/binus-cli
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR] (network access enabled)
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a159ff-ad76-7683-a475-eae17a697f6c
+--------
+user
+# Windows Credential Manager storage slice (not full Windows browser port)
+Repo /home/abdel/Documents/Coding/binus-cli; crate spikes/001-auth. User APPROVED built-in Windows Credential Manager and continuing. Exact model gpt-6-luna. Windows11 + Omarchy DUAL BOOT SAME MACHINE, so no native Windows runner now; do not request reboot or claim Windows runtime verified. Omarchy code only, no commits/push/publication. Preserve JSON/course/forum behavior and all Linux storage guarantees.
+
+PREREQUISITE CLEARED by parent: reviewed examples/credential_size.rs, reran5tests/releasebuild and host secure-loader diagnostic: access_token_bytes827,refresh_token_bytes897,record_json_bytes1977,max_blob_bytes2560,record_fitstrue. No token values printed or copied; do NOT access real credentials/browser/vault yourself. This proves ONE existing record fits, not that all future records fit. User authorized no silent fallback. Future serialized records>2560 MUST fail before any OS write, preserving previous data. No compression/chunking/DPAPI/plaintext fallback in this slice.
+
+Implement a narrow, real Windows Credential Manager backend behind existing public storage operations, maintaining accepted Linux implementation. Read `.agent/windows-portability-evidence.md` and existing lib.rs104-425, cli calls before coding. Existing API: store_record, load_record, remove_spike_artifacts, remove_record_file, promote_verified_candidate(primary,candidate,verifiedrecord), load_preferred_record. Preserve primary vs candidate, pending/recoverable candidate and promotion bound to exact verified snapshot. Review actual signatures/return semantics, don't invent them. Single opaque serde JSON blob per primary/candidate record. Windows fixed app/version-scoped generic targets, current-user Credential Manager, persistent on THIS machine across user logons (CRED_PERSIST_LOCAL_MACHINE means this user's local persistence, NOT shared all users). Explicit fields, no plaintext disk writes. Token/role validation parity, maxblob beforewrite, returnedsizebounds beforedecode, CredFree on all read paths, no secret-bearing Windows/error debug messages. ERROR_NOT_FOUND => absence only, other failure => storageerror, not empty successful logout/status. Logout attempts both app-owned records, leaves unrelated credentials alone. Lock concurrency and promotion exactly; no unsafe races or replacing unrelated target based on untrusted path. Validate only supported logical primary/candidate selectors; don't leak full credential namespace to stdout.
+
+Use official Microsoft WinCred, CredReadW/CredWriteW/CredDeleteW/CredFree and Windows mutex docs + actual Rust binding docs (windows-sys or windows crate). No hand-guessed FFI. Mutex current-user identity/namespacing + cross-process guarantees matter. Do not use Local-session mutex while claiming cross-logon-session exclusion against locally persistent credentials; if cross-session named mutex design/security requires additional decision, REPORT blocker instead of quietly weakening it. Handle abandonment/error safely, RAII cleanup. Native OS errors never printed with secrets. Linux UID/no-follow/fsync/atomic-pair/flock/ancestor security MUST remain; don't whitelist65534 sandbox UID. Ideally small cfg facade/modules; do not broadly refactor accepted transport/HTML or rename CLI.
+
+Small acceptance checklist (TDD vertical: one failing behavior -> minimal implementation -> next; record actual red/green, not invented evidence):
+1. Backend-neutral code tested on Linux: serialized record size exact2560accepted/2561rejected BEFORE OS writes; malformedtoken/role records rejected. In-memory WinCred seam allowed ONLY because native unavailable; tests must exercise actual storage orchestration, not fake entire outcome.
+2. Actual orchestration through test seam covers save/load/absence/API-error, bounded decode, private error output; promotion checks exact verified snapshot and doesn't overwrite primary/remove candidate on mismatch or write failure. Concurrent writers guarded; do not call tests native Windows proof.
+3. Delete/logout covers both known records despite one deletion error, preserves unrelated entry; no broad credential enumeration/deletion or plaintextfallback. Target-key selection rejects unexpected artifact names.
+4. Native Windows adapter implemented (not stub) using documented APIs; add native-only tests using isolated cfg(test)-only namespace (never production or user credentials). Cross-target check actual Windows storage code and report remaining preexisting browser/process/signal blockers separately. Full Windows build/support is NOT this slice's acceptance. If feasible dedicated checked harness imports real module/types (no stubbed security) may isolate compiler validation; avoid giant harness. Don't fix browser in this pass or fake cfg(windows) success bodies. Existing Unix code may need narrow cfg attributes/dependency gating to expose backend but no runtime weakening.
+
+Windows auth login must not demand plaintext consent for OSvault, but Linux flag behavior stays. If wiring this requires browser/CLI wider port, leave precise next-step integration note rather than mixing full browser/jobobject work. auth non-network status/current-account code must not imply liveverified. Don't change snapshot or error contracts silently.
+
+Run cargo test --manifest-path spikes/001-auth/Cargo.toml --all-targets -- --test-threads=1; fmtcheck, clippy alltargets -Dwarnings, Linuxrelease. Windows target alreadyinstalled x86_64-pc-windows-msvc: run actual cargo check and preserve exact errors/status, never summarize exit101 as WindowsbuildPASS. New native Windows tests cannot be executed now: explicitly pending. No real API/login/browser/store access, no package manager sudo/Wine/VM. No blanketallow warnings or weakened tests. If platform seam too broad for clean bounded implementation, stop with exact saved state/blockers rather than partial stub accepted.
+
+Write `.agent/windows-store-evidence.md` incrementally: changedfiles, docs, actualTDD/checkoutputs, threat assumptions, namespace/lock/promotion design, nativepending, exact remaining compiler blockers. Final `.agent/windows-store-summary.md` separate. Scope storage ONLY then STOP. Parent independently checks/tests/source review; after two automatic correctionpasses escalate remainingblockers. No re-review of accepted course/forum slices.
+
+codex
+I’ll inspect the required portability evidence and the existing storage API first, then trace the CLI call sites and platform dependencies before changing anything. I’ll keep this limited to the credential storage slice and record actual check outcomes as I go.
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'lib.rs' -g 'Cargo.toml' -g 'windows-portability-evidence.md' -g '*.rs' .agent spikes/001-auth" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+/home/abdel/Documents/Coding/binus-cli
+spikes/001-auth/examples/credential_size.rs
+spikes/001-auth/examples/forum_schema.rs
+spikes/001-auth/examples/transport_diagnostic.rs
+spikes/001-auth/examples/session_detail_schema.rs
+spikes/001-auth/examples/session_schema.rs
+spikes/001-auth/examples/course_schema.rs
+spikes/001-auth/tests/cli.rs
+spikes/001-auth/src/forums.rs
+spikes/001-auth/src/session_details.rs
+spikes/001-auth/src/sessions.rs
+spikes/001-auth/src/binus.rs
+spikes/001-auth/src/main.rs
+spikes/001-auth/src/cli.rs
+spikes/001-auth/src/courses.rs
+spikes/001-auth/src/lib.rs
+spikes/001-auth/Cargo.toml
+.agent/windows-portability-evidence.md
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "cat .agent/windows-portability-evidence.md && sed -n '1,480p' spikes/001-auth/src/lib.rs && cat spikes/001-auth/Cargo.toml" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+# Windows portability preflight evidence
+
+Date: 2026-10-20 (Asia/Jakarta)
+Scope: compiler-backed audit only. No product source or dependency edits were made for this preflight. No native Windows runtime claim is made.
+
+## Compiler evidence
+
+Environment before setup: `rustc 1.99.1 (58cf8f9c3 2026-10-13)`, `cargo 1.99.1 (5f94df478 2026-08-27)`, installed target only `x86_64-unknown-linux-gnu`, and no `x86_64-w64-mingw32-gcc` on PATH.
+
+Commands and results:
+
+1. `rustup target add x86_64-pc-windows-msvc` — standard library installation completed; `rustup target list --installed` then showed both `x86_64-pc-windows-msvc` and `x86_64-unknown-linux-gnu`. The initial component download emitted no progress for about a minute; it subsequently completed. This is target setup, not a compiler error.
+2. An initial premature `cargo check --manifest-path spikes/001-auth/Cargo.toml --target x86_64-pc-windows-msvc --all-targets` while target installation was still pending failed with `E0463: can't find crate for core` and the rustc hint that the target may not be installed. This result is superseded and is not the project portability finding.
+3. Re-ran the exact check after target installation: `cargo check --manifest-path spikes/001-auth/Cargo.toml --target x86_64-pc-windows-msvc --all-targets`. Cargo fetched/compiled dependencies, then failed in `binus-auth-spike` (exit 101): library: 27 errors; lib test: 47 errors. Dependency resolution succeeded. The output is concrete project compiler failure, not a linker/toolchain setup blocker.
+
+Representative first-order errors and locations:
+
+- `src/lib.rs:3`: unresolved `rustix::fs`; rustix 1.1.5 source notes the module is `cfg(not(windows))`.
+- `src/lib.rs:14`, `104`, `352`, `378`: `std::os::fd`/`OwnedFd` absent on Windows.
+- `src/lib.rs:146`, `174`, `226`, `297`, `343`, `355`, `381`, `395`, `400`: Unix `rustix::process`/filesystem symbols are absent, including `geteuid`, `flock`, and errno constants; related fd and raw-fd conversions also fail (`189`, `230`).
+- `src/lib.rs:651-652`: `std::os::unix::process::CommandExt` and `Command::process_group` are unavailable.
+- `src/cli.rs:466`: `tokio::signal::unix` is unavailable on Windows.
+- `src/lib.rs:947`, `1236-1245`, `1263+`, `1327+`, `1341+`, `1385+`, `1475+`, `1614-1620`: test module imports Unix `PermissionsExt`, checks Unix permission bits, creates Unix symlinks, and uses Unix `process_group`; these also fail under `--all-targets`.
+- `src/lib.rs:272-273` is a further runtime-only Linux dependency: `/proc/self/fd/<fd>` enumeration for artifact cleanup. It does not itself form a separate diagnostic in the current compile because preceding fd names already fail.
+
+No source was edited to suppress these errors or to make a placeholder backend compile.
+
+## Platform assumption inventory
+
+| Area | Existing assumption and locations | Portability consequence |
+|---|---|---|
+| Storage root | `src/cli.rs:93-100` resolves `XDG_CONFIG_HOME`, otherwise `$HOME/.config`; no Windows known-folder resolution. | Needs a defined Windows base path and missing/invalid environment behavior. Microsoft recommends `SHGetKnownFolderPath` for new known-folder code; `%APPDATA%` is the documented default for `FOLDERID_RoamingAppData`. |
+| Storage security | `src/lib.rs:104-156` walks from `/` with `openat`/`NOFOLLOW`, checks Unix uid/mode/sticky bits; `159-201` uses `fchmod`, exclusive no-follow temp creation, rename and fsync; `203-254` opens no-follow and checks owner/mode; `256-361` removes records and checks `st_uid`/mode; `378-401` opens `.auth-spike.lock` and takes `flock`. | These are security properties, not portable permission syntax. Windows needs its own owner/DACL/reparse-point/atomic-write/locking design or OS credential store. Do not map `0700`/`0600` to `Permissions` or accept inherited ACLs without validation. |
+| Cleanup | `src/lib.rs:256-313`, especially `272-280`, lists entries by `/proc/self/fd/<dirfd>` and removes only validated names through dirfd-relative operations. | Must be redesigned around a Windows handle-based directory enumeration/deletion approach or the file artifact design should be avoided. |
+| Browser discovery/launch | `src/lib.rs:645-669`: defaults to `/usr/bin/chromium`; supports `BINUS_CHROMIUM`; creates a temp profile; sets `process_group(0)` and hard-coded Wayland `XDG_RUNTIME_DIR=/run/user/1000`, `WAYLAND_DISPLAY=wayland-1`; starts CDP and polls `DevToolsActivePort` thereafter. | Windows needs Chrome/Edge executable discovery or an explicit binary setting, Windows argument/path handling, no Linux GUI env, a loopback-only debugging endpoint, and cleanup that actually terminates the browser tree. |
+| Browser cleanup | `src/lib.rs:442-453` kills Linux process group with TERM then KILL, followed by child kill/wait; group creation is only at `651-652`. | `Child::kill` targets only the direct child. The Windows process-tree equivalent needs a Job Object and failure-safe assignment/close semantics. |
+| Signals | `src/cli.rs:463-472`: cancellation races capture against Ctrl-C and Unix SIGTERM. | Retain Ctrl-C and define Windows console close/cancel semantics; no Unix SIGTERM API exists. |
+| Unit tests | `src/lib.rs:944-...`: tests assert Unix file modes and symlink/no-follow behavior; `1612-1628` uses `/bin/sh`, `sleep`, and process groups. | Keep Linux security tests Linux-specific; add Windows DACL, reparse-point, atomic replacement, locking, and job cleanup tests rather than weakening/skipping the guarantees. |
+| CLI integration tests | `tests/cli.rs:21+` override `XDG_CONFIG_HOME`; Unix-specific fixtures at `204+`, `228+`, `278+`, `284+` use permission bits, shell scripts, signals and Unix symlinks. | Split shared CLI behavior from platform fixtures; Windows tests need native executable/console and storage-path fixtures. |
+| Cargo | `Cargo.toml:20` enables Tokio `signal`; `:24` unconditionally includes rustix `fs, process`; current source imports both unconditionally. | Gate platform-specific modules/dependencies only after adding a real backend; gating alone is not proof of Windows protections. `rustix` itself compiled as a dependency but does not expose `fs`/`process` on Windows. |
+
+## Secure backend recommendation
+
+Recommend Windows Credential Manager generic credentials as the first Windows backend, behind a small storage interface, while retaining the existing Linux file backend and its explicit plaintext-file consent unchanged. This is less platform-security code than recreating Unix dirfd protections with Windows DACL and reparse-point-safe handle operations. Microsoft documents `CredWriteW` credentials as associated with the current token's logon session, and generic credentials support long-term storage; it also says generic credentials can be read and written by user processes. Treat it as OS-managed storage within the current-user trust boundary, not protection from malicious code already running as that user.
+
+Important fit limit: Microsoft caps `CredentialBlobSize` at `CRED_MAX_CREDENTIAL_BLOB_SIZE`, 5*512 = 2560 bytes. Serialized token pairs may exceed this; measure only synthetic/realistic size fixtures in implementation tests (never inspect a user's vault). Reject oversize data with a clear error; do not spill to plaintext or silently switch backend. If a valid BINUS token pair exceeds the limit, stop and present the ACL-backed file option for a deliberate decision rather than silently designing around it. Credential Manager would store the JSON payload as an opaque generic blob; no claim is made here about encryption implementation or protection from same-user processes.
+
+Sources checked (Microsoft primary documentation):
+
+- [CredWriteW](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credwritew) — write/replace and current-token logon session behavior.
+- [CREDENTIALW](https://learn.microsoft.com/en-us/windows/win32/api/wincred/ns-wincred-credentialw) — 2560-byte blob cap and generic blob semantics.
+- [Kinds of Credentials](https://learn.microsoft.com/en-us/windows/win32/secauthn/kinds-of-credentials) — generic credential long-term storage and user-process read/write scope.
+- [Known Folders](https://learn.microsoft.com/en-us/windows/win32/shell/known-folders) and [KNOWNFOLDERID](https://learn.microsoft.com/en-us/windows/win32/shell/knownfolderid) — use `SHGetKnownFolderPath`; Roaming AppData default is `%APPDATA%`.
+- [File Security and Access Rights](https://learn.microsoft.com/en-us/windows/win32/fileio/file-security-and-access-rights) — ACL inheritance and explicit security descriptors.
+- [CreateFile](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea) and [Reparse Point Operations](https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-point-operations) — use `FILE_FLAG_OPEN_REPARSE_POINT` when operating on reparse points.
+- [Job Objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects) — `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE` can terminate associated processes when the last job handle closes.
+
+## Native acceptance status
+
+Native Windows execution is pending parent access. Configured Windows SSH host `100.68.214.97` timed out from the parent; this preflight did not retry or contact other hosts. No Windows machine writes, login, browser launch, live API, or credential directories/vault were accessed. Cross-target `cargo check` is compile evidence only and does not establish runtime, ACL, credential-manager, browser, or login security.
+
+## Short ordered next batch
+
+1. Add a narrow `CredentialStore` boundary; retain Linux implementation and its existing consent/security behavior. Implement Windows generic Credential Manager with bounded blob size, strict error propagation, scoped names, save/load/delete, and no plaintext fallback. Resolve the oversized-token behavior before enabling login on Windows.
+2. Port Windows path selection and browser runtime: known-folder path for any non-secret profile metadata, Chrome/Edge discovery/override, loopback CDP, and Job Object based child-tree cleanup. Preserve the temporary isolated browser profile and ensure teardown before profile deletion.
+3. Add target-specific storage, reparse-point, cancellation, browser cleanup and CLI acceptance tests; run the existing Linux `cargo test --all-targets -- --test-threads=1` and formatting check unchanged, then run Windows native tests and an interactive login/logout/status acceptance before claiming Windows support. Package Windows x64 only after those pass.
+
+Behavior decisions to obtain before implementation: (a) accept Credential Manager as Windows's protected default without the Linux plaintext-consent flag, while retaining that flag only for explicit plaintext-file backend use; (b) require fresh login rather than automatically importing any existing credentials JSON into Credential Manager; (c) if token data exceeds 2560 bytes, pause Windows login for a reviewed ACL-backed design instead of falling back.
+use base64::Engine;
+use futures_util::{SinkExt, StreamExt};
+use rustix::fs::{self as rfs, AtFlags, Mode, OFlags};
+use serde::{Deserialize, Serialize};
+use serde_json::{Value, json};
+use std::{
+    collections::HashMap,
+    process::{Child, Command, Stdio},
+    time::Duration,
+};
+use std::{
+    fmt, fs,
+    io::{Read, Write},
+    os::fd::{AsRawFd, FromRawFd, IntoRawFd},
+    path::{Path, PathBuf},
+};
+use tokio_tungstenite::{connect_async, tungstenite::Message};
+
+pub mod cli;
+pub mod courses;
+pub mod forums;
+pub mod session_details;
+pub mod sessions;
+
+const CAPTURE_EXPRESSION: &str = "(() => {if(location.origin!=='https://lms.binus.ac.id')return null;const chunks=window['webpackJsonpbinus-lms-web'];if(!chunks)return null;if(!window.__binusResearchRequire)chunks.push([[98768],{98768:function(m,e,r){window.__binusResearchRequire=r}},[[98768]]]);const r=window.__binusResearchRequire;if(!r||!r.c)return null;const cached=r.c[34];if(!cached||cached.l!==true)return null;const api=cached.exports&&cached.exports.b;if(!api||typeof api.getState!=='function')return null;const state=api.getState();const auth=state&&state.auth;const a=auth&&auth.res;if(!a||!a.token||!a.refreshToken)return null;return {accessToken:a.token,refreshToken:a.refreshToken,activeRole:a.activeRole,activeRoleOrganizationId:a.activeRoleOrganizationId,account:a.email||a.originalLoginEmail||''};})()";
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct CredentialRecord {
+    pub account: String,
+    pub access_token: String,
+    pub refresh_token: String,
+    pub role: RoleContext,
+}
+
+impl fmt::Debug for CredentialRecord {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("CredentialRecord")
+            .field("account", &self.account)
+            .field("secrets", &"[REDACTED]")
+            .field("role", &self.role)
+            .finish()
+    }
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct RoleContext {
+    pub academic_career: String,
+    pub institution: String,
+    pub name: String,
+    pub role_id: String,
+    pub organization_id: String,
+}
+
+#[derive(Serialize)]
+pub struct Status {
+    pub status: &'static str,
+    pub stored: bool,
+    pub live_verified: bool,
+    pub blocker: Option<&'static str>,
+}
+
+pub fn sanitized_status(
+    stored: bool,
+    live_verified: bool,
+    blocker: Option<&'static str>,
+) -> Status {
+    Status {
+        status: if live_verified {
+            "live_verified"
+        } else if stored {
+            "stored_unverified"
+        } else {
+            "not_logged_in"
+        },
+        stored,
+        live_verified,
+        blocker,
+    }
+}
+
+pub fn trusted_exchange_url(value: &str) -> bool {
+    url::Url::parse(value).is_ok_and(|u| {
+        u.scheme() == "https"
+            && u.host_str() == Some("apim-bm7-prod-web.azure-api.net")
+            && u.port().is_none()
+            && u.path() == "/func-bm7-identity-prod/AccessAndRefreshToken/AzureAD"
+    })
+}
+
+pub fn parse_pair(body: &str) -> Result<(String, String), &'static str> {
+    let v: serde_json::Value = serde_json::from_str(body).map_err(|_| "invalid_capture")?;
+    let token = |k: &str| {
+        v.get(k)
+            .and_then(serde_json::Value::as_str)
+            .filter(|s| {
+                s.len() >= 16 && s.len() <= 32_768 && s.bytes().all(|b| b.is_ascii_graphic())
+            })
+            .map(str::to_owned)
+            .ok_or("invalid_capture")
+    };
+    Ok((token("accessToken")?, token("refreshToken")?))
+}
+
+fn secure_parent(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+    let parent = path.parent().ok_or("storage_error")?;
+    if !parent.is_absolute()
+        || parent.file_name().and_then(|n| n.to_str()) != Some("binus-auth-spike")
+    {
+        return Err("storage_error");
+    }
+    let mut fd = rfs::open(
+        "/",
+        OFlags::RDONLY | OFlags::DIRECTORY | OFlags::CLOEXEC,
+        Mode::empty(),
+    )
+    .map_err(|_| "storage_error")?;
+    for component in parent.components().skip(1) {
+        let std::path::Component::Normal(part) = component else {
+            return Err("storage_error");
+        };
+        let part = part.to_str().ok_or("storage_error")?;
+        let next = match rfs::openat(
+            &fd,
+            part,
+            OFlags::RDONLY | OFlags::DIRECTORY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+            Mode::empty(),
+        ) {
+            Ok(next) => next,
+            Err(e) if create && e == rustix::io::Errno::NOENT => {
+                match rfs::mkdirat(&fd, part, Mode::from_raw_mode(0o700)) {
+                    Ok(()) | Err(rustix::io::Errno::EXIST) => {}
+                    Err(_) => return Err("storage_error"),
+                }
+                rfs::openat(
+                    &fd,
+                    part,
+                    OFlags::RDONLY | OFlags::DIRECTORY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+                    Mode::empty(),
+                )
+                .map_err(|_| "storage_error")?
+            }
+            Err(e) if !create && e == rustix::io::Errno::NOENT => return Err("not_logged_in"),
+            Err(_) => return Err("storage_error"),
+        };
+        let meta = rfs::fstat(&next).map_err(|_| "storage_error")?;
+        let uid = rustix::process::geteuid().as_raw();
+        let sticky_tmp = meta.st_mode & 0o1000 != 0 && meta.st_mode & 0o002 != 0;
+        if meta.st_mode & 0o170000 != 0o040000
+            || ((meta.st_uid != uid && meta.st_uid != 0) && !sticky_tmp)
+            || (meta.st_mode & 0o022 != 0 && !sticky_tmp)
+        {
+            return Err("storage_error");
+        }
+        fd = next;
+    }
+    Ok(fd)
+}
+
+pub fn store_record(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+    let _lock = storage_lock(path, true)?;
+    store_record_unlocked(path, record)
+}
+
+fn store_record_unlocked(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let dir = secure_parent(path, true)?;
+    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+    match rfs::statat(&dir, name, AtFlags::SYMLINK_NOFOLLOW) {
+        Ok(meta)
+            if meta.st_mode & 0o170000 == 0o100000
+                && meta.st_uid == rustix::process::geteuid().as_raw()
+                && meta.st_mode & 0o077 == 0 => {}
+        Ok(_) => return Err("storage_error"),
+        Err(e) if e == rustix::io::Errno::NOENT => {}
+        Err(_) => return Err("storage_error"),
+    }
+    let temp_prefix = name.strip_suffix(".json").unwrap_or(name);
+    let tmp = format!("{temp_prefix}.tmp-{}", std::process::id());
+    let fd = rfs::openat(
+        &dir,
+        tmp.as_str(),
+        OFlags::WRONLY | OFlags::CREATE | OFlags::EXCL | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+        Mode::from_raw_mode(0o600),
+    )
+    .map_err(|_| "storage_error")?;
+    let mut file = unsafe { std::fs::File::from_raw_fd(fd.into_raw_fd()) };
+    let bytes = serde_json::to_vec(record).map_err(|_| "storage_error")?;
+    let outcome = (|| {
+        file.write_all(&bytes).map_err(|_| "storage_error")?;
+        file.sync_all().map_err(|_| "storage_error")?;
+        rfs::renameat(&dir, tmp.as_str(), &dir, name).map_err(|_| "storage_error")?;
+        Ok(())
+    })();
+    if outcome.is_err() {
+        let _ = rfs::unlinkat(&dir, tmp.as_str(), AtFlags::empty());
+    }
+    outcome
+}
+
+pub fn load_record(path: &Path) -> Result<CredentialRecord, &'static str> {
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let dir = secure_parent(path, false)?;
+    validate_private_app_dir(&dir)?;
+    let fd = rfs::openat(
+        &dir,
+        name,
+        OFlags::RDONLY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+        Mode::empty(),
+    )
+    .map_err(|e| {
+        if e == rustix::io::Errno::NOENT {
+            "not_logged_in"
+        } else {
+            "storage_error"
+        }
+    })?;
+    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+    if meta.st_mode & 0o170000 != 0o100000
+        || meta.st_mode & 0o077 != 0
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+    {
+        return Err("storage_error");
+    }
+    let file = unsafe { std::fs::File::from_raw_fd(fd.into_raw_fd()) };
+    let mut bytes = Vec::new();
+    file.take(1_000_001)
+        .read_to_end(&mut bytes)
+        .map_err(|_| "storage_error")?;
+    if bytes.len() > 1_000_000 {
+        return Err("storage_error");
+    }
+    let record: CredentialRecord = serde_json::from_slice(&bytes).map_err(|_| "storage_error")?;
+    if !valid_token(&record.access_token)
+        || !valid_token(&record.refresh_token)
+        || [
+            record.role.academic_career.as_str(),
+            record.role.institution.as_str(),
+            record.role.name.as_str(),
+            record.role.role_id.as_str(),
+            record.role.organization_id.as_str(),
+        ]
+        .iter()
+        .any(|s| s.is_empty() || s.len() > 256)
+    {
+        return Err("storage_error");
+    }
+    Ok(record)
+}
+
+pub fn remove_spike_artifacts(path: &Path) -> Result<bool, &'static str> {
+    if path.file_name().and_then(|n| n.to_str()) != Some("credentials.json") {
+        return Err("storage_error");
+    }
+    let dir = match secure_parent(path, false) {
+        Ok(fd) => fd,
+        Err("not_logged_in") => return Ok(false),
+        Err(_) => return Err("storage_error"),
+    };
+    let _lock = storage_lock(path, false)?;
+    validate_private_app_dir(&dir)?;
+    let primary = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let mut names = vec![primary.to_owned(), "credentials.captured.json".to_owned()];
+    let proc_dir = PathBuf::from(format!("/proc/self/fd/{}", dir.as_raw_fd()));
+    for entry in fs::read_dir(proc_dir).map_err(|_| "storage_error")? {
+        let entry = entry.map_err(|_| "storage_error")?;
+        if let Some(name) = entry
+            .file_name()
+            .to_str()
+            .filter(|n| recognized_temp_name(n))
+        {
+            names.push(name.to_owned());
+        }
+    }
+    names.sort();
+    names.dedup();
+    let mut removed = false;
+    let mut failed = false;
+    for name in names {
+        let meta = match rfs::statat(&dir, name.as_str(), AtFlags::SYMLINK_NOFOLLOW) {
+            Ok(meta) => meta,
+            Err(e) if e == rustix::io::Errno::NOENT => continue,
+            Err(_) => {
+                failed = true;
+                continue;
+            }
+        };
+        if meta.st_mode & 0o170000 != 0o100000
+            || meta.st_uid != rustix::process::geteuid().as_raw()
+            || meta.st_mode & 0o077 != 0
+        {
+            failed = true;
+            continue;
+        }
+        match rfs::unlinkat(&dir, name.as_str(), AtFlags::empty()) {
+            Ok(()) => removed = true,
+            Err(_) => failed = true,
+        }
+    }
+    if failed {
+        Err("storage_error")
+    } else {
+        Ok(removed)
+    }
+}
+
+pub fn remove_record_file(path: &Path) -> Result<bool, &'static str> {
+    let _lock = storage_lock(path, false)?;
+    remove_record_file_unlocked(path)
+}
+
+fn remove_record_file_unlocked(path: &Path) -> Result<bool, &'static str> {
+    if !matches!(
+        path.file_name().and_then(|n| n.to_str()),
+        Some("credentials.json" | "credentials.captured.json")
+    ) {
+        return Err("storage_error");
+    }
+    let dir = match secure_parent(path, false) {
+        Ok(fd) => fd,
+        Err("not_logged_in") => return Ok(false),
+        Err(_) => return Err("storage_error"),
+    };
+    validate_private_app_dir(&dir)?;
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let meta = match rfs::statat(&dir, name, AtFlags::SYMLINK_NOFOLLOW) {
+        Ok(meta) => meta,
+        Err(e) if e == rustix::io::Errno::NOENT => return Ok(false),
+        Err(_) => return Err("storage_error"),
+    };
+    if meta.st_mode & 0o170000 != 0o100000
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+        || meta.st_mode & 0o077 != 0
+    {
+        return Err("storage_error");
+    }
+    rfs::unlinkat(&dir, name, AtFlags::empty()).map_err(|_| "storage_error")?;
+    Ok(true)
+}
+
+fn validate_private_app_dir(dir: &std::os::fd::OwnedFd) -> Result<(), &'static str> {
+    let meta = rfs::fstat(dir).map_err(|_| "storage_error")?;
+    if meta.st_mode & 0o170000 != 0o040000
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+        || meta.st_mode & 0o077 != 0
+    {
+        return Err("storage_error");
+    }
+    Ok(())
+}
+
+pub fn promote_verified_candidate(
+    primary: &Path,
+    candidate: &Path,
+    verified: &CredentialRecord,
+) -> Result<bool, &'static str> {
+    let _lock = storage_lock(primary, true)?;
+    let record = load_record(candidate)?;
+    if serde_json::to_vec(&record).ok() != serde_json::to_vec(verified).ok() {
+        return Err("candidate_changed");
+    }
+    store_record_unlocked(primary, verified)?;
+    remove_record_file_unlocked(candidate)?;
+    Ok(true)
+}
+
+fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+    let dir = secure_parent(path, create)?;
+    let meta = rfs::fstat(&dir).map_err(|_| "storage_error")?;
+    if meta.st_uid != rustix::process::geteuid().as_raw() || meta.st_mode & 0o170000 != 0o040000 {
+        return Err("storage_error");
+    }
+    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+    validate_private_app_dir(&dir)?;
+    let fd = rfs::openat(
+        &dir,
+        ".auth-spike.lock",
+        OFlags::RDWR | OFlags::CREATE | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+        Mode::from_raw_mode(0o600),
+    )
+    .map_err(|_| "storage_error")?;
+    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+    if meta.st_mode & 0o170000 != 0o100000
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+        || meta.st_mode & 0o077 != 0
+    {
+        return Err("storage_error");
+    }
+    rfs::flock(&fd, rustix::fs::FlockOperation::LockExclusive).map_err(|_| "storage_error")?;
+    Ok(fd)
+}
+
+pub fn load_preferred_record(primary: &Path) -> Result<(CredentialRecord, bool), &'static str> {
+    let candidate = primary.with_file_name("credentials.captured.json");
+    match load_record(&candidate) {
+        Ok(record) => Ok((record, true)),
+        Err("not_logged_in") => load_record(primary).map(|record| (record, false)),
+        Err(error) => Err(error),
+    }
+}
+
+fn recognized_temp_name(name: &str) -> bool {
+    [
+        "credentials.tmp-",
+        "credentials.captured.tmp-",
+        "credentials.json.tmp-",
+        "credentials.captured.json.tmp-",
+    ]
+    .iter()
+    .any(|prefix| {
+        name.strip_prefix(prefix)
+            .is_some_and(|suffix| !suffix.is_empty() && suffix.bytes().all(|b| b.is_ascii_digit()))
+    })
+}
+
+pub fn academic_period_request(
+    record: &CredentialRecord,
+) -> Result<reqwest::Request, &'static str> {
+    reqwest::Client::new()
+        .get("https://apim-bm7-prod-web.azure-api.net/func-bm7-course-prod/AcademicPeriod/Student")
+        .bearer_auth(&record.access_token)
+        .header("rOId", &record.role.organization_id)
+        .header("academicCareer", &record.role.academic_career)
+        .header("institution", &record.role.institution)
+        .header("roleName", &record.role.name)
+        .header("roleId", &record.role.role_id)
+        .build()
+        .map_err(|_| "request_failed")
+}
+
+struct Browser(Child);
+impl Drop for Browser {
+    fn drop(&mut self) {
+        #[cfg(target_os = "linux")]
+        if let Some(pid) = rustix::process::Pid::from_raw(self.0.id() as i32) {
+            let _ = rustix::process::kill_process_group(pid, rustix::process::Signal::TERM);
+            std::thread::sleep(Duration::from_millis(100));
+            let _ = rustix::process::kill_process_group(pid, rustix::process::Signal::KILL);
+        }
+        let _ = self.0.kill();
+        let _ = self.0.wait();
+    }
+}
+
+struct Cdp {
+    ws: tokio_tungstenite::WebSocketStream<
+        tokio_tungstenite::MaybeTlsStream<tokio::net::TcpStream>,
+    >,
+    id: u64,
+    session: Option<String>,
+    guard_enable: HashMap<u64, String>,
+    guard_remaining: HashMap<String, u8>,
+    pending_acks: HashMap<u64, (Option<String>, &'static str)>,
+    paused_count: u64,
+    blocked_count: u64,
+}
+impl Cdp {
+    async fn send(&mut self, method: &str, params: Value) -> Result<Value, &'static str> {
+        self.id += 1;
+        let id = self.id;
+        let mut command = json!({"id":id,"method":method,"params":params});
+        let expected_session = self.session.clone();
+        if let Some(session) = &self.session {
+            command["sessionId"] = json!(session);
+        }
+        self.ws
+            .send(Message::Text(command.to_string().into()))
+            .await
+            .map_err(|_| "browser_protocol_error")?;
+[package]
+name = "binus-auth-spike"
+version = "0.1.0"
+edition = "2024"
+default-run = "binus-auth-spike"
+
+[[bin]]
+name = "binus"
+path = "src/binus.rs"
+
+[dependencies]
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+futures-util = "0.3"
+html5ever = "0.39"
+markup5ever_rcdom = "0.39"
+reqwest = { version = "0.12", features = ["json", "stream"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time", "process", "fs", "io-util", "signal"] }
+tokio-tungstenite = "0.26"
+tempfile = "3"
+url = "2"
+rustix = { version = "1", features = ["fs", "process"] }
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "rg -n 'store_record|load_record|remove_spike_artifacts|remove_record_file|promote_verified_candidate|load_preferred_record|allow-plaintext|plaintext' spikes/001-auth/src spikes/001-auth/tests && rg -n 'fn valid_token|mod tests|storage_' spikes/001-auth/src/lib.rs" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+spikes/001-auth/tests/cli.rs:4:fn plaintext_consent_is_required() {
+spikes/001-auth/tests/cli.rs:11:        String::from_utf8_lossy(&output.stdout).contains("explicit_plaintext_consent_required")
+spikes/001-auth/tests/cli.rs:194:            "--allow-plaintext-file",
+spikes/001-auth/tests/cli.rs:218:            "--allow-plaintext-file",
+spikes/001-auth/tests/cli.rs:247:            "--allow-plaintext-file",
+spikes/001-auth/src/cli.rs:2:    CredentialRecord, academic_period_request, capture, load_preferred_record,
+spikes/001-auth/src/cli.rs:3:    promote_verified_candidate, remove_spike_artifacts, sanitized_status, store_record,
+spikes/001-auth/src/cli.rs:17:    allow_plaintext_file: bool,
+spikes/001-auth/src/cli.rs:156:            let (record, _) = match load_preferred_record(&path) {
+spikes/001-auth/src/cli.rs:190:            let (record, _) = match load_preferred_record(&path) {
+spikes/001-auth/src/cli.rs:231:            if !cli.allow_plaintext_file {
+spikes/001-auth/src/cli.rs:233:                    json!({"status":"blocked","blocker":"explicit_plaintext_consent_required"}),
+spikes/001-auth/src/cli.rs:243:            if store_record(&candidate, &record).is_err() {
+spikes/001-auth/src/cli.rs:247:                if promote_verified_candidate(&path, &candidate, &record).is_err() {
+spikes/001-auth/src/cli.rs:266:        } => match load_preferred_record(&path) {
+spikes/001-auth/src/cli.rs:286:        } => match remove_spike_artifacts(&path) {
+spikes/001-auth/src/cli.rs:367:    let (record, from_candidate) = match load_preferred_record(path) {
+spikes/001-auth/src/cli.rs:411:                if from_candidate && promote_verified_candidate(path, &candidate, &record).is_err()
+spikes/001-auth/src/cli.rs:494:        return Err("explicit_plaintext_consent_required");
+spikes/001-auth/src/cli.rs:496:    store_record(path, record)
+spikes/001-auth/src/lib.rs:159:pub fn store_record(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+spikes/001-auth/src/lib.rs:161:    store_record_unlocked(path, record)
+spikes/001-auth/src/lib.rs:164:fn store_record_unlocked(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+spikes/001-auth/src/lib.rs:203:pub fn load_record(path: &Path) -> Result<CredentialRecord, &'static str> {
+spikes/001-auth/src/lib.rs:256:pub fn remove_spike_artifacts(path: &Path) -> Result<bool, &'static str> {
+spikes/001-auth/src/lib.rs:315:pub fn remove_record_file(path: &Path) -> Result<bool, &'static str> {
+spikes/001-auth/src/lib.rs:317:    remove_record_file_unlocked(path)
+spikes/001-auth/src/lib.rs:320:fn remove_record_file_unlocked(path: &Path) -> Result<bool, &'static str> {
+spikes/001-auth/src/lib.rs:363:pub fn promote_verified_candidate(
+spikes/001-auth/src/lib.rs:369:    let record = load_record(candidate)?;
+spikes/001-auth/src/lib.rs:373:    store_record_unlocked(primary, verified)?;
+spikes/001-auth/src/lib.rs:374:    remove_record_file_unlocked(candidate)?;
+spikes/001-auth/src/lib.rs:404:pub fn load_preferred_record(primary: &Path) -> Result<(CredentialRecord, bool), &'static str> {
+spikes/001-auth/src/lib.rs:406:    match load_record(&candidate) {
+spikes/001-auth/src/lib.rs:408:        Err("not_logged_in") => load_record(primary).map(|record| (record, false)),
+spikes/001-auth/src/lib.rs:1234:        store_record(&path, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1255:        assert!(load_record(&path).is_ok());
+spikes/001-auth/src/lib.rs:1266:        store_record(&path, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1281:        assert!(matches!(load_record(&path), Err("not_logged_in")));
+spikes/001-auth/src/lib.rs:1285:            load_record(&blocked.join("credentials.json")),
+spikes/001-auth/src/lib.rs:1331:        assert_eq!(store_record(&path, &record()), Err("storage_error"));
+spikes/001-auth/src/lib.rs:1332:        assert!(matches!(load_record(&path), Err("storage_error")));
+spikes/001-auth/src/lib.rs:1346:            store_record(
+spikes/001-auth/src/lib.rs:1363:        store_record(&primary, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1364:        let original = load_record(&primary).unwrap();
+spikes/001-auth/src/lib.rs:1373:        assert_eq!(store_record(&primary, &replacement), Err("storage_error"));
+spikes/001-auth/src/lib.rs:1374:        assert_eq!(load_record(&primary).unwrap().account, original.account);
+spikes/001-auth/src/lib.rs:1383:        store_record(&candidate, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1394:        assert_eq!(remove_spike_artifacts(&primary), Err("storage_error"));
+spikes/001-auth/src/lib.rs:1407:        store_record(&primary, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1412:        store_record(&candidate, &newer).unwrap();
+spikes/001-auth/src/lib.rs:1413:        let (preferred, pending) = load_preferred_record(&primary).unwrap();
+spikes/001-auth/src/lib.rs:1421:            promote_verified_candidate(&primary, &candidate, &failed_verification),
+spikes/001-auth/src/lib.rs:1424:        assert_eq!(load_record(&primary).unwrap().account, "synthetic-student");
+spikes/001-auth/src/lib.rs:1425:        assert_eq!(load_record(&candidate).unwrap().account, "synthetic-new");
+spikes/001-auth/src/lib.rs:1426:        assert!(promote_verified_candidate(&primary, &candidate, &newer).unwrap());
+spikes/001-auth/src/lib.rs:1427:        assert_eq!(load_record(&primary).unwrap().account, "synthetic-new");
+spikes/001-auth/src/lib.rs:1428:        assert!(matches!(load_record(&candidate), Err("not_logged_in")));
+spikes/001-auth/src/lib.rs:1447:        store_record(&primary, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1456:        store_record(&candidate, &verified).unwrap();
+spikes/001-auth/src/lib.rs:1457:        store_record(&candidate, &newer).unwrap();
+spikes/001-auth/src/lib.rs:1459:            promote_verified_candidate(&primary, &candidate, &verified),
+spikes/001-auth/src/lib.rs:1462:        assert_eq!(load_record(&primary).unwrap().account, "synthetic-student");
+spikes/001-auth/src/lib.rs:1463:        assert_eq!(load_record(&candidate).unwrap().account, "unverified-B");
+spikes/001-auth/src/lib.rs:1464:        store_record(&candidate, &verified).unwrap();
+spikes/001-auth/src/lib.rs:1465:        assert!(promote_verified_candidate(&primary, &candidate, &verified).unwrap());
+spikes/001-auth/src/lib.rs:1466:        assert_eq!(load_record(&primary).unwrap().account, "verified-A");
+spikes/001-auth/src/lib.rs:1479:        store_record(&candidate, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1481:            promote_verified_candidate(&primary, &candidate, &record()),
+spikes/001-auth/src/lib.rs:1485:        assert!(load_record(&candidate).is_ok());
+105:    let parent = path.parent().ok_or("storage_error")?;
+109:        return Err("storage_error");
+116:    .map_err(|_| "storage_error")?;
+119:            return Err("storage_error");
+121:        let part = part.to_str().ok_or("storage_error")?;
+132:                    Err(_) => return Err("storage_error"),
+140:                .map_err(|_| "storage_error")?
+143:            Err(_) => return Err("storage_error"),
+145:        let meta = rfs::fstat(&next).map_err(|_| "storage_error")?;
+152:            return Err("storage_error");
+160:    let _lock = storage_lock(path, true)?;
+168:        .ok_or("storage_error")?;
+170:    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+176:        Ok(_) => return Err("storage_error"),
+178:        Err(_) => return Err("storage_error"),
+188:    .map_err(|_| "storage_error")?;
+190:    let bytes = serde_json::to_vec(record).map_err(|_| "storage_error")?;
+192:        file.write_all(&bytes).map_err(|_| "storage_error")?;
+193:        file.sync_all().map_err(|_| "storage_error")?;
+194:        rfs::renameat(&dir, tmp.as_str(), &dir, name).map_err(|_| "storage_error")?;
+207:        .ok_or("storage_error")?;
+220:            "storage_error"
+223:    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+228:        return Err("storage_error");
+234:        .map_err(|_| "storage_error")?;
+236:        return Err("storage_error");
+238:    let record: CredentialRecord = serde_json::from_slice(&bytes).map_err(|_| "storage_error")?;
+251:        return Err("storage_error");
+258:        return Err("storage_error");
+263:        Err(_) => return Err("storage_error"),
+265:    let _lock = storage_lock(path, false)?;
+270:        .ok_or("storage_error")?;
+273:    for entry in fs::read_dir(proc_dir).map_err(|_| "storage_error")? {
+274:        let entry = entry.map_err(|_| "storage_error")?;
+309:        Err("storage_error")
+316:    let _lock = storage_lock(path, false)?;
+325:        return Err("storage_error");
+330:        Err(_) => return Err("storage_error"),
+336:        .ok_or("storage_error")?;
+340:        Err(_) => return Err("storage_error"),
+346:        return Err("storage_error");
+348:    rfs::unlinkat(&dir, name, AtFlags::empty()).map_err(|_| "storage_error")?;
+353:    let meta = rfs::fstat(dir).map_err(|_| "storage_error")?;
+358:        return Err("storage_error");
+368:    let _lock = storage_lock(primary, true)?;
+378:fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+380:    let meta = rfs::fstat(&dir).map_err(|_| "storage_error")?;
+382:        return Err("storage_error");
+384:    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+392:    .map_err(|_| "storage_error")?;
+393:    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+398:        return Err("storage_error");
+400:    rfs::flock(&fd, rustix::fs::FlockOperation::LockExclusive).map_err(|_| "storage_error")?;
+888:fn valid_token(value: &str) -> bool {
+945:mod tests {
+1286:            Err("storage_error")
+1331:        assert_eq!(store_record(&path, &record()), Err("storage_error"));
+1332:        assert!(matches!(load_record(&path), Err("storage_error")));
+1350:            Err("storage_error")
+1373:        assert_eq!(store_record(&primary, &replacement), Err("storage_error"));
+1394:        assert_eq!(remove_spike_artifacts(&primary), Err("storage_error"));
+1482:            Err("storage_error")
+
+web search: 
+web search: site:learn.microsoft.com windows named mutex Global namespace security descriptor mutex wait abandoned mutex ...
+codex
+The current API confirms the storage model: `credentials.json` is primary, `credentials.captured.json` is the recoverable candidate, candidate-first load is intentional, and promotion compares serialized snapshots under the storage lock before replacing primary. I’m checking whether I can implement the required cross-logon mutex with a current-user-only security descriptor using documented bindings; a session-local lock would not meet the approved concurrency guarantee.
+web search: 
+web search: site:docs.rs/windows-sys/latest/windows_sys/Win32/Security/Credentials/fn.CredWriteW.html ...
+codex
+The WinCred documentation confirms `CredReadW` binds reads to the current token’s credential set and requires `CredFree`; a `Global\` mutex is needed for cross-session coordination and named synchronization objects accept an explicit security descriptor. The required lock would therefore need a stable current-user SID lookup plus a verified ACL on a global kernel object. I haven’t established that security descriptor path from the project’s existing dependencies yet, so I’m treating this as the explicit cross-session locking blocker rather than introducing a `Local\` mutex that would silently weaken concurrency. I’ll save the concrete stopping point and commands/evidence now.
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "git status --short && rg -n 'windows-sys|windows =|windows-sys' Cargo.lock spikes/001-auth/Cargo.toml" in /home/abdel/Documents/Coding/binus-cli
+ exited 2 in 0ms:
+ M spikes/001-auth/Cargo.lock
+ M spikes/001-auth/Cargo.toml
+ M spikes/001-auth/README.md
+ M spikes/001-auth/src/cli.rs
+ M spikes/001-auth/src/lib.rs
+ M spikes/001-auth/tests/cli.rs
+?? .agent/credential-size-evidence.md
+?? .agent/credential-size-launch.sh
+?? .agent/credential-size-summary.md
+?? .agent/credential-size-task.md
+?? .agent/credential-size.exit
+?? .agent/credential-size.log
+?? .agent/forum-schema-evidence.md
+?? .agent/forum-schema-live-evidence.json
+?? .agent/forum-schema-paths-live-evidence.json
+?? .agent/forum-schema-paths-task.md
+?? .agent/forum-schema-summary.md
+?? .agent/forum-schema-task.md
+?? .agent/forums-final-live-evidence.json
+?? .agent/forums-logic-fix-evidence.md
+?? .agent/forums-logic-fix-summary.md
+?? .agent/forums-logic-fix-task.md
+?? .agent/forums-success-assert-evidence.md
+?? .agent/forums-success-assert-launch.sh
+?? .agent/forums-success-assert-summary.md
+?? .agent/forums-success-assert-task.md
+?? .agent/forums-success-assert.exit
+?? .agent/forums-success-assert.log
+?? .agent/forums-threads-evidence.md
+?? .agent/forums-threads-live-evidence.json
+?? .agent/forums-threads-summary.md
+?? .agent/forums-threads-task.md
+?? .agent/forums-transport-durable-task.md
+?? .agent/forums-transport-durable.exit
+?? .agent/forums-transport-durable.log
+?? .agent/forums-transport-launch.sh
+?? .agent/forums-transport-test-evidence.md
+?? .agent/forums-transport-test-resume.md
+?? .agent/forums-transport-test-summary.md
+?? .agent/forums-transport-test-task.md
+?? .agent/session-detail-schema-evidence.md
+?? .agent/session-detail-schema-summary.md
+?? .agent/session-detail-schema-task.md
+?? .agent/session-show-evidence.md
+?? .agent/session-show-review-fix-evidence.md
+?? .agent/session-show-review-fix-summary.md
+?? .agent/session-show-review-fix-task.md
+?? .agent/session-show-summary.md
+?? .agent/session-show-task.md
+?? .agent/session-show-transport-evidence.md
+?? .agent/session-show-transport-summary.md
+?? .agent/session-show-transport-task.md
+?? .agent/show-count-retention-evidence.md
+?? .agent/show-count-retention-live-evidence.json
+?? .agent/show-count-retention-resume.md
+?? .agent/show-count-retention-summary.md
+?? .agent/show-count-retention-task.md
+?? .agent/show-deadline-test-evidence.md
+?? .agent/show-deadline-test-summary.md
+?? .agent/show-deadline-test-task.md
+?? .agent/show-redirect-test-evidence.md
+?? .agent/show-redirect-test-summary.md
+?? .agent/show-redirect-test-task.md
+?? .agent/show-stream-cap-evidence.md
+?? .agent/show-stream-cap-summary.md
+?? .agent/show-stream-cap-task.md
+?? .agent/transport-count-summary.md
+?? .agent/transport-count-task.md
+?? .agent/transport-diagnostic-evidence.md
+?? .agent/transport-diagnostic-summary.md
+?? .agent/transport-diagnostic-task.md
+?? .agent/transport-live-count-evidence.json
+?? .agent/transport-live-evidence.json
+?? .agent/transport-live-production-recheck.json
+?? .agent/windows-portability-evidence.md
+?? .agent/windows-portability-launch.sh
+?? .agent/windows-portability-summary.md
+?? .agent/windows-portability-task.md
+?? .agent/windows-portability.exit
+?? .agent/windows-portability.log
+?? .agent/windows-store-launch.sh
+?? .agent/windows-store-task.md
+?? .agent/windows-store.log
+?? spikes/001-auth/.agent/
+?? spikes/001-auth/examples/credential_size.rs
+?? spikes/001-auth/examples/forum_schema.rs
+?? spikes/001-auth/examples/session_detail_schema.rs
+?? spikes/001-auth/examples/transport_diagnostic.rs
+?? spikes/001-auth/src/forums.rs
+?? spikes/001-auth/src/session_details.rs
+rg: Cargo.lock: No such file or directory (os error 2)
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'cat .agent/windows-store-task.md && cat .agent/windows-store.log' in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+# Windows Credential Manager storage slice (not full Windows browser port)
+Repo /home/abdel/Documents/Coding/binus-cli; crate spikes/001-auth. User APPROVED built-in Windows Credential Manager and continuing. Exact model gpt-6-luna. Windows11 + Omarchy DUAL BOOT SAME MACHINE, so no native Windows runner now; do not request reboot or claim Windows runtime verified. Omarchy code only, no commits/push/publication. Preserve JSON/course/forum behavior and all Linux storage guarantees.
+
+PREREQUISITE CLEARED by parent: reviewed examples/credential_size.rs, reran5tests/releasebuild and host secure-loader diagnostic: access_token_bytes827,refresh_token_bytes897,record_json_bytes1977,max_blob_bytes2560,record_fitstrue. No token values printed or copied; do NOT access real credentials/browser/vault yourself. This proves ONE existing record fits, not that all future records fit. User authorized no silent fallback. Future serialized records>2560 MUST fail before any OS write, preserving previous data. No compression/chunking/DPAPI/plaintext fallback in this slice.
+
+Implement a narrow, real Windows Credential Manager backend behind existing public storage operations, maintaining accepted Linux implementation. Read `.agent/windows-portability-evidence.md` and existing lib.rs104-425, cli calls before coding. Existing API: store_record, load_record, remove_spike_artifacts, remove_record_file, promote_verified_candidate(primary,candidate,verifiedrecord), load_preferred_record. Preserve primary vs candidate, pending/recoverable candidate and promotion bound to exact verified snapshot. Review actual signatures/return semantics, don't invent them. Single opaque serde JSON blob per primary/candidate record. Windows fixed app/version-scoped generic targets, current-user Credential Manager, persistent on THIS machine across user logons (CRED_PERSIST_LOCAL_MACHINE means this user's local persistence, NOT shared all users). Explicit fields, no plaintext disk writes. Token/role validation parity, maxblob beforewrite, returnedsizebounds beforedecode, CredFree on all read paths, no secret-bearing Windows/error debug messages. ERROR_NOT_FOUND => absence only, other failure => storageerror, not empty successful logout/status. Logout attempts both app-owned records, leaves unrelated credentials alone. Lock concurrency and promotion exactly; no unsafe races or replacing unrelated target based on untrusted path. Validate only supported logical primary/candidate selectors; don't leak full credential namespace to stdout.
+
+Use official Microsoft WinCred, CredReadW/CredWriteW/CredDeleteW/CredFree and Windows mutex docs + actual Rust binding docs (windows-sys or windows crate). No hand-guessed FFI. Mutex current-user identity/namespacing + cross-process guarantees matter. Do not use Local-session mutex while claiming cross-logon-session exclusion against locally persistent credentials; if cross-session named mutex design/security requires additional decision, REPORT blocker instead of quietly weakening it. Handle abandonment/error safely, RAII cleanup. Native OS errors never printed with secrets. Linux UID/no-follow/fsync/atomic-pair/flock/ancestor security MUST remain; don't whitelist65534 sandbox UID. Ideally small cfg facade/modules; do not broadly refactor accepted transport/HTML or rename CLI.
+
+Small acceptance checklist (TDD vertical: one failing behavior -> minimal implementation -> next; record actual red/green, not invented evidence):
+1. Backend-neutral code tested on Linux: serialized record size exact2560accepted/2561rejected BEFORE OS writes; malformedtoken/role records rejected. In-memory WinCred seam allowed ONLY because native unavailable; tests must exercise actual storage orchestration, not fake entire outcome.
+2. Actual orchestration through test seam covers save/load/absence/API-error, bounded decode, private error output; promotion checks exact verified snapshot and doesn't overwrite primary/remove candidate on mismatch or write failure. Concurrent writers guarded; do not call tests native Windows proof.
+3. Delete/logout covers both known records despite one deletion error, preserves unrelated entry; no broad credential enumeration/deletion or plaintextfallback. Target-key selection rejects unexpected artifact names.
+4. Native Windows adapter implemented (not stub) using documented APIs; add native-only tests using isolated cfg(test)-only namespace (never production or user credentials). Cross-target check actual Windows storage code and report remaining preexisting browser/process/signal blockers separately. Full Windows build/support is NOT this slice's acceptance. If feasible dedicated checked harness imports real module/types (no stubbed security) may isolate compiler validation; avoid giant harness. Don't fix browser in this pass or fake cfg(windows) success bodies. Existing Unix code may need narrow cfg attributes/dependency gating to expose backend but no runtime weakening.
+
+Windows auth login must not demand plaintext consent for OSvault, but Linux flag behavior stays. If wiring this requires browser/CLI wider port, leave precise next-step integration note rather than mixing full browser/jobobject work. auth non-network status/current-account code must not imply liveverified. Don't change snapshot or error contracts silently.
+
+Run cargo test --manifest-path spikes/001-auth/Cargo.toml --all-targets -- --test-threads=1; fmtcheck, clippy alltargets -Dwarnings, Linuxrelease. Windows target alreadyinstalled x86_64-pc-windows-msvc: run actual cargo check and preserve exact errors/status, never summarize exit101 as WindowsbuildPASS. New native Windows tests cannot be executed now: explicitly pending. No real API/login/browser/store access, no package manager sudo/Wine/VM. No blanketallow warnings or weakened tests. If platform seam too broad for clean bounded implementation, stop with exact saved state/blockers rather than partial stub accepted.
+
+Write `.agent/windows-store-evidence.md` incrementally: changedfiles, docs, actualTDD/checkoutputs, threat assumptions, namespace/lock/promotion design, nativepending, exact remaining compiler blockers. Final `.agent/windows-store-summary.md` separate. Scope storage ONLY then STOP. Parent independently checks/tests/source review; after two automatic correctionpasses escalate remainingblockers. No re-review of accepted course/forum slices.
+OpenAI Codex v0.162.1
+--------
+workdir: /home/abdel/Documents/Coding/binus-cli
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR] (network access enabled)
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a159ff-ad76-7683-a475-eae17a697f6c
+--------
+user
+# Windows Credential Manager storage slice (not full Windows browser port)
+Repo /home/abdel/Documents/Coding/binus-cli; crate spikes/001-auth. User APPROVED built-in Windows Credential Manager and continuing. Exact model gpt-6-luna. Windows11 + Omarchy DUAL BOOT SAME MACHINE, so no native Windows runner now; do not request reboot or claim Windows runtime verified. Omarchy code only, no commits/push/publication. Preserve JSON/course/forum behavior and all Linux storage guarantees.
+
+PREREQUISITE CLEARED by parent: reviewed examples/credential_size.rs, reran5tests/releasebuild and host secure-loader diagnostic: access_token_bytes827,refresh_token_bytes897,record_json_bytes1977,max_blob_bytes2560,record_fitstrue. No token values printed or copied; do NOT access real credentials/browser/vault yourself. This proves ONE existing record fits, not that all future records fit. User authorized no silent fallback. Future serialized records>2560 MUST fail before any OS write, preserving previous data. No compression/chunking/DPAPI/plaintext fallback in this slice.
+
+Implement a narrow, real Windows Credential Manager backend behind existing public storage operations, maintaining accepted Linux implementation. Read `.agent/windows-portability-evidence.md` and existing lib.rs104-425, cli calls before coding. Existing API: store_record, load_record, remove_spike_artifacts, remove_record_file, promote_verified_candidate(primary,candidate,verifiedrecord), load_preferred_record. Preserve primary vs candidate, pending/recoverable candidate and promotion bound to exact verified snapshot. Review actual signatures/return semantics, don't invent them. Single opaque serde JSON blob per primary/candidate record. Windows fixed app/version-scoped generic targets, current-user Credential Manager, persistent on THIS machine across user logons (CRED_PERSIST_LOCAL_MACHINE means this user's local persistence, NOT shared all users). Explicit fields, no plaintext disk writes. Token/role validation parity, maxblob beforewrite, returnedsizebounds beforedecode, CredFree on all read paths, no secret-bearing Windows/error debug messages. ERROR_NOT_FOUND => absence only, other failure => storageerror, not empty successful logout/status. Logout attempts both app-owned records, leaves unrelated credentials alone. Lock concurrency and promotion exactly; no unsafe races or replacing unrelated target based on untrusted path. Validate only supported logical primary/candidate selectors; don't leak full credential namespace to stdout.
+
+Use official Microsoft WinCred, CredReadW/CredWriteW/CredDeleteW/CredFree and Windows mutex docs + actual Rust binding docs (windows-sys or windows crate). No hand-guessed FFI. Mutex current-user identity/namespacing + cross-process guarantees matter. Do not use Local-session mutex while claiming cross-logon-session exclusion against locally persistent credentials; if cross-session named mutex design/security requires additional decision, REPORT blocker instead of quietly weakening it. Handle abandonment/error safely, RAII cleanup. Native OS errors never printed with secrets. Linux UID/no-follow/fsync/atomic-pair/flock/ancestor security MUST remain; don't whitelist65534 sandbox UID. Ideally small cfg facade/modules; do not broadly refactor accepted transport/HTML or rename CLI.
+
+Small acceptance checklist (TDD vertical: one failing behavior -> minimal implementation -> next; record actual red/green, not invented evidence):
+1. Backend-neutral code tested on Linux: serialized record size exact2560accepted/2561rejected BEFORE OS writes; malformedtoken/role records rejected. In-memory WinCred seam allowed ONLY because native unavailable; tests must exercise actual storage orchestration, not fake entire outcome.
+2. Actual orchestration through test seam covers save/load/absence/API-error, bounded decode, private error output; promotion checks exact verified snapshot and doesn't overwrite primary/remove candidate on mismatch or write failure. Concurrent writers guarded; do not call tests native Windows proof.
+3. Delete/logout covers both known records despite one deletion error, preserves unrelated entry; no broad credential enumeration/deletion or plaintextfallback. Target-key selection rejects unexpected artifact names.
+4. Native Windows adapter implemented (not stub) using documented APIs; add native-only tests using isolated cfg(test)-only namespace (never production or user credentials). Cross-target check actual Windows storage code and report remaining preexisting browser/process/signal blockers separately. Full Windows build/support is NOT this slice's acceptance. If feasible dedicated checked harness imports real module/types (no stubbed security) may isolate compiler validation; avoid giant harness. Don't fix browser in this pass or fake cfg(windows) success bodies. Existing Unix code may need narrow cfg attributes/dependency gating to expose backend but no runtime weakening.
+
+Windows auth login must not demand plaintext consent for OSvault, but Linux flag behavior stays. If wiring this requires browser/CLI wider port, leave precise next-step integration note rather than mixing full browser/jobobject work. auth non-network status/current-account code must not imply liveverified. Don't change snapshot or error contracts silently.
+
+Run cargo test --manifest-path spikes/001-auth/Cargo.toml --all-targets -- --test-threads=1; fmtcheck, clippy alltargets -Dwarnings, Linuxrelease. Windows target alreadyinstalled x86_64-pc-windows-msvc: run actual cargo check and preserve exact errors/status, never summarize exit101 as WindowsbuildPASS. New native Windows tests cannot be executed now: explicitly pending. No real API/login/browser/store access, no package manager sudo/Wine/VM. No blanketallow warnings or weakened tests. If platform seam too broad for clean bounded implementation, stop with exact saved state/blockers rather than partial stub accepted.
+
+Write `.agent/windows-store-evidence.md` incrementally: changedfiles, docs, actualTDD/checkoutputs, threat assumptions, namespace/lock/promotion design, nativepending, exact remaining compiler blockers. Final `.agent/windows-store-summary.md` separate. Scope storage ONLY then STOP. Parent independently checks/tests/source review; after two automatic correctionpasses escalate remainingblockers. No re-review of accepted course/forum slices.
+
+codex
+I’ll inspect the required portability evidence and the existing storage API first, then trace the CLI call sites and platform dependencies before changing anything. I’ll keep this limited to the credential storage slice and record actual check outcomes as I go.
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'lib.rs' -g 'Cargo.toml' -g 'windows-portability-evidence.md' -g '*.rs' .agent spikes/001-auth" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+/home/abdel/Documents/Coding/binus-cli
+spikes/001-auth/examples/credential_size.rs
+spikes/001-auth/examples/forum_schema.rs
+spikes/001-auth/examples/transport_diagnostic.rs
+spikes/001-auth/examples/session_detail_schema.rs
+spikes/001-auth/examples/session_schema.rs
+spikes/001-auth/examples/course_schema.rs
+spikes/001-auth/tests/cli.rs
+spikes/001-auth/src/forums.rs
+spikes/001-auth/src/session_details.rs
+spikes/001-auth/src/sessions.rs
+spikes/001-auth/src/binus.rs
+spikes/001-auth/src/main.rs
+spikes/001-auth/src/cli.rs
+spikes/001-auth/src/courses.rs
+spikes/001-auth/src/lib.rs
+spikes/001-auth/Cargo.toml
+.agent/windows-portability-evidence.md
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "cat .agent/windows-portability-evidence.md && sed -n '1,480p' spikes/001-auth/src/lib.rs && cat spikes/001-auth/Cargo.toml" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+# Windows portability preflight evidence
+
+Date: 2026-10-20 (Asia/Jakarta)
+Scope: compiler-backed audit only. No product source or dependency edits were made for this preflight. No native Windows runtime claim is made.
+
+## Compiler evidence
+
+Environment before setup: `rustc 1.99.1 (58cf8f9c3 2026-10-13)`, `cargo 1.99.1 (5f94df478 2026-08-27)`, installed target only `x86_64-unknown-linux-gnu`, and no `x86_64-w64-mingw32-gcc` on PATH.
+
+Commands and results:
+
+1. `rustup target add x86_64-pc-windows-msvc` — standard library installation completed; `rustup target list --installed` then showed both `x86_64-pc-windows-msvc` and `x86_64-unknown-linux-gnu`. The initial component download emitted no progress for about a minute; it subsequently completed. This is target setup, not a compiler error.
+2. An initial premature `cargo check --manifest-path spikes/001-auth/Cargo.toml --target x86_64-pc-windows-msvc --all-targets` while target installation was still pending failed with `E0463: can't find crate for core` and the rustc hint that the target may not be installed. This result is superseded and is not the project portability finding.
+3. Re-ran the exact check after target installation: `cargo check --manifest-path spikes/001-auth/Cargo.toml --target x86_64-pc-windows-msvc --all-targets`. Cargo fetched/compiled dependencies, then failed in `binus-auth-spike` (exit 101): library: 27 errors; lib test: 47 errors. Dependency resolution succeeded. The output is concrete project compiler failure, not a linker/toolchain setup blocker.
+
+Representative first-order errors and locations:
+
+- `src/lib.rs:3`: unresolved `rustix::fs`; rustix 1.1.5 source notes the module is `cfg(not(windows))`.
+- `src/lib.rs:14`, `104`, `352`, `378`: `std::os::fd`/`OwnedFd` absent on Windows.
+- `src/lib.rs:146`, `174`, `226`, `297`, `343`, `355`, `381`, `395`, `400`: Unix `rustix::process`/filesystem symbols are absent, including `geteuid`, `flock`, and errno constants; related fd and raw-fd conversions also fail (`189`, `230`).
+- `src/lib.rs:651-652`: `std::os::unix::process::CommandExt` and `Command::process_group` are unavailable.
+- `src/cli.rs:466`: `tokio::signal::unix` is unavailable on Windows.
+- `src/lib.rs:947`, `1236-1245`, `1263+`, `1327+`, `1341+`, `1385+`, `1475+`, `1614-1620`: test module imports Unix `PermissionsExt`, checks Unix permission bits, creates Unix symlinks, and uses Unix `process_group`; these also fail under `--all-targets`.
+- `src/lib.rs:272-273` is a further runtime-only Linux dependency: `/proc/self/fd/<fd>` enumeration for artifact cleanup. It does not itself form a separate diagnostic in the current compile because preceding fd names already fail.
+
+No source was edited to suppress these errors or to make a placeholder backend compile.
+
+## Platform assumption inventory
+
+| Area | Existing assumption and locations | Portability consequence |
+|---|---|---|
+| Storage root | `src/cli.rs:93-100` resolves `XDG_CONFIG_HOME`, otherwise `$HOME/.config`; no Windows known-folder resolution. | Needs a defined Windows base path and missing/invalid environment behavior. Microsoft recommends `SHGetKnownFolderPath` for new known-folder code; `%APPDATA%` is the documented default for `FOLDERID_RoamingAppData`. |
+| Storage security | `src/lib.rs:104-156` walks from `/` with `openat`/`NOFOLLOW`, checks Unix uid/mode/sticky bits; `159-201` uses `fchmod`, exclusive no-follow temp creation, rename and fsync; `203-254` opens no-follow and checks owner/mode; `256-361` removes records and checks `st_uid`/mode; `378-401` opens `.auth-spike.lock` and takes `flock`. | These are security properties, not portable permission syntax. Windows needs its own owner/DACL/reparse-point/atomic-write/locking design or OS credential store. Do not map `0700`/`0600` to `Permissions` or accept inherited ACLs without validation. |
+| Cleanup | `src/lib.rs:256-313`, especially `272-280`, lists entries by `/proc/self/fd/<dirfd>` and removes only validated names through dirfd-relative operations. | Must be redesigned around a Windows handle-based directory enumeration/deletion approach or the file artifact design should be avoided. |
+| Browser discovery/launch | `src/lib.rs:645-669`: defaults to `/usr/bin/chromium`; supports `BINUS_CHROMIUM`; creates a temp profile; sets `process_group(0)` and hard-coded Wayland `XDG_RUNTIME_DIR=/run/user/1000`, `WAYLAND_DISPLAY=wayland-1`; starts CDP and polls `DevToolsActivePort` thereafter. | Windows needs Chrome/Edge executable discovery or an explicit binary setting, Windows argument/path handling, no Linux GUI env, a loopback-only debugging endpoint, and cleanup that actually terminates the browser tree. |
+| Browser cleanup | `src/lib.rs:442-453` kills Linux process group with TERM then KILL, followed by child kill/wait; group creation is only at `651-652`. | `Child::kill` targets only the direct child. The Windows process-tree equivalent needs a Job Object and failure-safe assignment/close semantics. |
+| Signals | `src/cli.rs:463-472`: cancellation races capture against Ctrl-C and Unix SIGTERM. | Retain Ctrl-C and define Windows console close/cancel semantics; no Unix SIGTERM API exists. |
+| Unit tests | `src/lib.rs:944-...`: tests assert Unix file modes and symlink/no-follow behavior; `1612-1628` uses `/bin/sh`, `sleep`, and process groups. | Keep Linux security tests Linux-specific; add Windows DACL, reparse-point, atomic replacement, locking, and job cleanup tests rather than weakening/skipping the guarantees. |
+| CLI integration tests | `tests/cli.rs:21+` override `XDG_CONFIG_HOME`; Unix-specific fixtures at `204+`, `228+`, `278+`, `284+` use permission bits, shell scripts, signals and Unix symlinks. | Split shared CLI behavior from platform fixtures; Windows tests need native executable/console and storage-path fixtures. |
+| Cargo | `Cargo.toml:20` enables Tokio `signal`; `:24` unconditionally includes rustix `fs, process`; current source imports both unconditionally. | Gate platform-specific modules/dependencies only after adding a real backend; gating alone is not proof of Windows protections. `rustix` itself compiled as a dependency but does not expose `fs`/`process` on Windows. |
+
+## Secure backend recommendation
+
+Recommend Windows Credential Manager generic credentials as the first Windows backend, behind a small storage interface, while retaining the existing Linux file backend and its explicit plaintext-file consent unchanged. This is less platform-security code than recreating Unix dirfd protections with Windows DACL and reparse-point-safe handle operations. Microsoft documents `CredWriteW` credentials as associated with the current token's logon session, and generic credentials support long-term storage; it also says generic credentials can be read and written by user processes. Treat it as OS-managed storage within the current-user trust boundary, not protection from malicious code already running as that user.
+
+Important fit limit: Microsoft caps `CredentialBlobSize` at `CRED_MAX_CREDENTIAL_BLOB_SIZE`, 5*512 = 2560 bytes. Serialized token pairs may exceed this; measure only synthetic/realistic size fixtures in implementation tests (never inspect a user's vault). Reject oversize data with a clear error; do not spill to plaintext or silently switch backend. If a valid BINUS token pair exceeds the limit, stop and present the ACL-backed file option for a deliberate decision rather than silently designing around it. Credential Manager would store the JSON payload as an opaque generic blob; no claim is made here about encryption implementation or protection from same-user processes.
+
+Sources checked (Microsoft primary documentation):
+
+- [CredWriteW](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credwritew) — write/replace and current-token logon session behavior.
+- [CREDENTIALW](https://learn.microsoft.com/en-us/windows/win32/api/wincred/ns-wincred-credentialw) — 2560-byte blob cap and generic blob semantics.
+- [Kinds of Credentials](https://learn.microsoft.com/en-us/windows/win32/secauthn/kinds-of-credentials) — generic credential long-term storage and user-process read/write scope.
+- [Known Folders](https://learn.microsoft.com/en-us/windows/win32/shell/known-folders) and [KNOWNFOLDERID](https://learn.microsoft.com/en-us/windows/win32/shell/knownfolderid) — use `SHGetKnownFolderPath`; Roaming AppData default is `%APPDATA%`.
+- [File Security and Access Rights](https://learn.microsoft.com/en-us/windows/win32/fileio/file-security-and-access-rights) — ACL inheritance and explicit security descriptors.
+- [CreateFile](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilea) and [Reparse Point Operations](https://learn.microsoft.com/en-us/windows/win32/fileio/reparse-point-operations) — use `FILE_FLAG_OPEN_REPARSE_POINT` when operating on reparse points.
+- [Job Objects](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects) — `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE` can terminate associated processes when the last job handle closes.
+
+## Native acceptance status
+
+Native Windows execution is pending parent access. Configured Windows SSH host `100.68.214.97` timed out from the parent; this preflight did not retry or contact other hosts. No Windows machine writes, login, browser launch, live API, or credential directories/vault were accessed. Cross-target `cargo check` is compile evidence only and does not establish runtime, ACL, credential-manager, browser, or login security.
+
+## Short ordered next batch
+
+1. Add a narrow `CredentialStore` boundary; retain Linux implementation and its existing consent/security behavior. Implement Windows generic Credential Manager with bounded blob size, strict error propagation, scoped names, save/load/delete, and no plaintext fallback. Resolve the oversized-token behavior before enabling login on Windows.
+2. Port Windows path selection and browser runtime: known-folder path for any non-secret profile metadata, Chrome/Edge discovery/override, loopback CDP, and Job Object based child-tree cleanup. Preserve the temporary isolated browser profile and ensure teardown before profile deletion.
+3. Add target-specific storage, reparse-point, cancellation, browser cleanup and CLI acceptance tests; run the existing Linux `cargo test --all-targets -- --test-threads=1` and formatting check unchanged, then run Windows native tests and an interactive login/logout/status acceptance before claiming Windows support. Package Windows x64 only after those pass.
+
+Behavior decisions to obtain before implementation: (a) accept Credential Manager as Windows's protected default without the Linux plaintext-consent flag, while retaining that flag only for explicit plaintext-file backend use; (b) require fresh login rather than automatically importing any existing credentials JSON into Credential Manager; (c) if token data exceeds 2560 bytes, pause Windows login for a reviewed ACL-backed design instead of falling back.
+use base64::Engine;
+use futures_util::{SinkExt, StreamExt};
+use rustix::fs::{self as rfs, AtFlags, Mode, OFlags};
+use serde::{Deserialize, Serialize};
+use serde_json::{Value, json};
+use std::{
+    collections::HashMap,
+    process::{Child, Command, Stdio},
+    time::Duration,
+};
+use std::{
+    fmt, fs,
+    io::{Read, Write},
+    os::fd::{AsRawFd, FromRawFd, IntoRawFd},
+    path::{Path, PathBuf},
+};
+use tokio_tungstenite::{connect_async, tungstenite::Message};
+
+pub mod cli;
+pub mod courses;
+pub mod forums;
+pub mod session_details;
+pub mod sessions;
+
+const CAPTURE_EXPRESSION: &str = "(() => {if(location.origin!=='https://lms.binus.ac.id')return null;const chunks=window['webpackJsonpbinus-lms-web'];if(!chunks)return null;if(!window.__binusResearchRequire)chunks.push([[98768],{98768:function(m,e,r){window.__binusResearchRequire=r}},[[98768]]]);const r=window.__binusResearchRequire;if(!r||!r.c)return null;const cached=r.c[34];if(!cached||cached.l!==true)return null;const api=cached.exports&&cached.exports.b;if(!api||typeof api.getState!=='function')return null;const state=api.getState();const auth=state&&state.auth;const a=auth&&auth.res;if(!a||!a.token||!a.refreshToken)return null;return {accessToken:a.token,refreshToken:a.refreshToken,activeRole:a.activeRole,activeRoleOrganizationId:a.activeRoleOrganizationId,account:a.email||a.originalLoginEmail||''};})()";
+
+#[derive(Clone, Serialize, Deserialize)]
+pub struct CredentialRecord {
+    pub account: String,
+    pub access_token: String,
+    pub refresh_token: String,
+    pub role: RoleContext,
+}
+
+impl fmt::Debug for CredentialRecord {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("CredentialRecord")
+            .field("account", &self.account)
+            .field("secrets", &"[REDACTED]")
+            .field("role", &self.role)
+            .finish()
+    }
+}
+
+#[derive(Clone, Serialize, Deserialize, Debug)]
+pub struct RoleContext {
+    pub academic_career: String,
+    pub institution: String,
+    pub name: String,
+    pub role_id: String,
+    pub organization_id: String,
+}
+
+#[derive(Serialize)]
+pub struct Status {
+    pub status: &'static str,
+    pub stored: bool,
+    pub live_verified: bool,
+    pub blocker: Option<&'static str>,
+}
+
+pub fn sanitized_status(
+    stored: bool,
+    live_verified: bool,
+    blocker: Option<&'static str>,
+) -> Status {
+    Status {
+        status: if live_verified {
+            "live_verified"
+        } else if stored {
+            "stored_unverified"
+        } else {
+            "not_logged_in"
+        },
+        stored,
+        live_verified,
+        blocker,
+    }
+}
+
+pub fn trusted_exchange_url(value: &str) -> bool {
+    url::Url::parse(value).is_ok_and(|u| {
+        u.scheme() == "https"
+            && u.host_str() == Some("apim-bm7-prod-web.azure-api.net")
+            && u.port().is_none()
+            && u.path() == "/func-bm7-identity-prod/AccessAndRefreshToken/AzureAD"
+    })
+}
+
+pub fn parse_pair(body: &str) -> Result<(String, String), &'static str> {
+    let v: serde_json::Value = serde_json::from_str(body).map_err(|_| "invalid_capture")?;
+    let token = |k: &str| {
+        v.get(k)
+            .and_then(serde_json::Value::as_str)
+            .filter(|s| {
+                s.len() >= 16 && s.len() <= 32_768 && s.bytes().all(|b| b.is_ascii_graphic())
+            })
+            .map(str::to_owned)
+            .ok_or("invalid_capture")
+    };
+    Ok((token("accessToken")?, token("refreshToken")?))
+}
+
+fn secure_parent(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+    let parent = path.parent().ok_or("storage_error")?;
+    if !parent.is_absolute()
+        || parent.file_name().and_then(|n| n.to_str()) != Some("binus-auth-spike")
+    {
+        return Err("storage_error");
+    }
+    let mut fd = rfs::open(
+        "/",
+        OFlags::RDONLY | OFlags::DIRECTORY | OFlags::CLOEXEC,
+        Mode::empty(),
+    )
+    .map_err(|_| "storage_error")?;
+    for component in parent.components().skip(1) {
+        let std::path::Component::Normal(part) = component else {
+            return Err("storage_error");
+        };
+        let part = part.to_str().ok_or("storage_error")?;
+        let next = match rfs::openat(
+            &fd,
+            part,
+            OFlags::RDONLY | OFlags::DIRECTORY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+            Mode::empty(),
+        ) {
+            Ok(next) => next,
+            Err(e) if create && e == rustix::io::Errno::NOENT => {
+                match rfs::mkdirat(&fd, part, Mode::from_raw_mode(0o700)) {
+                    Ok(()) | Err(rustix::io::Errno::EXIST) => {}
+                    Err(_) => return Err("storage_error"),
+                }
+                rfs::openat(
+                    &fd,
+                    part,
+                    OFlags::RDONLY | OFlags::DIRECTORY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+                    Mode::empty(),
+                )
+                .map_err(|_| "storage_error")?
+            }
+            Err(e) if !create && e == rustix::io::Errno::NOENT => return Err("not_logged_in"),
+            Err(_) => return Err("storage_error"),
+        };
+        let meta = rfs::fstat(&next).map_err(|_| "storage_error")?;
+        let uid = rustix::process::geteuid().as_raw();
+        let sticky_tmp = meta.st_mode & 0o1000 != 0 && meta.st_mode & 0o002 != 0;
+        if meta.st_mode & 0o170000 != 0o040000
+            || ((meta.st_uid != uid && meta.st_uid != 0) && !sticky_tmp)
+            || (meta.st_mode & 0o022 != 0 && !sticky_tmp)
+        {
+            return Err("storage_error");
+        }
+        fd = next;
+    }
+    Ok(fd)
+}
+
+pub fn store_record(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+    let _lock = storage_lock(path, true)?;
+    store_record_unlocked(path, record)
+}
+
+fn store_record_unlocked(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let dir = secure_parent(path, true)?;
+    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+    match rfs::statat(&dir, name, AtFlags::SYMLINK_NOFOLLOW) {
+        Ok(meta)
+            if meta.st_mode & 0o170000 == 0o100000
+                && meta.st_uid == rustix::process::geteuid().as_raw()
+                && meta.st_mode & 0o077 == 0 => {}
+        Ok(_) => return Err("storage_error"),
+        Err(e) if e == rustix::io::Errno::NOENT => {}
+        Err(_) => return Err("storage_error"),
+    }
+    let temp_prefix = name.strip_suffix(".json").unwrap_or(name);
+    let tmp = format!("{temp_prefix}.tmp-{}", std::process::id());
+    let fd = rfs::openat(
+        &dir,
+        tmp.as_str(),
+        OFlags::WRONLY | OFlags::CREATE | OFlags::EXCL | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+        Mode::from_raw_mode(0o600),
+    )
+    .map_err(|_| "storage_error")?;
+    let mut file = unsafe { std::fs::File::from_raw_fd(fd.into_raw_fd()) };
+    let bytes = serde_json::to_vec(record).map_err(|_| "storage_error")?;
+    let outcome = (|| {
+        file.write_all(&bytes).map_err(|_| "storage_error")?;
+        file.sync_all().map_err(|_| "storage_error")?;
+        rfs::renameat(&dir, tmp.as_str(), &dir, name).map_err(|_| "storage_error")?;
+        Ok(())
+    })();
+    if outcome.is_err() {
+        let _ = rfs::unlinkat(&dir, tmp.as_str(), AtFlags::empty());
+    }
+    outcome
+}
+
+pub fn load_record(path: &Path) -> Result<CredentialRecord, &'static str> {
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let dir = secure_parent(path, false)?;
+    validate_private_app_dir(&dir)?;
+    let fd = rfs::openat(
+        &dir,
+        name,
+        OFlags::RDONLY | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+        Mode::empty(),
+    )
+    .map_err(|e| {
+        if e == rustix::io::Errno::NOENT {
+            "not_logged_in"
+        } else {
+            "storage_error"
+        }
+    })?;
+    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+    if meta.st_mode & 0o170000 != 0o100000
+        || meta.st_mode & 0o077 != 0
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+    {
+        return Err("storage_error");
+    }
+    let file = unsafe { std::fs::File::from_raw_fd(fd.into_raw_fd()) };
+    let mut bytes = Vec::new();
+    file.take(1_000_001)
+        .read_to_end(&mut bytes)
+        .map_err(|_| "storage_error")?;
+    if bytes.len() > 1_000_000 {
+        return Err("storage_error");
+    }
+    let record: CredentialRecord = serde_json::from_slice(&bytes).map_err(|_| "storage_error")?;
+    if !valid_token(&record.access_token)
+        || !valid_token(&record.refresh_token)
+        || [
+            record.role.academic_career.as_str(),
+            record.role.institution.as_str(),
+            record.role.name.as_str(),
+            record.role.role_id.as_str(),
+            record.role.organization_id.as_str(),
+        ]
+        .iter()
+        .any(|s| s.is_empty() || s.len() > 256)
+    {
+        return Err("storage_error");
+    }
+    Ok(record)
+}
+
+pub fn remove_spike_artifacts(path: &Path) -> Result<bool, &'static str> {
+    if path.file_name().and_then(|n| n.to_str()) != Some("credentials.json") {
+        return Err("storage_error");
+    }
+    let dir = match secure_parent(path, false) {
+        Ok(fd) => fd,
+        Err("not_logged_in") => return Ok(false),
+        Err(_) => return Err("storage_error"),
+    };
+    let _lock = storage_lock(path, false)?;
+    validate_private_app_dir(&dir)?;
+    let primary = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let mut names = vec![primary.to_owned(), "credentials.captured.json".to_owned()];
+    let proc_dir = PathBuf::from(format!("/proc/self/fd/{}", dir.as_raw_fd()));
+    for entry in fs::read_dir(proc_dir).map_err(|_| "storage_error")? {
+        let entry = entry.map_err(|_| "storage_error")?;
+        if let Some(name) = entry
+            .file_name()
+            .to_str()
+            .filter(|n| recognized_temp_name(n))
+        {
+            names.push(name.to_owned());
+        }
+    }
+    names.sort();
+    names.dedup();
+    let mut removed = false;
+    let mut failed = false;
+    for name in names {
+        let meta = match rfs::statat(&dir, name.as_str(), AtFlags::SYMLINK_NOFOLLOW) {
+            Ok(meta) => meta,
+            Err(e) if e == rustix::io::Errno::NOENT => continue,
+            Err(_) => {
+                failed = true;
+                continue;
+            }
+        };
+        if meta.st_mode & 0o170000 != 0o100000
+            || meta.st_uid != rustix::process::geteuid().as_raw()
+            || meta.st_mode & 0o077 != 0
+        {
+            failed = true;
+            continue;
+        }
+        match rfs::unlinkat(&dir, name.as_str(), AtFlags::empty()) {
+            Ok(()) => removed = true,
+            Err(_) => failed = true,
+        }
+    }
+    if failed {
+        Err("storage_error")
+    } else {
+        Ok(removed)
+    }
+}
+
+pub fn remove_record_file(path: &Path) -> Result<bool, &'static str> {
+    let _lock = storage_lock(path, false)?;
+    remove_record_file_unlocked(path)
+}
+
+fn remove_record_file_unlocked(path: &Path) -> Result<bool, &'static str> {
+    if !matches!(
+        path.file_name().and_then(|n| n.to_str()),
+        Some("credentials.json" | "credentials.captured.json")
+    ) {
+        return Err("storage_error");
+    }
+    let dir = match secure_parent(path, false) {
+        Ok(fd) => fd,
+        Err("not_logged_in") => return Ok(false),
+        Err(_) => return Err("storage_error"),
+    };
+    validate_private_app_dir(&dir)?;
+    let name = path
+        .file_name()
+        .and_then(|n| n.to_str())
+        .ok_or("storage_error")?;
+    let meta = match rfs::statat(&dir, name, AtFlags::SYMLINK_NOFOLLOW) {
+        Ok(meta) => meta,
+        Err(e) if e == rustix::io::Errno::NOENT => return Ok(false),
+        Err(_) => return Err("storage_error"),
+    };
+    if meta.st_mode & 0o170000 != 0o100000
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+        || meta.st_mode & 0o077 != 0
+    {
+        return Err("storage_error");
+    }
+    rfs::unlinkat(&dir, name, AtFlags::empty()).map_err(|_| "storage_error")?;
+    Ok(true)
+}
+
+fn validate_private_app_dir(dir: &std::os::fd::OwnedFd) -> Result<(), &'static str> {
+    let meta = rfs::fstat(dir).map_err(|_| "storage_error")?;
+    if meta.st_mode & 0o170000 != 0o040000
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+        || meta.st_mode & 0o077 != 0
+    {
+        return Err("storage_error");
+    }
+    Ok(())
+}
+
+pub fn promote_verified_candidate(
+    primary: &Path,
+    candidate: &Path,
+    verified: &CredentialRecord,
+) -> Result<bool, &'static str> {
+    let _lock = storage_lock(primary, true)?;
+    let record = load_record(candidate)?;
+    if serde_json::to_vec(&record).ok() != serde_json::to_vec(verified).ok() {
+        return Err("candidate_changed");
+    }
+    store_record_unlocked(primary, verified)?;
+    remove_record_file_unlocked(candidate)?;
+    Ok(true)
+}
+
+fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+    let dir = secure_parent(path, create)?;
+    let meta = rfs::fstat(&dir).map_err(|_| "storage_error")?;
+    if meta.st_uid != rustix::process::geteuid().as_raw() || meta.st_mode & 0o170000 != 0o040000 {
+        return Err("storage_error");
+    }
+    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+    validate_private_app_dir(&dir)?;
+    let fd = rfs::openat(
+        &dir,
+        ".auth-spike.lock",
+        OFlags::RDWR | OFlags::CREATE | OFlags::NOFOLLOW | OFlags::CLOEXEC,
+        Mode::from_raw_mode(0o600),
+    )
+    .map_err(|_| "storage_error")?;
+    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+    if meta.st_mode & 0o170000 != 0o100000
+        || meta.st_uid != rustix::process::geteuid().as_raw()
+        || meta.st_mode & 0o077 != 0
+    {
+        return Err("storage_error");
+    }
+    rfs::flock(&fd, rustix::fs::FlockOperation::LockExclusive).map_err(|_| "storage_error")?;
+    Ok(fd)
+}
+
+pub fn load_preferred_record(primary: &Path) -> Result<(CredentialRecord, bool), &'static str> {
+    let candidate = primary.with_file_name("credentials.captured.json");
+    match load_record(&candidate) {
+        Ok(record) => Ok((record, true)),
+        Err("not_logged_in") => load_record(primary).map(|record| (record, false)),
+        Err(error) => Err(error),
+    }
+}
+
+fn recognized_temp_name(name: &str) -> bool {
+    [
+        "credentials.tmp-",
+        "credentials.captured.tmp-",
+        "credentials.json.tmp-",
+        "credentials.captured.json.tmp-",
+    ]
+    .iter()
+    .any(|prefix| {
+        name.strip_prefix(prefix)
+            .is_some_and(|suffix| !suffix.is_empty() && suffix.bytes().all(|b| b.is_ascii_digit()))
+    })
+}
+
+pub fn academic_period_request(
+    record: &CredentialRecord,
+) -> Result<reqwest::Request, &'static str> {
+    reqwest::Client::new()
+        .get("https://apim-bm7-prod-web.azure-api.net/func-bm7-course-prod/AcademicPeriod/Student")
+        .bearer_auth(&record.access_token)
+        .header("rOId", &record.role.organization_id)
+        .header("academicCareer", &record.role.academic_career)
+        .header("institution", &record.role.institution)
+        .header("roleName", &record.role.name)
+        .header("roleId", &record.role.role_id)
+        .build()
+        .map_err(|_| "request_failed")
+}
+
+struct Browser(Child);
+impl Drop for Browser {
+    fn drop(&mut self) {
+        #[cfg(target_os = "linux")]
+        if let Some(pid) = rustix::process::Pid::from_raw(self.0.id() as i32) {
+            let _ = rustix::process::kill_process_group(pid, rustix::process::Signal::TERM);
+            std::thread::sleep(Duration::from_millis(100));
+            let _ = rustix::process::kill_process_group(pid, rustix::process::Signal::KILL);
+        }
+        let _ = self.0.kill();
+        let _ = self.0.wait();
+    }
+}
+
+struct Cdp {
+    ws: tokio_tungstenite::WebSocketStream<
+        tokio_tungstenite::MaybeTlsStream<tokio::net::TcpStream>,
+    >,
+    id: u64,
+    session: Option<String>,
+    guard_enable: HashMap<u64, String>,
+    guard_remaining: HashMap<String, u8>,
+    pending_acks: HashMap<u64, (Option<String>, &'static str)>,
+    paused_count: u64,
+    blocked_count: u64,
+}
+impl Cdp {
+    async fn send(&mut self, method: &str, params: Value) -> Result<Value, &'static str> {
+        self.id += 1;
+        let id = self.id;
+        let mut command = json!({"id":id,"method":method,"params":params});
+        let expected_session = self.session.clone();
+        if let Some(session) = &self.session {
+            command["sessionId"] = json!(session);
+        }
+        self.ws
+            .send(Message::Text(command.to_string().into()))
+            .await
+            .map_err(|_| "browser_protocol_error")?;
+[package]
+name = "binus-auth-spike"
+version = "0.1.0"
+edition = "2024"
+default-run = "binus-auth-spike"
+
+[[bin]]
+name = "binus"
+path = "src/binus.rs"
+
+[dependencies]
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+futures-util = "0.3"
+html5ever = "0.39"
+markup5ever_rcdom = "0.39"
+reqwest = { version = "0.12", features = ["json", "stream"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time", "process", "fs", "io-util", "signal"] }
+tokio-tungstenite = "0.26"
+tempfile = "3"
+url = "2"
+rustix = { version = "1", features = ["fs", "process"] }
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "rg -n 'store_record|load_record|remove_spike_artifacts|remove_record_file|promote_verified_candidate|load_preferred_record|allow-plaintext|plaintext' spikes/001-auth/src spikes/001-auth/tests && rg -n 'fn valid_token|mod tests|storage_' spikes/001-auth/src/lib.rs" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+spikes/001-auth/tests/cli.rs:4:fn plaintext_consent_is_required() {
+spikes/001-auth/tests/cli.rs:11:        String::from_utf8_lossy(&output.stdout).contains("explicit_plaintext_consent_required")
+spikes/001-auth/tests/cli.rs:194:            "--allow-plaintext-file",
+spikes/001-auth/tests/cli.rs:218:            "--allow-plaintext-file",
+spikes/001-auth/tests/cli.rs:247:            "--allow-plaintext-file",
+spikes/001-auth/src/cli.rs:2:    CredentialRecord, academic_period_request, capture, load_preferred_record,
+spikes/001-auth/src/cli.rs:3:    promote_verified_candidate, remove_spike_artifacts, sanitized_status, store_record,
+spikes/001-auth/src/cli.rs:17:    allow_plaintext_file: bool,
+spikes/001-auth/src/cli.rs:156:            let (record, _) = match load_preferred_record(&path) {
+spikes/001-auth/src/cli.rs:190:            let (record, _) = match load_preferred_record(&path) {
+spikes/001-auth/src/cli.rs:231:            if !cli.allow_plaintext_file {
+spikes/001-auth/src/cli.rs:233:                    json!({"status":"blocked","blocker":"explicit_plaintext_consent_required"}),
+spikes/001-auth/src/cli.rs:243:            if store_record(&candidate, &record).is_err() {
+spikes/001-auth/src/cli.rs:247:                if promote_verified_candidate(&path, &candidate, &record).is_err() {
+spikes/001-auth/src/cli.rs:266:        } => match load_preferred_record(&path) {
+spikes/001-auth/src/cli.rs:286:        } => match remove_spike_artifacts(&path) {
+spikes/001-auth/src/cli.rs:367:    let (record, from_candidate) = match load_preferred_record(path) {
+spikes/001-auth/src/cli.rs:411:                if from_candidate && promote_verified_candidate(path, &candidate, &record).is_err()
+spikes/001-auth/src/cli.rs:494:        return Err("explicit_plaintext_consent_required");
+spikes/001-auth/src/cli.rs:496:    store_record(path, record)
+spikes/001-auth/src/lib.rs:159:pub fn store_record(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+spikes/001-auth/src/lib.rs:161:    store_record_unlocked(path, record)
+spikes/001-auth/src/lib.rs:164:fn store_record_unlocked(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
+spikes/001-auth/src/lib.rs:203:pub fn load_record(path: &Path) -> Result<CredentialRecord, &'static str> {
+spikes/001-auth/src/lib.rs:256:pub fn remove_spike_artifacts(path: &Path) -> Result<bool, &'static str> {
+spikes/001-auth/src/lib.rs:315:pub fn remove_record_file(path: &Path) -> Result<bool, &'static str> {
+spikes/001-auth/src/lib.rs:317:    remove_record_file_unlocked(path)
+spikes/001-auth/src/lib.rs:320:fn remove_record_file_unlocked(path: &Path) -> Result<bool, &'static str> {
+spikes/001-auth/src/lib.rs:363:pub fn promote_verified_candidate(
+spikes/001-auth/src/lib.rs:369:    let record = load_record(candidate)?;
+spikes/001-auth/src/lib.rs:373:    store_record_unlocked(primary, verified)?;
+spikes/001-auth/src/lib.rs:374:    remove_record_file_unlocked(candidate)?;
+spikes/001-auth/src/lib.rs:404:pub fn load_preferred_record(primary: &Path) -> Result<(CredentialRecord, bool), &'static str> {
+spikes/001-auth/src/lib.rs:406:    match load_record(&candidate) {
+spikes/001-auth/src/lib.rs:408:        Err("not_logged_in") => load_record(primary).map(|record| (record, false)),
+spikes/001-auth/src/lib.rs:1234:        store_record(&path, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1255:        assert!(load_record(&path).is_ok());
+spikes/001-auth/src/lib.rs:1266:        store_record(&path, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1281:        assert!(matches!(load_record(&path), Err("not_logged_in")));
+spikes/001-auth/src/lib.rs:1285:            load_record(&blocked.join("credentials.json")),
+spikes/001-auth/src/lib.rs:1331:        assert_eq!(store_record(&path, &record()), Err("storage_error"));
+spikes/001-auth/src/lib.rs:1332:        assert!(matches!(load_record(&path), Err("storage_error")));
+spikes/001-auth/src/lib.rs:1346:            store_record(
+spikes/001-auth/src/lib.rs:1363:        store_record(&primary, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1364:        let original = load_record(&primary).unwrap();
+spikes/001-auth/src/lib.rs:1373:        assert_eq!(store_record(&primary, &replacement), Err("storage_error"));
+spikes/001-auth/src/lib.rs:1374:        assert_eq!(load_record(&primary).unwrap().account, original.account);
+spikes/001-auth/src/lib.rs:1383:        store_record(&candidate, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1394:        assert_eq!(remove_spike_artifacts(&primary), Err("storage_error"));
+spikes/001-auth/src/lib.rs:1407:        store_record(&primary, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1412:        store_record(&candidate, &newer).unwrap();
+spikes/001-auth/src/lib.rs:1413:        let (preferred, pending) = load_preferred_record(&primary).unwrap();
+spikes/001-auth/src/lib.rs:1421:            promote_verified_candidate(&primary, &candidate, &failed_verification),
+spikes/001-auth/src/lib.rs:1424:        assert_eq!(load_record(&primary).unwrap().account, "synthetic-student");
+spikes/001-auth/src/lib.rs:1425:        assert_eq!(load_record(&candidate).unwrap().account, "synthetic-new");
+spikes/001-auth/src/lib.rs:1426:        assert!(promote_verified_candidate(&primary, &candidate, &newer).unwrap());
+spikes/001-auth/src/lib.rs:1427:        assert_eq!(load_record(&primary).unwrap().account, "synthetic-new");
+spikes/001-auth/src/lib.rs:1428:        assert!(matches!(load_record(&candidate), Err("not_logged_in")));
+spikes/001-auth/src/lib.rs:1447:        store_record(&primary, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1456:        store_record(&candidate, &verified).unwrap();
+spikes/001-auth/src/lib.rs:1457:        store_record(&candidate, &newer).unwrap();
+spikes/001-auth/src/lib.rs:1459:            promote_verified_candidate(&primary, &candidate, &verified),
+spikes/001-auth/src/lib.rs:1462:        assert_eq!(load_record(&primary).unwrap().account, "synthetic-student");
+spikes/001-auth/src/lib.rs:1463:        assert_eq!(load_record(&candidate).unwrap().account, "unverified-B");
+spikes/001-auth/src/lib.rs:1464:        store_record(&candidate, &verified).unwrap();
+spikes/001-auth/src/lib.rs:1465:        assert!(promote_verified_candidate(&primary, &candidate, &verified).unwrap());
+spikes/001-auth/src/lib.rs:1466:        assert_eq!(load_record(&primary).unwrap().account, "verified-A");
+spikes/001-auth/src/lib.rs:1479:        store_record(&candidate, &record()).unwrap();
+spikes/001-auth/src/lib.rs:1481:            promote_verified_candidate(&primary, &candidate, &record()),
+spikes/001-auth/src/lib.rs:1485:        assert!(load_record(&candidate).is_ok());
+105:    let parent = path.parent().ok_or("storage_error")?;
+109:        return Err("storage_error");
+116:    .map_err(|_| "storage_error")?;
+119:            return Err("storage_error");
+121:        let part = part.to_str().ok_or("storage_error")?;
+132:                    Err(_) => return Err("storage_error"),
+140:                .map_err(|_| "storage_error")?
+143:            Err(_) => return Err("storage_error"),
+145:        let meta = rfs::fstat(&next).map_err(|_| "storage_error")?;
+152:            return Err("storage_error");
+160:    let _lock = storage_lock(path, true)?;
+168:        .ok_or("storage_error")?;
+170:    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+176:        Ok(_) => return Err("storage_error"),
+178:        Err(_) => return Err("storage_error"),
+188:    .map_err(|_| "storage_error")?;
+190:    let bytes = serde_json::to_vec(record).map_err(|_| "storage_error")?;
+192:        file.write_all(&bytes).map_err(|_| "storage_error")?;
+193:        file.sync_all().map_err(|_| "storage_error")?;
+194:        rfs::renameat(&dir, tmp.as_str(), &dir, name).map_err(|_| "storage_error")?;
+207:        .ok_or("storage_error")?;
+220:            "storage_error"
+223:    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+228:        return Err("storage_error");
+234:        .map_err(|_| "storage_error")?;
+236:        return Err("storage_error");
+238:    let record: CredentialRecord = serde_json::from_slice(&bytes).map_err(|_| "storage_error")?;
+251:        return Err("storage_error");
+258:        return Err("storage_error");
+263:        Err(_) => return Err("storage_error"),
+265:    let _lock = storage_lock(path, false)?;
+270:        .ok_or("storage_error")?;
+273:    for entry in fs::read_dir(proc_dir).map_err(|_| "storage_error")? {
+274:        let entry = entry.map_err(|_| "storage_error")?;
+309:        Err("storage_error")
+316:    let _lock = storage_lock(path, false)?;
+325:        return Err("storage_error");
+330:        Err(_) => return Err("storage_error"),
+336:        .ok_or("storage_error")?;
+340:        Err(_) => return Err("storage_error"),
+346:        return Err("storage_error");
+348:    rfs::unlinkat(&dir, name, AtFlags::empty()).map_err(|_| "storage_error")?;
+353:    let meta = rfs::fstat(dir).map_err(|_| "storage_error")?;
+358:        return Err("storage_error");
+368:    let _lock = storage_lock(primary, true)?;
+378:fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+380:    let meta = rfs::fstat(&dir).map_err(|_| "storage_error")?;
+382:        return Err("storage_error");
+384:    rfs::fchmod(&dir, Mode::from_raw_mode(0o700)).map_err(|_| "storage_error")?;
+392:    .map_err(|_| "storage_error")?;
+393:    let meta = rfs::fstat(&fd).map_err(|_| "storage_error")?;
+398:        return Err("storage_error");
+400:    rfs::flock(&fd, rustix::fs::FlockOperation::LockExclusive).map_err(|_| "storage_error")?;
+888:fn valid_token(value: &str) -> bool {
+945:mod tests {
+1286:            Err("storage_error")
+1331:        assert_eq!(store_record(&path, &record()), Err("storage_error"));
+1332:        assert!(matches!(load_record(&path), Err("storage_error")));
+1350:            Err("storage_error")
+1373:        assert_eq!(store_record(&primary, &replacement), Err("storage_error"));
+1394:        assert_eq!(remove_spike_artifacts(&primary), Err("storage_error"));
+1482:            Err("storage_error")
+
+web search: 
+web search: site:learn.microsoft.com windows named mutex Global namespace security descriptor mutex wait abandoned mutex ...
+codex
+The current API confirms the storage model: `credentials.json` is primary, `credentials.captured.json` is the recoverable candidate, candidate-first load is intentional, and promotion compares serialized snapshots under the storage lock before replacing primary. I’m checking whether I can implement the required cross-logon mutex with a current-user-only security descriptor using documented bindings; a session-local lock would not meet the approved concurrency guarantee.
+web search: 
+web search: site:docs.rs/windows-sys/latest/windows_sys/Win32/Security/Credentials/fn.CredWriteW.html ...
+codex
+The WinCred documentation confirms `CredReadW` binds reads to the current token’s credential set and requires `CredFree`; a `Global\` mutex is needed for cross-session coordination and named synchronization objects accept an explicit security descriptor. The required lock would therefore need a stable current-user SID lookup plus a verified ACL on a global kernel object. I haven’t established that security descriptor path from the project’s existing dependencies yet, so I’m treating this as the explicit cross-session locking blocker rather than introducing a `Local\` mutex that would silently weaken concurrency. I’ll save the concrete stopping point and commands/evidence now.
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "git status --short && rg -n 'windows-sys|windows =|windows-sys' Cargo.lock spikes/001-auth/Cargo.toml" in /home/abdel/Documents/Coding/binus-cli
+ exited 2 in 0ms:
+ M spikes/001-auth/Cargo.lock
+ M spikes/001-auth/Cargo.toml
+ M spikes/001-auth/README.md
+ M spikes/001-auth/src/cli.rs
+ M spikes/001-auth/src/lib.rs
+ M spikes/001-auth/tests/cli.rs
+?? .agent/credential-size-evidence.md
+?? .agent/credential-size-launch.sh
+?? .agent/credential-size-summary.md
+?? .agent/credential-size-task.md
+?? .agent/credential-size.exit
+?? .agent/credential-size.log
+?? .agent/forum-schema-evidence.md
+?? .agent/forum-schema-live-evidence.json
+?? .agent/forum-schema-paths-live-evidence.json
+?? .agent/forum-schema-paths-task.md
+?? .agent/forum-schema-summary.md
+?? .agent/forum-schema-task.md
+?? .agent/forums-final-live-evidence.json
+?? .agent/forums-logic-fix-evidence.md
+?? .agent/forums-logic-fix-summary.md
+?? .agent/forums-logic-fix-task.md
+?? .agent/forums-success-assert-evidence.md
+?? .agent/forums-success-assert-launch.sh
+?? .agent/forums-success-assert-summary.md
+?? .agent/forums-success-assert-task.md
+?? .agent/forums-success-assert.exit
+?? .agent/forums-success-assert.log
+?? .agent/forums-threads-evidence.md
+?? .agent/forums-threads-live-evidence.json
+?? .agent/forums-threads-summary.md
+?? .agent/forums-threads-task.md
+?? .agent/forums-transport-durable-task.md
+?? .agent/forums-transport-durable.exit
+?? .agent/forums-transport-durable.log
+?? .agent/forums-transport-launch.sh
+?? .agent/forums-transport-test-evidence.md
+?? .agent/forums-transport-test-resume.md
+?? .agent/forums-transport-test-summary.md
+?? .agent/forums-transport-test-task.md
+?? .agent/session-detail-schema-evidence.md
+?? .agent/session-detail-schema-summary.md
+?? .agent/session-detail-schema-task.md
+?? .agent/session-show-evidence.md
+?? .agent/session-show-review-fix-evidence.md
+?? .agent/session-show-review-fix-summary.md
+?? .agent/session-show-review-fix-task.md
+?? .agent/session-show-summary.md
+?? .agent/session-show-task.md
+?? .agent/session-show-transport-evidence.md
+?? .agent/session-show-transport-summary.md
+?? .agent/session-show-transport-task.md
+?? .agent/show-count-retention-evidence.md
+?? .agent/show-count-retention-live-evidence.json
+?? .agent/show-count-retention-resume.md
+?? .agent/show-count-retention-summary.md
+?? .agent/show-count-retention-task.md
+?? .agent/show-deadline-test-evidence.md
+?? .agent/show-deadline-test-summary.md
+?? .agent/show-deadline-test-task.md
+?? .agent/show-redirect-test-evidence.md
+?? .agent/show-redirect-test-summary.md
+?? .agent/show-redirect-test-task.md
+?? .agent/show-stream-cap-evidence.md
+?? .agent/show-stream-cap-summary.md
+?? .agent/show-stream-cap-task.md
+?? .agent/transport-count-summary.md
+?? .agent/transport-count-task.md
+?? .agent/transport-diagnostic-evidence.md
+?? .agent/transport-diagnostic-summary.md
+?? .agent/transport-diagnostic-task.md
+?? .agent/transport-live-count-evidence.json
+?? .agent/transport-live-evidence.json
+?? .agent/transport-live-production-recheck.json
+?? .agent/windows-portability-evidence.md
+?? .agent/windows-portability-launch.sh
+?? .agent/windows-portability-summary.md
+?? .agent/windows-portability-task.md
+?? .agent/windows-portability.exit
+?? .agent/windows-portability.log
+?? .agent/windows-store-launch.sh
+?? .agent/windows-store-task.md
+?? .agent/windows-store.log
+?? spikes/001-auth/.agent/
+?? spikes/001-auth/examples/credential_size.rs
+?? spikes/001-auth/examples/forum_schema.rs
+?? spikes/001-auth/examples/session_detail_schema.rs
+?? spikes/001-auth/examples/transport_diagnostic.rs
+?? spikes/001-auth/src/forums.rs
+?? spikes/001-auth/src/session_details.rs
+rg: Cargo.lock: No such file or directory (os error 2)
+
+hook: PreToolUse
+hook: PreToolUse Completed
+
+apply patch
+patch: completed
+/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-evidence.md
+/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-summary.md
+diff --git a/.agent/windows-store-evidence.md b/.agent/windows-store-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..788522cf0fb653d471d66add6e847d38e1e92f9f
+--- /dev/null
++++ b/.agent/windows-store-evidence.md
+@@ -0,0 +1,46 @@
++# Windows Credential Manager storage evidence
++
++Date: 2026-10-20 (Asia/Jakarta)
++Scope: storage backend assessment only. No product source changes were made in this turn.
++
++## Existing API review
++
++Read `.agent/windows-portability-evidence.md`, `spikes/001-auth/src/lib.rs` storage operations (lines 104-425), and CLI call sites in `src/cli.rs`.
++
++- `store_record(path, record)` serializes one `CredentialRecord`; the Linux backend locks then writes the record.
++- `load_record(path)` returns `not_logged_in` only for missing storage and `storage_error` for malformed or inaccessible data.
++- `load_preferred_record(primary)` checks `credentials.captured.json` first and falls back to primary only when candidate is absent.
++- `promote_verified_candidate(primary, candidate, verified)` locks primary, rereads candidate, compares serialized snapshots, writes primary, then removes candidate. Mismatch returns `candidate_changed`; primary write failure preserves candidate.
++- `remove_spike_artifacts` is logout cleanup; it has deliberately narrow app artifact ownership. `remove_record_file` accepts only primary or candidate.
++
++The CLI currently has Linux plaintext consent logic and Linux path/browser assumptions. No CLI changes were made; wiring Windows login without the consent flag depends on the backend/path/browser port and must be documented as a later integration step if storage remains isolated.
++
++## Documentation checked
++
++- Microsoft [`CredReadW`](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credreadw): reads the credential set associated with the current token; `ERROR_NOT_FOUND` is absence; returned allocation must be released with `CredFree`.
++- Microsoft [`CredWriteW`](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credwritew): creates or replaces a target and associates it with current token; persistence must be set explicitly in the credential.
++- Microsoft [kernel object namespaces](https://learn.microsoft.com/en-us/windows/win32/termserv/kernel-object-namespaces): `Global\\` names cross-session objects; unprefixed/`Local\\` names are session scoped.
++- Microsoft [synchronization object security](https://learn.microsoft.com/en-us/windows/win32/sync/synchronization-object-security-and-access-rights): named mutexes support an explicit security descriptor; default ACL derives from creator token.
++- Microsoft [mutex objects](https://learn.microsoft.com/en-us/windows/win32/sync/mutex-objects): wait reports an abandoned mutex distinctly; callers must handle it.
++- Rust binding documentation checked: [`windows-sys::CredReadW`](https://docs.rs/windows-sys/latest/windows_sys/Win32/Security/Credentials/fn.CredReadW.html) and [`windows-sys::CreateMutexW`](https://docs.rs/windows-sys/latest/windows_sys/Win32/System/Threading/fn.CreateMutexW.html). No guessed FFI was introduced.
++
++## Blocker and security decision needed
++
++The existing API requires one lock to serialize storage operations and promotion. Credential Manager local-machine persistence is intended to survive user logons, while a `Local\\` mutex only coordinates processes in one logon session. Using it would leave a race between sessions and would not satisfy the requested promotion/write guarantees.
++
++A plausible implementation is a `Global\\` mutex whose name is namespaced by the current user's SID and whose creation security descriptor grants access only to that SID. Implementing this safely requires a documented SID acquisition and ACL construction path, exact `windows-sys` API/features/types, correct handling when another session has already created the object with an incompatible descriptor, and RAII release/close behavior. This turn did not validate that path or add a binding dependency. Therefore no native adapter or test seam was added; a session-local mutex was not substituted.
++
++This is the requested stop condition for a cross-session mutex design that needs a security decision. Resolve the global mutex ACL/creation policy before implementation. Do not treat this as a completed Windows backend.
++
++## Work and validation status
++
++- No implementation files changed in this turn.
++- No TDD red/green steps were run; no test result is claimed.
++- No cargo test, fmt, clippy, release, or Windows target check was run in this turn.
++- Native Windows execution remains pending; Windows 11 was not booted, and no browser, login, live API, Credential Manager, or real credentials were accessed.
++- Existing preflight Windows cross-target failures remain as recorded in `.agent/windows-portability-evidence.md`; they include Unix storage imports, browser process-group code, Unix signals, and Unix-only tests. They are not reclassified as storage implementation failures or successes here.
++- No token values or real credential data were read, printed, or copied.
++
++## Required implementation follow-up
++
++After resolving the mutex security descriptor policy, implement and test the backend-neutral validation and orchestration seam, then add the native `CredReadW`/`CredWriteW`/`CredDeleteW`/`CredFree` adapter using actual binding signatures. Keep each primary/candidate as a single JSON blob and reject serialized records over 2560 bytes before any OS write. Do not add compression, chunking, DPAPI, or plaintext fallback. Scope this work to storage; keep browser/process/signal portability as separately reported blockers.
+diff --git a/.agent/windows-store-summary.md b/.agent/windows-store-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9e25dbc79bf77e5eb994b64fdeeb4972448f490
+--- /dev/null
++++ b/.agent/windows-store-summary.md
+@@ -0,0 +1,5 @@
++# Windows store slice status
++
++Stopped before implementation at the cross-logon mutex security requirement. A `Local\\` mutex would not protect locally persistent credentials across sessions. The global-mutex design needs a verified current-user SID ACL and object-creation policy before safely proceeding.
++
++No product code changed, no tests/checks were run, and no native Windows behavior is claimed. See [windows-store-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-evidence.md) for the API review, sources, and remaining blockers. Existing browser/process/signal Windows compile failures remain separate and are documented in [windows-portability-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-evidence.md).
+
+diff --git a/.agent/windows-store-evidence.md b/.agent/windows-store-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..788522cf0fb653d471d66add6e847d38e1e92f9f
+--- /dev/null
++++ b/.agent/windows-store-evidence.md
+@@ -0,0 +1,46 @@
++# Windows Credential Manager storage evidence
++
++Date: 2026-10-20 (Asia/Jakarta)
++Scope: storage backend assessment only. No product source changes were made in this turn.
++
++## Existing API review
++
++Read `.agent/windows-portability-evidence.md`, `spikes/001-auth/src/lib.rs` storage operations (lines 104-425), and CLI call sites in `src/cli.rs`.
++
++- `store_record(path, record)` serializes one `CredentialRecord`; the Linux backend locks then writes the record.
++- `load_record(path)` returns `not_logged_in` only for missing storage and `storage_error` for malformed or inaccessible data.
++- `load_preferred_record(primary)` checks `credentials.captured.json` first and falls back to primary only when candidate is absent.
++- `promote_verified_candidate(primary, candidate, verified)` locks primary, rereads candidate, compares serialized snapshots, writes primary, then removes candidate. Mismatch returns `candidate_changed`; primary write failure preserves candidate.
++- `remove_spike_artifacts` is logout cleanup; it has deliberately narrow app artifact ownership. `remove_record_file` accepts only primary or candidate.
++
++The CLI currently has Linux plaintext consent logic and Linux path/browser assumptions. No CLI changes were made; wiring Windows login without the consent flag depends on the backend/path/browser port and must be documented as a later integration step if storage remains isolated.
++
++## Documentation checked
++
++- Microsoft [`CredReadW`](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credreadw): reads the credential set associated with the current token; `ERROR_NOT_FOUND` is absence; returned allocation must be released with `CredFree`.
++- Microsoft [`CredWriteW`](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credwritew): creates or replaces a target and associates it with current token; persistence must be set explicitly in the credential.
++- Microsoft [kernel object namespaces](https://learn.microsoft.com/en-us/windows/win32/termserv/kernel-object-namespaces): `Global\\` names cross-session objects; unprefixed/`Local\\` names are session scoped.
++- Microsoft [synchronization object security](https://learn.microsoft.com/en-us/windows/win32/sync/synchronization-object-security-and-access-rights): named mutexes support an explicit security descriptor; default ACL derives from creator token.
++- Microsoft [mutex objects](https://learn.microsoft.com/en-us/windows/win32/sync/mutex-objects): wait reports an abandoned mutex distinctly; callers must handle it.
++- Rust binding documentation checked: [`windows-sys::CredReadW`](https://docs.rs/windows-sys/latest/windows_sys/Win32/Security/Credentials/fn.CredReadW.html) and [`windows-sys::CreateMutexW`](https://docs.rs/windows-sys/latest/windows_sys/Win32/System/Threading/fn.CreateMutexW.html). No guessed FFI was introduced.
++
++## Blocker and security decision needed
++
++The existing API requires one lock to serialize storage operations and promotion. Credential Manager local-machine persistence is intended to survive user logons, while a `Local\\` mutex only coordinates processes in one logon session. Using it would leave a race between sessions and would not satisfy the requested promotion/write guarantees.
++
++A plausible implementation is a `Global\\` mutex whose name is namespaced by the current user's SID and whose creation security descriptor grants access only to that SID. Implementing this safely requires a documented SID acquisition and ACL construction path, exact `windows-sys` API/features/types, correct handling when another session has already created the object with an incompatible descriptor, and RAII release/close behavior. This turn did not validate that path or add a binding dependency. Therefore no native adapter or test seam was added; a session-local mutex was not substituted.
++
++This is the requested stop condition for a cross-session mutex design that needs a security decision. Resolve the global mutex ACL/creation policy before implementation. Do not treat this as a completed Windows backend.
++
++## Work and validation status
++
++- No implementation files changed in this turn.
++- No TDD red/green steps were run; no test result is claimed.
++- No cargo test, fmt, clippy, release, or Windows target check was run in this turn.
++- Native Windows execution remains pending; Windows 11 was not booted, and no browser, login, live API, Credential Manager, or real credentials were accessed.
++- Existing preflight Windows cross-target failures remain as recorded in `.agent/windows-portability-evidence.md`; they include Unix storage imports, browser process-group code, Unix signals, and Unix-only tests. They are not reclassified as storage implementation failures or successes here.
++- No token values or real credential data were read, printed, or copied.
++
++## Required implementation follow-up
++
++After resolving the mutex security descriptor policy, implement and test the backend-neutral validation and orchestration seam, then add the native `CredReadW`/`CredWriteW`/`CredDeleteW`/`CredFree` adapter using actual binding signatures. Keep each primary/candidate as a single JSON blob and reject serialized records over 2560 bytes before any OS write. Do not add compression, chunking, DPAPI, or plaintext fallback. Scope this work to storage; keep browser/process/signal portability as separately reported blockers.
+diff --git a/.agent/windows-store-summary.md b/.agent/windows-store-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9e25dbc79bf77e5eb994b64fdeeb4972448f490
+--- /dev/null
++++ b/.agent/windows-store-summary.md
+@@ -0,0 +1,5 @@
++# Windows store slice status
++
++Stopped before implementation at the cross-logon mutex security requirement. A `Local\\` mutex would not protect locally persistent credentials across sessions. The global-mutex design needs a verified current-user SID ACL and object-creation policy before safely proceeding.
++
++No product code changed, no tests/checks were run, and no native Windows behavior is claimed. See [windows-store-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-evidence.md) for the API review, sources, and remaining blockers. Existing browser/process/signal Windows compile failures remain separate and are documented in [windows-portability-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-evidence.md).
+
+codex
+I stopped before implementation because the storage guarantees require a mutex that coordinates across logon sessions. A `Local\` mutex would not protect locally persistent credentials across sessions; the `Global\` option needs a verified current-user SID ACL and creation policy before I can implement it safely.
+
+No product code changed, and I ran no tests or build checks. Native Windows behavior remains unverified. I recorded the API review, documentation, blocker, and follow-up in [windows-store-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-evidence.md) and [windows-store-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-summary.md). Existing Windows compiler blockers are listed separately in [windows-portability-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-evidence.md).
+diff --git a/.agent/windows-store-evidence.md b/.agent/windows-store-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..788522cf0fb653d471d66add6e847d38e1e92f9f
+--- /dev/null
++++ b/.agent/windows-store-evidence.md
+@@ -0,0 +1,46 @@
++# Windows Credential Manager storage evidence
++
++Date: 2026-10-20 (Asia/Jakarta)
++Scope: storage backend assessment only. No product source changes were made in this turn.
++
++## Existing API review
++
++Read `.agent/windows-portability-evidence.md`, `spikes/001-auth/src/lib.rs` storage operations (lines 104-425), and CLI call sites in `src/cli.rs`.
++
++- `store_record(path, record)` serializes one `CredentialRecord`; the Linux backend locks then writes the record.
++- `load_record(path)` returns `not_logged_in` only for missing storage and `storage_error` for malformed or inaccessible data.
++- `load_preferred_record(primary)` checks `credentials.captured.json` first and falls back to primary only when candidate is absent.
++- `promote_verified_candidate(primary, candidate, verified)` locks primary, rereads candidate, compares serialized snapshots, writes primary, then removes candidate. Mismatch returns `candidate_changed`; primary write failure preserves candidate.
++- `remove_spike_artifacts` is logout cleanup; it has deliberately narrow app artifact ownership. `remove_record_file` accepts only primary or candidate.
++
++The CLI currently has Linux plaintext consent logic and Linux path/browser assumptions. No CLI changes were made; wiring Windows login without the consent flag depends on the backend/path/browser port and must be documented as a later integration step if storage remains isolated.
++
++## Documentation checked
++
++- Microsoft [`CredReadW`](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credreadw): reads the credential set associated with the current token; `ERROR_NOT_FOUND` is absence; returned allocation must be released with `CredFree`.
++- Microsoft [`CredWriteW`](https://learn.microsoft.com/en-us/windows/win32/api/wincred/nf-wincred-credwritew): creates or replaces a target and associates it with current token; persistence must be set explicitly in the credential.
++- Microsoft [kernel object namespaces](https://learn.microsoft.com/en-us/windows/win32/termserv/kernel-object-namespaces): `Global\\` names cross-session objects; unprefixed/`Local\\` names are session scoped.
++- Microsoft [synchronization object security](https://learn.microsoft.com/en-us/windows/win32/sync/synchronization-object-security-and-access-rights): named mutexes support an explicit security descriptor; default ACL derives from creator token.
++- Microsoft [mutex objects](https://learn.microsoft.com/en-us/windows/win32/sync/mutex-objects): wait reports an abandoned mutex distinctly; callers must handle it.
++- Rust binding documentation checked: [`windows-sys::CredReadW`](https://docs.rs/windows-sys/latest/windows_sys/Win32/Security/Credentials/fn.CredReadW.html) and [`windows-sys::CreateMutexW`](https://docs.rs/windows-sys/latest/windows_sys/Win32/System/Threading/fn.CreateMutexW.html). No guessed FFI was introduced.
++
++## Blocker and security decision needed
++
++The existing API requires one lock to serialize storage operations and promotion. Credential Manager local-machine persistence is intended to survive user logons, while a `Local\\` mutex only coordinates processes in one logon session. Using it would leave a race between sessions and would not satisfy the requested promotion/write guarantees.
++
++A plausible implementation is a `Global\\` mutex whose name is namespaced by the current user's SID and whose creation security descriptor grants access only to that SID. Implementing this safely requires a documented SID acquisition and ACL construction path, exact `windows-sys` API/features/types, correct handling when another session has already created the object with an incompatible descriptor, and RAII release/close behavior. This turn did not validate that path or add a binding dependency. Therefore no native adapter or test seam was added; a session-local mutex was not substituted.
++
++This is the requested stop condition for a cross-session mutex design that needs a security decision. Resolve the global mutex ACL/creation policy before implementation. Do not treat this as a completed Windows backend.
++
++## Work and validation status
++
++- No implementation files changed in this turn.
++- No TDD red/green steps were run; no test result is claimed.
++- No cargo test, fmt, clippy, release, or Windows target check was run in this turn.
++- Native Windows execution remains pending; Windows 11 was not booted, and no browser, login, live API, Credential Manager, or real credentials were accessed.
++- Existing preflight Windows cross-target failures remain as recorded in `.agent/windows-portability-evidence.md`; they include Unix storage imports, browser process-group code, Unix signals, and Unix-only tests. They are not reclassified as storage implementation failures or successes here.
++- No token values or real credential data were read, printed, or copied.
++
++## Required implementation follow-up
++
++After resolving the mutex security descriptor policy, implement and test the backend-neutral validation and orchestration seam, then add the native `CredReadW`/`CredWriteW`/`CredDeleteW`/`CredFree` adapter using actual binding signatures. Keep each primary/candidate as a single JSON blob and reject serialized records over 2560 bytes before any OS write. Do not add compression, chunking, DPAPI, or plaintext fallback. Scope this work to storage; keep browser/process/signal portability as separately reported blockers.
+diff --git a/.agent/windows-store-summary.md b/.agent/windows-store-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..f9e25dbc79bf77e5eb994b64fdeeb4972448f490
+--- /dev/null
++++ b/.agent/windows-store-summary.md
+@@ -0,0 +1,5 @@
++# Windows store slice status
++
++Stopped before implementation at the cross-logon mutex security requirement. A `Local\\` mutex would not protect locally persistent credentials across sessions. The global-mutex design needs a verified current-user SID ACL and object-creation policy before safely proceeding.
++
++No product code changed, no tests/checks were run, and no native Windows behavior is claimed. See [windows-store-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-evidence.md) for the API review, sources, and remaining blockers. Existing browser/process/signal Windows compile failures remain separate and are documented in [windows-portability-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-evidence.md).
+
+tokens used
+61,951
+I stopped before implementation because the storage guarantees require a mutex that coordinates across logon sessions. A `Local\` mutex would not protect locally persistent credentials across sessions; the `Global\` option needs a verified current-user SID ACL and creation policy before I can implement it safely.
+
+No product code changed, and I ran no tests or build checks. Native Windows behavior remains unverified. I recorded the API review, documentation, blocker, and follow-up in [windows-store-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-evidence.md) and [windows-store-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-summary.md). Existing Windows compiler blockers are listed separately in [windows-portability-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-evidence.md).

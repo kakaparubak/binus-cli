@@ -1,0 +1,234 @@
+    Checking binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:656:18
+    |
+656 |     use std::os::unix::process::CommandExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:40
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                        ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:68
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                                                    ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+   --> src/lib.rs:657:13
+    |
+657 |     command.process_group(0);
+    |             ^^^^^^^^^^^^^ method not found in `std::process::Command`
+
+Some errors have detailed explanations: E0433, E0599.
+For more information about an error, try `rustc --explain E0433`.
+error: could not compile `binus-auth-spike` (lib) due to 4 previous errors
+
+[main --lib exit=101]
+    Checking binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:656:18
+    |
+656 |     use std::os::unix::process::CommandExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:40
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                        ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:952:18
+    |
+952 |     use std::os::unix::fs::PermissionsExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1623:22
+     |
+1623 |         use std::os::unix::process::CommandExt;
+     |                      ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:68
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                                                    ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1339:18
+     |
+1339 |         std::os::unix::fs::symlink(other, &path).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1353:18
+     |
+1353 |         std::os::unix::fs::symlink(&real, &alias).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1377:18
+     |
+1377 |         std::os::unix::fs::symlink(&sentinel, primary.parent().unwrap().join(&temp_name)).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1487:18
+     |
+1487 |         std::os::unix::fs::symlink(&sentinel, &primary).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+   --> src/lib.rs:657:13
+    |
+657 |     command.process_group(0);
+    |             ^^^^^^^^^^^^^ method not found in `std::process::Command`
+
+Some errors have detailed explanations: E0433, E0599.
+For more information about an error, try `rustc --explain E0433`.
+error: could not compile `binus-auth-spike` (lib) due to 4 previous errors
+warning: build failed, waiting for other jobs to finish...
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1241:56
+     |
+1241 |             fs::metadata(&path).unwrap().permissions().mode() & 0o777,
+     |                                                        ^^^^ method not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1248:18
+     |
+1245 | /             fs::metadata(path.parent().unwrap())
+1246 | |                 .unwrap()
+1247 | |                 .permissions()
+1248 | |                 .mode()
+     | |                 -^^^^ method not found in `Permissions`
+     | |_________________|
+     |
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1268:55
+     |
+1268 |         fs::set_permissions(&config, fs::Permissions::from_mode(0o750)).unwrap();
+     |                                                       ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1273:58
+     |
+1273 |             fs::metadata(&config).unwrap().permissions().mode() & 0o777,
+     |                                                          ^^^^ method not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1277:55
+     |
+1277 |             fs::metadata(&app).unwrap().permissions().mode() & 0o777,
+     |                                                       ^^^^ method not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1336:70
+     |
+1336 |         fs::set_permissions(path.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |                                                                      ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1350:57
+     |
+1350 |         fs::set_permissions(&real_app, fs::Permissions::from_mode(0o755)).unwrap();
+     |                                                         ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1351:69
+     |
+1351 |         let before = fs::metadata(&real_app).unwrap().permissions().mode() & 0o777;
+     |                                                                     ^^^^ method not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1362:60
+     |
+1362 |             fs::metadata(&real_app).unwrap().permissions().mode() & 0o777,
+     |                                                            ^^^^ method not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1394:56
+     |
+1394 |         fs::set_permissions(&primary, fs::Permissions::from_mode(0o640)).unwrap();
+     |                                                        ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1397:56
+     |
+1397 |         fs::set_permissions(&residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |                                                        ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1400:65
+     |
+1400 |         fs::set_permissions(&captured_residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |                                                                 ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1484:73
+     |
+1484 |         fs::set_permissions(primary.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |                                                                         ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+    --> src/lib.rs:1629:14
+     |
+1628 | /         command
+1629 | |             .process_group(0)
+     | |             -^^^^^^^^^^^^^ method not found in `std::process::Command`
+     | |_____________|
+     |
+
+error: could not compile `binus-auth-spike` (lib test) due to 24 previous errors
+
+[main --all-targets exit=101]

@@ -1,0 +1,1849 @@
+[
+  {
+    "class_sample": 0,
+    "session_sample": 0,
+    "exit_code": 0,
+    "schema_report": {
+      "collected_rows": 1,
+      "continuation_ambiguity": false,
+      "declared_totalData": 1,
+      "detail": {
+        "facts": {
+          "contains_signed_url_parameters": true,
+          "root_forumId_equals_requested_classId": true,
+          "root_id_equals_selected_threadId": true,
+          "threadContentText_is_probably_html": true,
+          "threadContentText_is_string": true,
+          "threadContentText_nonempty": true
+        },
+        "http_status": 200,
+        "schema": {
+          "attachment_or_nested_array_counts": {
+            "attachments": [
+              1
+            ],
+            "multiClassIds": [
+              0
+            ],
+            "tags": [
+              2
+            ],
+            "threadImages": [
+              0
+            ]
+          },
+          "body_bearing_field_types": {
+            "threadContentText": [
+              "string"
+            ],
+            "threadPostDate": [
+              "string"
+            ],
+            "threadPostDateUtc": [
+              "string"
+            ],
+            "totalPost": [
+              "integer"
+            ]
+          },
+          "path_array_counts": {
+            "$.attachments": [
+              1
+            ],
+            "$.multiClassIds": [
+              0
+            ],
+            "$.tags": [
+              2
+            ],
+            "$.threadImages": [
+              0
+            ]
+          },
+          "path_field_types": {
+            "$.assessmentPersonalizedId": [
+              "null"
+            ],
+            "$.attachments": [
+              "array"
+            ],
+            "$.attachments[].name": [
+              "string"
+            ],
+            "$.attachments[].size": [
+              "integer"
+            ],
+            "$.attachments[].type": [
+              "string"
+            ],
+            "$.attachments[].url": [
+              "string"
+            ],
+            "$.authorFullName": [
+              "string"
+            ],
+            "$.authorId": [
+              "string"
+            ],
+            "$.authorPictureUrl": [
+              "string"
+            ],
+            "$.authorRole": [
+              "string"
+            ],
+            "$.category": [
+              "string"
+            ],
+            "$.dateEnd": [
+              "string"
+            ],
+            "$.deletable": [
+              "boolean"
+            ],
+            "$.editable": [
+              "boolean"
+            ],
+            "$.firstResponseDate": [
+              "string"
+            ],
+            "$.forumId": [
+              "string"
+            ],
+            "$.id": [
+              "string"
+            ],
+            "$.isAssessment": [
+              "boolean"
+            ],
+            "$.isAvailableOffline": [
+              "boolean"
+            ],
+            "$.isCount": [
+              "boolean"
+            ],
+            "$.isFinalizedGradebook": [
+              "boolean"
+            ],
+            "$.isLike": [
+              "boolean"
+            ],
+            "$.isMasked": [
+              "boolean"
+            ],
+            "$.isMultiClassDiscussion": [
+              "boolean"
+            ],
+            "$.isShowRubric": [
+              "boolean"
+            ],
+            "$.isYoutubeDiscussion": [
+              "boolean"
+            ],
+            "$.multiClassIds": [
+              "array"
+            ],
+            "$.responseDate": [
+              "string"
+            ],
+            "$.rubric": [
+              "null"
+            ],
+            "$.sessionNumber": [
+              "integer"
+            ],
+            "$.tags": [
+              "array"
+            ],
+            "$.tags[].code": [
+              "null",
+              "string"
+            ],
+            "$.tags[].id": [
+              "null",
+              "string"
+            ],
+            "$.tags[].name": [
+              "string"
+            ],
+            "$.threadContentText": [
+              "string"
+            ],
+            "$.threadImages": [
+              "array"
+            ],
+            "$.threadPostDate": [
+              "string"
+            ],
+            "$.threadPostDateUtc": [
+              "string"
+            ],
+            "$.threadStatus": [
+              "string"
+            ],
+            "$.threadTitle": [
+              "string"
+            ],
+            "$.totalLike": [
+              "integer"
+            ],
+            "$.totalPost": [
+              "integer"
+            ],
+            "$.totalStudentReply": [
+              "integer"
+            ],
+            "$.type": [
+              "string"
+            ]
+          },
+          "root_direct_field_types": {
+            "assessmentPersonalizedId": [
+              "null"
+            ],
+            "attachments": [
+              "array"
+            ],
+            "authorFullName": [
+              "string"
+            ],
+            "authorId": [
+              "string"
+            ],
+            "authorPictureUrl": [
+              "string"
+            ],
+            "authorRole": [
+              "string"
+            ],
+            "category": [
+              "string"
+            ],
+            "dateEnd": [
+              "string"
+            ],
+            "deletable": [
+              "boolean"
+            ],
+            "editable": [
+              "boolean"
+            ],
+            "firstResponseDate": [
+              "string"
+            ],
+            "forumId": [
+              "string"
+            ],
+            "id": [
+              "string"
+            ],
+            "isAssessment": [
+              "boolean"
+            ],
+            "isAvailableOffline": [
+              "boolean"
+            ],
+            "isCount": [
+              "boolean"
+            ],
+            "isFinalizedGradebook": [
+              "boolean"
+            ],
+            "isLike": [
+              "boolean"
+            ],
+            "isMasked": [
+              "boolean"
+            ],
+            "isMultiClassDiscussion": [
+              "boolean"
+            ],
+            "isShowRubric": [
+              "boolean"
+            ],
+            "isYoutubeDiscussion": [
+              "boolean"
+            ],
+            "multiClassIds": [
+              "array"
+            ],
+            "responseDate": [
+              "string"
+            ],
+            "rubric": [
+              "null"
+            ],
+            "sessionNumber": [
+              "integer"
+            ],
+            "tags": [
+              "array"
+            ],
+            "threadContentText": [
+              "string"
+            ],
+            "threadImages": [
+              "array"
+            ],
+            "threadPostDate": [
+              "string"
+            ],
+            "threadPostDateUtc": [
+              "string"
+            ],
+            "threadStatus": [
+              "string"
+            ],
+            "threadTitle": [
+              "string"
+            ],
+            "totalLike": [
+              "integer"
+            ],
+            "totalPost": [
+              "integer"
+            ],
+            "totalStudentReply": [
+              "integer"
+            ],
+            "type": [
+              "string"
+            ]
+          },
+          "root_field_types": {
+            "assessmentPersonalizedId": [
+              "null"
+            ],
+            "attachments": [
+              "array"
+            ],
+            "authorFullName": [
+              "string"
+            ],
+            "authorId": [
+              "string"
+            ],
+            "authorPictureUrl": [
+              "string"
+            ],
+            "authorRole": [
+              "string"
+            ],
+            "category": [
+              "string"
+            ],
+            "code": [
+              "null",
+              "string"
+            ],
+            "dateEnd": [
+              "string"
+            ],
+            "deletable": [
+              "boolean"
+            ],
+            "editable": [
+              "boolean"
+            ],
+            "firstResponseDate": [
+              "string"
+            ],
+            "forumId": [
+              "string"
+            ],
+            "id": [
+              "null",
+              "string"
+            ],
+            "isAssessment": [
+              "boolean"
+            ],
+            "isAvailableOffline": [
+              "boolean"
+            ],
+            "isCount": [
+              "boolean"
+            ],
+            "isFinalizedGradebook": [
+              "boolean"
+            ],
+            "isLike": [
+              "boolean"
+            ],
+            "isMasked": [
+              "boolean"
+            ],
+            "isMultiClassDiscussion": [
+              "boolean"
+            ],
+            "isShowRubric": [
+              "boolean"
+            ],
+            "isYoutubeDiscussion": [
+              "boolean"
+            ],
+            "multiClassIds": [
+              "array"
+            ],
+            "name": [
+              "string"
+            ],
+            "responseDate": [
+              "string"
+            ],
+            "rubric": [
+              "null"
+            ],
+            "sessionNumber": [
+              "integer"
+            ],
+            "size": [
+              "integer"
+            ],
+            "tags": [
+              "array"
+            ],
+            "threadContentText": [
+              "string"
+            ],
+            "threadImages": [
+              "array"
+            ],
+            "threadPostDate": [
+              "string"
+            ],
+            "threadPostDateUtc": [
+              "string"
+            ],
+            "threadStatus": [
+              "string"
+            ],
+            "threadTitle": [
+              "string"
+            ],
+            "totalLike": [
+              "integer"
+            ],
+            "totalPost": [
+              "integer"
+            ],
+            "totalStudentReply": [
+              "integer"
+            ],
+            "type": [
+              "string"
+            ],
+            "url": [
+              "string"
+            ]
+          }
+        }
+      },
+      "exact_duplicate_threadId_count": 0,
+      "id_equals_threadId": false,
+      "page_schemas_agree": true,
+      "pages": [
+        {
+          "datas_count": 1,
+          "http_status": 200,
+          "page": 1,
+          "schema": {
+            "continuation_field_types": {},
+            "datas_count": 1,
+            "datas_row_direct_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "datas_row_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "root_direct_field_types": {
+              "datas": [
+                "array"
+              ],
+              "index": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ]
+            },
+            "root_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "datas": [
+                "array"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "index": [
+                "integer"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "totalData": 1
+          }
+        }
+      ],
+      "status": "complete",
+      "threadId_conflict": false,
+      "total_matches_unique_valid_threadIds": true,
+      "unique_valid_threadId_count": 1
+    }
+  },
+  {
+    "class_sample": 0,
+    "session_sample": 1,
+    "exit_code": 0,
+    "schema_report": {
+      "collected_rows": 0,
+      "continuation_ambiguity": false,
+      "declared_totalData": 0,
+      "detail": {
+        "skipped": "no_valid_threadId_on_first_page"
+      },
+      "exact_duplicate_threadId_count": 0,
+      "id_equals_threadId": null,
+      "page_schemas_agree": true,
+      "pages": [
+        {
+          "datas_count": 0,
+          "http_status": 200,
+          "page": 1,
+          "schema": {
+            "continuation_field_types": {},
+            "datas_count": 0,
+            "datas_row_direct_field_types": {},
+            "datas_row_field_types": {},
+            "root_direct_field_types": {
+              "datas": [
+                "array"
+              ],
+              "index": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ]
+            },
+            "root_field_types": {
+              "datas": [
+                "array"
+              ],
+              "index": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ]
+            },
+            "totalData": 0
+          }
+        }
+      ],
+      "status": "complete",
+      "threadId_conflict": false,
+      "total_matches_unique_valid_threadIds": true,
+      "unique_valid_threadId_count": 0
+    }
+  },
+  {
+    "class_sample": 1,
+    "session_sample": 0,
+    "exit_code": 0,
+    "schema_report": {
+      "collected_rows": 2,
+      "continuation_ambiguity": false,
+      "declared_totalData": 4,
+      "detail": {
+        "facts": {
+          "contains_signed_url_parameters": true,
+          "root_forumId_equals_requested_classId": true,
+          "root_id_equals_selected_threadId": true,
+          "threadContentText_is_probably_html": true,
+          "threadContentText_is_string": true,
+          "threadContentText_nonempty": true
+        },
+        "http_status": 200,
+        "schema": {
+          "attachment_or_nested_array_counts": {
+            "attachments": [
+              1
+            ],
+            "multiClassIds": [
+              0
+            ],
+            "tags": [
+              2
+            ],
+            "threadImages": [
+              0
+            ]
+          },
+          "body_bearing_field_types": {
+            "threadContentText": [
+              "string"
+            ],
+            "threadPostDate": [
+              "string"
+            ],
+            "threadPostDateUtc": [
+              "string"
+            ],
+            "totalPost": [
+              "integer"
+            ]
+          },
+          "path_array_counts": {
+            "$.attachments": [
+              1
+            ],
+            "$.multiClassIds": [
+              0
+            ],
+            "$.tags": [
+              2
+            ],
+            "$.threadImages": [
+              0
+            ]
+          },
+          "path_field_types": {
+            "$.assessmentPersonalizedId": [
+              "null"
+            ],
+            "$.attachments": [
+              "array"
+            ],
+            "$.attachments[].name": [
+              "string"
+            ],
+            "$.attachments[].size": [
+              "integer"
+            ],
+            "$.attachments[].type": [
+              "string"
+            ],
+            "$.attachments[].url": [
+              "string"
+            ],
+            "$.authorFullName": [
+              "string"
+            ],
+            "$.authorId": [
+              "string"
+            ],
+            "$.authorPictureUrl": [
+              "string"
+            ],
+            "$.authorRole": [
+              "string"
+            ],
+            "$.category": [
+              "string"
+            ],
+            "$.dateEnd": [
+              "string"
+            ],
+            "$.deletable": [
+              "boolean"
+            ],
+            "$.editable": [
+              "boolean"
+            ],
+            "$.firstResponseDate": [
+              "string"
+            ],
+            "$.forumId": [
+              "string"
+            ],
+            "$.id": [
+              "string"
+            ],
+            "$.isAssessment": [
+              "boolean"
+            ],
+            "$.isAvailableOffline": [
+              "boolean"
+            ],
+            "$.isCount": [
+              "boolean"
+            ],
+            "$.isFinalizedGradebook": [
+              "boolean"
+            ],
+            "$.isLike": [
+              "boolean"
+            ],
+            "$.isMasked": [
+              "boolean"
+            ],
+            "$.isMultiClassDiscussion": [
+              "boolean"
+            ],
+            "$.isShowRubric": [
+              "boolean"
+            ],
+            "$.isYoutubeDiscussion": [
+              "boolean"
+            ],
+            "$.multiClassIds": [
+              "array"
+            ],
+            "$.responseDate": [
+              "string"
+            ],
+            "$.rubric": [
+              "null"
+            ],
+            "$.sessionNumber": [
+              "integer"
+            ],
+            "$.tags": [
+              "array"
+            ],
+            "$.tags[].code": [
+              "null",
+              "string"
+            ],
+            "$.tags[].id": [
+              "null",
+              "string"
+            ],
+            "$.tags[].name": [
+              "string"
+            ],
+            "$.threadContentText": [
+              "string"
+            ],
+            "$.threadImages": [
+              "array"
+            ],
+            "$.threadPostDate": [
+              "string"
+            ],
+            "$.threadPostDateUtc": [
+              "string"
+            ],
+            "$.threadStatus": [
+              "string"
+            ],
+            "$.threadTitle": [
+              "string"
+            ],
+            "$.totalLike": [
+              "integer"
+            ],
+            "$.totalPost": [
+              "integer"
+            ],
+            "$.totalStudentReply": [
+              "integer"
+            ],
+            "$.type": [
+              "string"
+            ]
+          },
+          "root_direct_field_types": {
+            "assessmentPersonalizedId": [
+              "null"
+            ],
+            "attachments": [
+              "array"
+            ],
+            "authorFullName": [
+              "string"
+            ],
+            "authorId": [
+              "string"
+            ],
+            "authorPictureUrl": [
+              "string"
+            ],
+            "authorRole": [
+              "string"
+            ],
+            "category": [
+              "string"
+            ],
+            "dateEnd": [
+              "string"
+            ],
+            "deletable": [
+              "boolean"
+            ],
+            "editable": [
+              "boolean"
+            ],
+            "firstResponseDate": [
+              "string"
+            ],
+            "forumId": [
+              "string"
+            ],
+            "id": [
+              "string"
+            ],
+            "isAssessment": [
+              "boolean"
+            ],
+            "isAvailableOffline": [
+              "boolean"
+            ],
+            "isCount": [
+              "boolean"
+            ],
+            "isFinalizedGradebook": [
+              "boolean"
+            ],
+            "isLike": [
+              "boolean"
+            ],
+            "isMasked": [
+              "boolean"
+            ],
+            "isMultiClassDiscussion": [
+              "boolean"
+            ],
+            "isShowRubric": [
+              "boolean"
+            ],
+            "isYoutubeDiscussion": [
+              "boolean"
+            ],
+            "multiClassIds": [
+              "array"
+            ],
+            "responseDate": [
+              "string"
+            ],
+            "rubric": [
+              "null"
+            ],
+            "sessionNumber": [
+              "integer"
+            ],
+            "tags": [
+              "array"
+            ],
+            "threadContentText": [
+              "string"
+            ],
+            "threadImages": [
+              "array"
+            ],
+            "threadPostDate": [
+              "string"
+            ],
+            "threadPostDateUtc": [
+              "string"
+            ],
+            "threadStatus": [
+              "string"
+            ],
+            "threadTitle": [
+              "string"
+            ],
+            "totalLike": [
+              "integer"
+            ],
+            "totalPost": [
+              "integer"
+            ],
+            "totalStudentReply": [
+              "integer"
+            ],
+            "type": [
+              "string"
+            ]
+          },
+          "root_field_types": {
+            "assessmentPersonalizedId": [
+              "null"
+            ],
+            "attachments": [
+              "array"
+            ],
+            "authorFullName": [
+              "string"
+            ],
+            "authorId": [
+              "string"
+            ],
+            "authorPictureUrl": [
+              "string"
+            ],
+            "authorRole": [
+              "string"
+            ],
+            "category": [
+              "string"
+            ],
+            "code": [
+              "null",
+              "string"
+            ],
+            "dateEnd": [
+              "string"
+            ],
+            "deletable": [
+              "boolean"
+            ],
+            "editable": [
+              "boolean"
+            ],
+            "firstResponseDate": [
+              "string"
+            ],
+            "forumId": [
+              "string"
+            ],
+            "id": [
+              "null",
+              "string"
+            ],
+            "isAssessment": [
+              "boolean"
+            ],
+            "isAvailableOffline": [
+              "boolean"
+            ],
+            "isCount": [
+              "boolean"
+            ],
+            "isFinalizedGradebook": [
+              "boolean"
+            ],
+            "isLike": [
+              "boolean"
+            ],
+            "isMasked": [
+              "boolean"
+            ],
+            "isMultiClassDiscussion": [
+              "boolean"
+            ],
+            "isShowRubric": [
+              "boolean"
+            ],
+            "isYoutubeDiscussion": [
+              "boolean"
+            ],
+            "multiClassIds": [
+              "array"
+            ],
+            "name": [
+              "string"
+            ],
+            "responseDate": [
+              "string"
+            ],
+            "rubric": [
+              "null"
+            ],
+            "sessionNumber": [
+              "integer"
+            ],
+            "size": [
+              "integer"
+            ],
+            "tags": [
+              "array"
+            ],
+            "threadContentText": [
+              "string"
+            ],
+            "threadImages": [
+              "array"
+            ],
+            "threadPostDate": [
+              "string"
+            ],
+            "threadPostDateUtc": [
+              "string"
+            ],
+            "threadStatus": [
+              "string"
+            ],
+            "threadTitle": [
+              "string"
+            ],
+            "totalLike": [
+              "integer"
+            ],
+            "totalPost": [
+              "integer"
+            ],
+            "totalStudentReply": [
+              "integer"
+            ],
+            "type": [
+              "string"
+            ],
+            "url": [
+              "string"
+            ]
+          }
+        }
+      },
+      "exact_duplicate_threadId_count": 0,
+      "id_equals_threadId": false,
+      "page_schemas_agree": true,
+      "pages": [
+        {
+          "datas_count": 1,
+          "http_status": 200,
+          "page": 1,
+          "schema": {
+            "continuation_field_types": {},
+            "datas_count": 1,
+            "datas_row_direct_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "datas_row_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "root_direct_field_types": {
+              "datas": [
+                "array"
+              ],
+              "index": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ]
+            },
+            "root_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "datas": [
+                "array"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "index": [
+                "integer"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "totalData": 4
+          }
+        },
+        {
+          "datas_count": 1,
+          "http_status": 200,
+          "page": 2,
+          "schema": {
+            "continuation_field_types": {},
+            "datas_count": 1,
+            "datas_row_direct_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "datas_row_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "root_direct_field_types": {
+              "datas": [
+                "array"
+              ],
+              "index": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ]
+            },
+            "root_field_types": {
+              "authorFullName": [
+                "string"
+              ],
+              "authorId": [
+                "string"
+              ],
+              "authorPictureUrl": [
+                "string"
+              ],
+              "authorRole": [
+                "string"
+              ],
+              "datas": [
+                "array"
+              ],
+              "dateEnd": [
+                "string"
+              ],
+              "deletable": [
+                "boolean"
+              ],
+              "editable": [
+                "boolean"
+              ],
+              "firstResponseDate": [
+                "string"
+              ],
+              "id": [
+                "string"
+              ],
+              "index": [
+                "integer"
+              ],
+              "isAssessment": [
+                "boolean"
+              ],
+              "isAvailableOffline": [
+                "boolean"
+              ],
+              "isFinalizedGradebook": [
+                "boolean"
+              ],
+              "isLocked": [
+                "boolean"
+              ],
+              "isMasked": [
+                "boolean"
+              ],
+              "isMultiClassDiscussion": [
+                "boolean"
+              ],
+              "isRead": [
+                "boolean"
+              ],
+              "multiClassIds": [
+                "array"
+              ],
+              "originMultiClassId": [
+                "null"
+              ],
+              "postDate": [
+                "string"
+              ],
+              "postDateUtc": [
+                "string"
+              ],
+              "responseDate": [
+                "string"
+              ],
+              "responseId": [
+                "null"
+              ],
+              "status": [
+                "string"
+              ],
+              "threadId": [
+                "string"
+              ],
+              "threadTitle": [
+                "string"
+              ],
+              "thumbnails": [
+                "array"
+              ],
+              "totalComment": [
+                "integer"
+              ],
+              "totalData": [
+                "integer"
+              ],
+              "totalPost": [
+                "integer"
+              ],
+              "type": [
+                "string"
+              ]
+            },
+            "totalData": 4
+          }
+        }
+      ],
+      "status": "complete",
+      "threadId_conflict": false,
+      "total_matches_unique_valid_threadIds": false,
+      "unique_valid_threadId_count": 2
+    }
+  }
+]

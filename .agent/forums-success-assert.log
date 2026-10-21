@@ -1,0 +1,1024 @@
+OpenAI Codex v0.162.1
+--------
+workdir: /home/abdel/Documents/Coding/binus-cli
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, /home/abdel/.cargo, /home/abdel/.rustup] (network access enabled)
+reasoning effort: medium
+reasoning summaries: none
+session id: 01a159c9-ac78-7912-b979-70b5ad8e6d27
+--------
+user
+# Approved final assertion-only forum patch
+Repo /home/abdel/Documents/Coding/binus-cli. Exact gpt-6-luna. User explicitly approved ONEtinyassertion-onlypatch aftertwo correctionpasses. Allsource/livechecks pass; finalreviewdeleg_4f78783a found NOproductiondefect. Onlygap: src/forums.rs test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers (903-951) neverpasses successfuloutthroughsharedserializer/assertsexit0. Existingout stillavailableafterlastreqassert.
+
+Add ONLY atENDofthatEXISTINGtest:
+ let (serialized, code) = crate::cli::courses_output(out);
+ assert_eq!(serialized["status"], "complete");
+ assert_eq!(code, std::process::ExitCode::SUCCESS);
+ Optionaloneassertcoverage.complete true fits sameassertiongap. NOproductionchanges/refactor/otherfixtures/docsfeatures/auth/Windows/replies/downloads/commits/push/browser/liveAPI/credentialdir. Do not rereadwholeproduct/reimplement/reopenoptionalreview suggestions. Thisisregressionassertionextension, no fictionalTDDredneeded.
+
+Savefullsourcebeforeifneeded, verifydiffcontainsONLYthoseassertions/format. Runfocusedtest, then cargo test --all-targets -- --test-threads=1,fmt--check,clippyalltargets-Dwarnings,releasebuild sequentially. Detailed .agent/forums-success-assert-evidence.md, final-o separate .agent/forums-success-assert-summary.md. Parent independentlyreviews EXACTtestdiff/checks; allotherreviewblockersalreadyresolved. STOP. Actualexistingtests84library11CLI14examples. Preserveexistingedits. No modelsubstitution. Savehandoff; no liveclaims.
+
+
+codex
+I’ll inspect the target test and current diff, then add only the two approved assertions at its end. I’ll run the requested checks in sequence and record the evidence in the two specified files.
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "git status --short && sed -n '880,970p' src/forums.rs && rg --files -g 'AGENTS.md' -g '.agent/**' -g '"'!target'"'" in /home/abdel/Documents/Coding/binus-cli
+ exited 2 in 0ms:
+ M spikes/001-auth/Cargo.lock
+ M spikes/001-auth/Cargo.toml
+ M spikes/001-auth/README.md
+ M spikes/001-auth/src/cli.rs
+ M spikes/001-auth/src/lib.rs
+ M spikes/001-auth/tests/cli.rs
+?? .agent/forum-schema-evidence.md
+?? .agent/forum-schema-live-evidence.json
+?? .agent/forum-schema-paths-live-evidence.json
+?? .agent/forum-schema-paths-task.md
+?? .agent/forum-schema-summary.md
+?? .agent/forum-schema-task.md
+?? .agent/forums-final-live-evidence.json
+?? .agent/forums-logic-fix-evidence.md
+?? .agent/forums-logic-fix-summary.md
+?? .agent/forums-logic-fix-task.md
+?? .agent/forums-success-assert-launch.sh
+?? .agent/forums-success-assert-task.md
+?? .agent/forums-success-assert.log
+?? .agent/forums-threads-evidence.md
+?? .agent/forums-threads-live-evidence.json
+?? .agent/forums-threads-summary.md
+?? .agent/forums-threads-task.md
+?? .agent/forums-transport-durable-task.md
+?? .agent/forums-transport-durable.exit
+?? .agent/forums-transport-durable.log
+?? .agent/forums-transport-launch.sh
+?? .agent/forums-transport-test-evidence.md
+?? .agent/forums-transport-test-resume.md
+?? .agent/forums-transport-test-summary.md
+?? .agent/forums-transport-test-task.md
+?? .agent/session-detail-schema-evidence.md
+?? .agent/session-detail-schema-summary.md
+?? .agent/session-detail-schema-task.md
+?? .agent/session-show-evidence.md
+?? .agent/session-show-review-fix-evidence.md
+?? .agent/session-show-review-fix-summary.md
+?? .agent/session-show-review-fix-task.md
+?? .agent/session-show-summary.md
+?? .agent/session-show-task.md
+?? .agent/session-show-transport-evidence.md
+?? .agent/session-show-transport-summary.md
+?? .agent/session-show-transport-task.md
+?? .agent/show-count-retention-evidence.md
+?? .agent/show-count-retention-live-evidence.json
+?? .agent/show-count-retention-resume.md
+?? .agent/show-count-retention-summary.md
+?? .agent/show-count-retention-task.md
+?? .agent/show-deadline-test-evidence.md
+?? .agent/show-deadline-test-summary.md
+?? .agent/show-deadline-test-task.md
+?? .agent/show-redirect-test-evidence.md
+?? .agent/show-redirect-test-summary.md
+?? .agent/show-redirect-test-task.md
+?? .agent/show-stream-cap-evidence.md
+?? .agent/show-stream-cap-summary.md
+?? .agent/show-stream-cap-task.md
+?? .agent/transport-count-summary.md
+?? .agent/transport-count-task.md
+?? .agent/transport-diagnostic-evidence.md
+?? .agent/transport-diagnostic-summary.md
+?? .agent/transport-diagnostic-task.md
+?? .agent/transport-live-count-evidence.json
+?? .agent/transport-live-evidence.json
+?? .agent/transport-live-production-recheck.json
+?? spikes/001-auth/.agent/
+?? spikes/001-auth/examples/forum_schema.rs
+?? spikes/001-auth/examples/session_detail_schema.rs
+?? spikes/001-auth/examples/transport_diagnostic.rs
+?? spikes/001-auth/src/forums.rs
+?? spikes/001-auth/src/session_details.rs
+sed: can't read src/forums.rs: No such file or directory
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "pwd; rg --files -g 'forums.rs' -g 'AGENTS.md' -g 'Cargo.toml' | head -80; git diff -- src/forums.rs spikes/001-auth/src/forums.rs" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+/home/abdel/Documents/Coding/binus-cli
+spikes/001-auth/src/forums.rs
+spikes/001-auth/Cargo.toml
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "sed -n '880,970p' src/forums.rs; git diff -- src/forums.rs; cat Cargo.toml" in /home/abdel/Documents/Coding/binus-cli/spikes/001-auth
+ succeeded in 0ms:
+                }
+                reqs.push(String::from_utf8_lossy(&bytes).to_string());
+                thread::sleep(delay);
+                let _ = write!(
+                    stream,
+                    "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+                    body.len(),
+                    body
+                );
+            }
+            reqs
+        });
+        (format!("http://{addr}"), handle)
+    }
+    fn custom_target(origin: String, total: Duration, request: Duration, cap: usize) -> Dest {
+        Dest::Local(Target {
+            origin,
+            total,
+            request,
+            cap,
+        })
+    }
+    #[tokio::test]
+    async fn list_pipeline_follows_pages_and_uses_verified_route_body_and_headers() {
+        let (o, h) = fixture(vec![page(1, "thread-A", 2), page(2, "thread-B", 2)]);
+        let out = list_inner(&record(), "class-1", "session-2", target(o)).await;
+        assert_eq!(out.status, "complete");
+        assert_eq!(
+            out.data
+                .iter()
+                .map(|r| r.thread_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["thread-A", "thread-B"]
+        );
+        let req = h.join().unwrap();
+        assert_eq!(req.len(), 2);
+        for (i, r) in req.iter().enumerate() {
+            let (method, path, headers, body) = parsed_request(r);
+            assert_eq!(method, "POST");
+            assert_eq!(
+                path,
+                format!(
+                    "/func-bm7-forum-prod/Thread/Class/class-1/Session/session-2/Paging/{}",
+                    i + 1
+                )
+            );
+            assert_eq!(body, json!({"TotalDataPerPage":20}));
+            assert!(headers.contains("content-type: application/json"));
+            assert!(
+                headers
+                    .lines()
+                    .any(|line| line == "authorization: Bearer synthetic-access-token-123456")
+            );
+            for (name, value) in [
+                ("academiccareer", "UGRD"),
+                ("institution", "BINUS"),
+                ("rolename", "Student"),
+                ("roleid", "1"),
+                ("roid", "2"),
+            ] {
+                assert!(
+                    headers
+                        .lines()
+                        .any(|line| line.trim() == format!("{name}: {value}"))
+                );
+            }
+            assert!(!headers.contains("cookie:"));
+            assert!(!path.contains('?'));
+            assert_eq!(body.as_object().unwrap().len(), 1);
+        }
+        assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
+    }
+    #[tokio::test]
+    async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+        let (o, h) = fixture(vec![page(1, "thread-A", 2), page(1, "thread-B", 2)]);
+        let out = list_inner(&record(), "class-1", "session-2", target(o)).await;
+        assert_eq!(out.status, "partial");
+        assert_eq!(
+            out.data
+                .iter()
+                .map(|r| r.thread_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["thread-A"]
+        );
+        assert_eq!(out.coverage.pages_fetched, 1);
+        assert_eq!(out.errors[0].code, "pagination_mismatch");
+        assert_eq!(out.errors[0].page, Some(2));
+        h.join().unwrap();
+
+        let (o, h) = fixture(vec![page(0, "thread-A", 2), page(1, "thread-B", 2)]);
+        let out = list_inner(&record(), "class-1", "session-2", target(o)).await;
+[package]
+name = "binus-auth-spike"
+version = "0.1.0"
+edition = "2024"
+default-run = "binus-auth-spike"
+
+[[bin]]
+name = "binus"
+path = "src/binus.rs"
+
+[dependencies]
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+futures-util = "0.3"
+html5ever = "0.39"
+markup5ever_rcdom = "0.39"
+reqwest = { version = "0.12", features = ["json", "stream"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "time", "process", "fs", "io-util", "signal"] }
+tokio-tungstenite = "0.26"
+tempfile = "3"
+url = "2"
+rustix = { version = "1", features = ["fs", "process"] }
+
+apply patch
+patch: completed
+/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/forums.rs
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1' in /home/abdel/Documents/Coding/binus-cli/spikes/001-auth
+ succeeded in 2501ms:
+   Compiling binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.45s
+     Running unittests src/lib.rs (target/debug/deps/binus_auth_spike-9b0a33821070ddae)
+
+running 1 test
+test forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 83 filtered out; finished in 0.04s
+
+     Running unittests src/binus.rs (target/debug/deps/binus-52d13fd9c9566463)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/binus_auth_spike-a3993256e7f990cf)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli.rs (target/debug/deps/cli-f7e9d5a9a5e57aca)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.00s
+
+
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'cargo test --all-targets -- --test-threads=1' in /home/abdel/Documents/Coding/binus-cli/spikes/001-auth
+ succeeded in 17856ms:
+   Compiling binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.86s
+     Running unittests src/lib.rs (target/debug/deps/binus_auth_spike-9b0a33821070ddae)
+
+running 84 tests
+test courses::tests::absolute_deadline_covers_body_and_redirect_is_never_followed ... ok
+test courses::tests::authorization_server_schema_and_component_row_failures_are_classified ... ok
+test courses::tests::closed_local_port_is_network_error ... ok
+test courses::tests::duplicate_class_rows_are_deduped_but_components_are_retained ... ok
+test courses::tests::empty_periods_components_and_class_arrays_are_complete ... ok
+test courses::tests::generated_timestamp_is_current_utc_and_calendar_conversion_handles_boundaries ... ok
+test courses::tests::list_uses_real_http_orchestration_dedupes_rows_and_records_requests ... ok
+test courses::tests::partial_empty_all_failed_and_discovery_failure_have_explicit_coverage ... ok
+test courses::tests::reject_objects_malformed_and_component_conflicts ... ok
+test courses::tests::schema_fixtures ... ok
+test courses::tests::shared_absolute_budget_includes_headers_discovery_and_all_components ... ok
+test courses::tests::shared_cli_serializer_preserves_service_status_json_and_exit_codes ... ok
+test courses::tests::valid_component_data_survives_failed_and_malformed_atomic_sibling ... ok
+test forums::tests::empty_is_complete_first_failure_errors_and_duplicates_are_exact ... ok
+test forums::tests::html_text_skips_markup_and_redacts_signed_urls ... ok
+test forums::tests::later_page_failure_retains_validated_rows_and_reports_partial ... ok
+test forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers ... ok
+test forums::tests::malformed_later_list_row_discards_only_that_page ... ok
+test forums::tests::operation_deadline_spans_pages_and_retains_page_one ... ok
+test forums::tests::pagination_rejects_convention_switch_and_accepts_zero_based ... ok
+test forums::tests::redirect_is_refused_without_forwarding_authorization ... ok
+test forums::tests::repeated_page_without_new_unique_rows_stops_as_partial ... ok
+test forums::tests::request_deadline_covers_headers_and_all_response_chunks ... ok
+test forums::tests::response_cap_applies_to_chunked_unknown_length_body ... ok
+test forums::tests::show_pipeline_projects_html_and_attachment_without_fetching_embedded_urls ... ok
+test forums::tests::upstream_statuses_and_closed_port_are_serialized_as_errors ... ok
+test forums::tests::wrong_detail_context_is_rejected_and_malformed_attachment_is_atomic ... ok
+test session_details::tests::actual_two_source_pipeline_is_safe_and_serializes_complete_result ... ok
+test session_details::tests::authorization_failures_are_distinct_from_upstream_and_keep_valid_source ... ok
+test session_details::tests::count_disagreement_retains_valid_primary_and_reports_both_counts ... ok
+test session_details::tests::declared_oversize_response_is_rejected_before_reading_body ... ok
+test session_details::tests::empty_additional_and_zero_primary_resources_are_complete ... ok
+test session_details::tests::exact_source_duplicates_dedupe_but_hidden_field_conflicts_fail ... ok
+test session_details::tests::invalid_context_count_pagination_and_conflicting_ids_fail_atomically ... ok
+test session_details::tests::invalid_json_and_wrong_roots_preserve_the_other_source ... ok
+test session_details::tests::malformed_primary_row_with_count_disagreement_still_fails_atomically ... ok
+test session_details::tests::malformed_progress_fact_fails_closed ... ok
+test session_details::tests::partial_and_total_failures_keep_source_status_explicit ... ok
+test session_details::tests::partial_pipeline_retains_whichever_source_succeeded_and_redacts_bad_rows ... ok
+test session_details::tests::primary_redirect_is_reported_without_following_or_forwarding_authorization ... ok
+test session_details::tests::refused_additional_connection_keeps_valid_primary_result ... ok
+test session_details::tests::request_deadline_covers_headers_and_body_and_keeps_additional_result ... ok
+test session_details::tests::request_deadline_covers_trickled_body_and_keeps_additional_result ... ok
+test session_details::tests::shared_total_deadline_covers_both_sources_and_retains_primary ... ok
+test session_details::tests::show_inner_observes_exactly_two_gets_and_never_fetches_embedded_url ... ok
+test session_details::tests::streamed_oversize_response_is_rejected_after_cumulative_bytes_cross_cap ... ok
+test session_details::tests::verified_shapes_map_to_separate_safe_arrays ... ok
+test sessions::tests::actual_pipeline_maps_session_and_cli_serializes_class_scoped_success ... ok
+test sessions::tests::authorization_and_upstream_errors_are_distinct ... ok
+test sessions::tests::chunked_body_without_content_length_is_capped ... ok
+test sessions::tests::cumulative_header_and_body_time_exceed_one_request_deadline ... ok
+test sessions::tests::duplicate_exact_dedupes_conflict_and_bad_row_fail_atomically ... ok
+test sessions::tests::invalid_json_body_cap_and_request_timeout_are_sanitized ... ok
+test sessions::tests::malformed_later_row_fails_atomically_through_service_and_cli ... ok
+test sessions::tests::named_sessions_shape_mapping_and_empty_are_exact ... ok
+test sessions::tests::real_pipeline_builds_safe_get_and_serializes ... ok
+test sessions::tests::redirect_is_not_followed_and_token_is_not_forwarded ... ok
+test sessions::tests::rejects_non_loopback_before_connect_and_sanitizes_closed_port ... ok
+test sessions::tests::unsupported_pagination_is_sanitized_and_empty_indicators_complete ... ok
+test tests::academic_period_request_uses_headers_without_secret_query_or_cookies ... ok
+test tests::atomic_store_is_private_and_json_is_secret_free ... ok
+test tests::auto_attach_includes_iframes ... ok
+test tests::azure_boundary_allows_safe_verbs_and_known_post_routes_only ... ok
+test tests::browser_drop_kills_only_its_process_group_before_profile_removal ... ok
+test tests::candidate_remains_recoverable_until_verified_promotion_succeeds ... ok
+test tests::capture_requires_expected_https_origin_and_path ... ok
+test tests::cdp_setup_command_stall_is_bounded_by_outer_deadline ... ok
+test tests::cdp_worker_page_guard_is_acknowledged_before_resume ... ok
+test tests::failed_candidate_promotion_keeps_candidate_and_existing_primary_target ... ok
+test tests::fatal_runtime_evaluate_protocol_error_is_terminal ... ok
+test tests::logout_attempts_all_owned_artifacts_and_leaves_unrelated_files ... ok
+test tests::malicious_temp_and_atomic_failure_preserve_primary_and_sentinel ... ok
+test tests::missing_record_and_metadata_read_error_are_distinct ... ok
+test tests::page_state_requires_exact_origin_and_complete_role_fields ... ok
+test tests::production_capture_expression_waits_for_loaded_cached_store ... ok
+test tests::promotion_is_bound_to_verified_snapshot ... ok
+test tests::rejects_symlinked_record ... ok
+test tests::runtime_evaluate_result_envelope_yields_credential_record ... ok
+test tests::runtime_evaluate_retries_top_level_navigation_context_error ... ok
+test tests::secure_store_rejects_symlinked_ancestor_without_touching_target ... ok
+test tests::status_and_errors_do_not_debug_secret_records ... ok
+test tests::store_changes_only_the_app_directory_permissions ... ok
+test tests::synthetic_cdp_fixture_routes_fetch_event_and_command_reply ... ok
+test tests::token_pair_parser_rejects_missing_malformed_and_short_tokens ... ok
+
+test result: ok. 84 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 13.89s
+
+     Running unittests src/binus.rs (target/debug/deps/binus-52d13fd9c9566463)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/binus_auth_spike-a3993256e7f990cf)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/cli.rs (target/debug/deps/cli-f7e9d5a9a5e57aca)
+
+running 11 tests
+test both_binary_names_keep_auth_missing_credentials_behavior ... ok
+test capture_times_out_when_devtools_never_appears ... ok
+test check_without_credentials_is_unsuccessful_and_status_is_not_logged_in ... ok
+test courses_usage_precedes_credentials_and_missing_credentials_are_enveloped ... ok
+test forums_cli_help_missing_and_unsafe_ids_precede_credentials_for_both_binaries ... ok
+test missing_browser_is_a_sanitized_capture_failure ... ok
+test plaintext_consent_is_required ... ok
+test sessions_usage_precedes_credentials_and_missing_credentials_are_enveloped ... ok
+test show_help_and_unsafe_id_precede_credentials_for_both_binary_names ... ok
+test sigint_cancels_login_and_removes_browser_group_and_profile ... ok
+test sigterm_cancels_login_and_removes_browser_group_and_profile ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.99s
+
+     Running unittests examples/course_schema.rs (target/debug/examples/course_schema-a03325791d29fc6e)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/forum_schema.rs (target/debug/examples/forum_schema-387d2c900578fdf3)
+
+running 5 tests
+test tests::detail_facts_compare_context_and_content_without_emitting_values ... ok
+test tests::direct_fields_and_paths_keep_nested_fields_separate ... ok
+test tests::invalid_ids_prevent_request_construction ... ok
+test tests::requests_match_verified_endpoints_and_inherit_headers ... ok
+test tests::selects_thread_id_and_emits_only_schema ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running unittests examples/session_detail_schema.rs (target/debug/examples/session_detail_schema-edfb3248a90ad4aa)
+
+running 2 tests
+test tests::rejects_unsafe_session_ids ... ok
+test tests::schema_reports_named_arrays_and_all_union_types_without_values ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/session_schema.rs (target/debug/examples/session_schema-dea6126507aaf97d)
+
+running 2 tests
+test tests::rejects_path_injection ... ok
+test tests::reports_union_shapes_without_values ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/transport_diagnostic.rs (target/debug/examples/transport_diagnostic-e6d772e85b2ef447)
+
+running 5 tests
+test tests::argument_validation_and_defaults ... ok
+test tests::compare_exact_request_fields_and_never_serialize_credentials ... ok
+test tests::only_safe_session_id_is_selected ... ok
+test tests::primary_count_projection_is_numeric_and_excludes_response_content ... ok
+test tests::reqwest_error_projection_contains_categories_but_no_error_text ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
+
+
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'cargo fmt --all -- --check' in /home/abdel/Documents/Coding/binus-cli/spikes/001-auth
+ succeeded in 34ms:
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'cargo clippy --all-targets -- -D warnings' in /home/abdel/Documents/Coding/binus-cli/spikes/001-auth
+ succeeded in 768ms:
+    Checking binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.82s
+
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+codex
+The target test and full suite pass (84 library, 11 CLI, and 14 example tests). Formatting and Clippy checks also pass. I’m running the release build next, then I’ll capture the exact source diff and write the requested evidence files.
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'cargo build --release' in /home/abdel/Documents/Coding/binus-cli/spikes/001-auth
+ succeeded in 5878ms:
+   Compiling binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+    Finished `release` profile [optimized] target(s) in 5.92s
+
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc 'git diff --check -- spikes/001-auth/src/forums.rs && git diff -- spikes/001-auth/src/forums.rs && git status --short -- spikes/001-auth/src/forums.rs .agent/forums-success-assert-evidence.md .agent/forums-success-assert-summary.md' in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+?? spikes/001-auth/src/forums.rs
+
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+apply patch
+patch: completed
+/home/abdel/Documents/Coding/binus-cli/.agent/forums-success-assert-evidence.md
+diff --git a/.agent/forums-success-assert-evidence.md b/.agent/forums-success-assert-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd3b683d185a0e578317c40d99985954ec672db
+--- /dev/null
++++ b/.agent/forums-success-assert-evidence.md
+@@ -0,0 +1,27 @@
++# Forum success assertion evidence
++
++## Scope
++
++Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
++
++```rust
++let (serialized, code) = crate::cli::courses_output(out);
++assert_eq!(serialized["status"], "complete");
++assert_eq!(code, std::process::ExitCode::SUCCESS);
++```
++
++No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
++
++## Verification
++
++All commands ran from `spikes/001-auth` and succeeded:
++
++| Command | Result |
++| --- | --- |
++| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
++| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
++| `cargo fmt --all -- --check` | Passed |
++| `cargo clippy --all-targets -- -D warnings` | Passed |
++| `cargo build --release` | Passed |
++
++The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+diff --git a/.agent/forums-success-assert-evidence.md b/.agent/forums-success-assert-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd3b683d185a0e578317c40d99985954ec672db
+--- /dev/null
++++ b/.agent/forums-success-assert-evidence.md
+@@ -0,0 +1,27 @@
++# Forum success assertion evidence
++
++## Scope
++
++Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
++
++```rust
++let (serialized, code) = crate::cli::courses_output(out);
++assert_eq!(serialized["status"], "complete");
++assert_eq!(code, std::process::ExitCode::SUCCESS);
++```
++
++No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
++
++## Verification
++
++All commands ran from `spikes/001-auth` and succeeded:
++
++| Command | Result |
++| --- | --- |
++| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
++| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
++| `cargo fmt --all -- --check` | Passed |
++| `cargo clippy --all-targets -- -D warnings` | Passed |
++| `cargo build --release` | Passed |
++
++The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+apply patch
+patch: completed
+/home/abdel/Documents/Coding/binus-cli/.agent/forums-success-assert-summary.md
+diff --git a/.agent/forums-success-assert-evidence.md b/.agent/forums-success-assert-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd3b683d185a0e578317c40d99985954ec672db
+--- /dev/null
++++ b/.agent/forums-success-assert-evidence.md
+@@ -0,0 +1,27 @@
++# Forum success assertion evidence
++
++## Scope
++
++Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
++
++```rust
++let (serialized, code) = crate::cli::courses_output(out);
++assert_eq!(serialized["status"], "complete");
++assert_eq!(code, std::process::ExitCode::SUCCESS);
++```
++
++No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
++
++## Verification
++
++All commands ran from `spikes/001-auth` and succeeded:
++
++| Command | Result |
++| --- | --- |
++| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
++| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
++| `cargo fmt --all -- --check` | Passed |
++| `cargo clippy --all-targets -- -D warnings` | Passed |
++| `cargo build --release` | Passed |
++
++The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+diff --git a/.agent/forums-success-assert-summary.md b/.agent/forums-success-assert-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c887ad3bb16b54f4ae695a839576ac4be0b7854f
+--- /dev/null
++++ b/.agent/forums-success-assert-summary.md
+@@ -0,0 +1,7 @@
++# Forum success assertion patch summary
++
++Added assertions that pass the successful forum list result through the shared CLI serializer and verify serialized status `complete` plus `ExitCode::SUCCESS`.
++
++The focused test, all 109 requested tests (84 library, 11 CLI, 14 examples), formatting check, Clippy with warnings denied, and release build all passed. See [forums-success-assert-evidence.md](forums-success-assert-evidence.md) for command details.
++
++No production behavior changed. No live API checks are claimed. The target `forums.rs` was already an untracked worktree file, and its existing state was preserved apart from the requested test assertions.
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+diff --git a/.agent/forums-success-assert-evidence.md b/.agent/forums-success-assert-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd3b683d185a0e578317c40d99985954ec672db
+--- /dev/null
++++ b/.agent/forums-success-assert-evidence.md
+@@ -0,0 +1,27 @@
++# Forum success assertion evidence
++
++## Scope
++
++Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
++
++```rust
++let (serialized, code) = crate::cli::courses_output(out);
++assert_eq!(serialized["status"], "complete");
++assert_eq!(code, std::process::ExitCode::SUCCESS);
++```
++
++No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
++
++## Verification
++
++All commands ran from `spikes/001-auth` and succeeded:
++
++| Command | Result |
++| --- | --- |
++| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
++| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
++| `cargo fmt --all -- --check` | Passed |
++| `cargo clippy --all-targets -- -D warnings` | Passed |
++| `cargo build --release` | Passed |
++
++The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+diff --git a/.agent/forums-success-assert-summary.md b/.agent/forums-success-assert-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c887ad3bb16b54f4ae695a839576ac4be0b7854f
+--- /dev/null
++++ b/.agent/forums-success-assert-summary.md
+@@ -0,0 +1,7 @@
++# Forum success assertion patch summary
++
++Added assertions that pass the successful forum list result through the shared CLI serializer and verify serialized status `complete` plus `ExitCode::SUCCESS`.
++
++The focused test, all 109 requested tests (84 library, 11 CLI, 14 examples), formatting check, Clippy with warnings denied, and release build all passed. See [forums-success-assert-evidence.md](forums-success-assert-evidence.md) for command details.
++
++No production behavior changed. No live API checks are claimed. The target `forums.rs` was already an untracked worktree file, and its existing state was preserved apart from the requested test assertions.
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+hook: PreToolUse
+hook: PreToolUse Completed
+exec
+/usr/bin/bash -lc "sed -n '930,960p' spikes/001-auth/src/forums.rs; sed -n '1,200p' .agent/forums-success-assert-evidence.md; sed -n '1,100p' .agent/forums-success-assert-summary.md; git status --short -- spikes/001-auth/src/forums.rs .agent/forums-success-assert-evidence.md .agent/forums-success-assert-summary.md; git diff --check" in /home/abdel/Documents/Coding/binus-cli
+ succeeded in 0ms:
+                    .lines()
+                    .any(|line| line == "authorization: Bearer synthetic-access-token-123456")
+            );
+            for (name, value) in [
+                ("academiccareer", "UGRD"),
+                ("institution", "BINUS"),
+                ("rolename", "Student"),
+                ("roleid", "1"),
+                ("roid", "2"),
+            ] {
+                assert!(
+                    headers
+                        .lines()
+                        .any(|line| line.trim() == format!("{name}: {value}"))
+                );
+            }
+            assert!(!headers.contains("cookie:"));
+            assert!(!path.contains('?'));
+            assert_eq!(body.as_object().unwrap().len(), 1);
+        }
+        assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
+        let (serialized, code) = crate::cli::courses_output(out);
+        assert_eq!(serialized["status"], "complete");
+        assert_eq!(code, std::process::ExitCode::SUCCESS);
+    }
+    #[tokio::test]
+    async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+        let (o, h) = fixture(vec![page(1, "thread-A", 2), page(1, "thread-B", 2)]);
+        let out = list_inner(&record(), "class-1", "session-2", target(o)).await;
+        assert_eq!(out.status, "partial");
+        assert_eq!(
+# Forum success assertion evidence
+
+## Scope
+
+Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
+
+```rust
+let (serialized, code) = crate::cli::courses_output(out);
+assert_eq!(serialized["status"], "complete");
+assert_eq!(code, std::process::ExitCode::SUCCESS);
+```
+
+No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
+
+## Verification
+
+All commands ran from `spikes/001-auth` and succeeded:
+
+| Command | Result |
+| --- | --- |
+| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
+| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
+| `cargo fmt --all -- --check` | Passed |
+| `cargo clippy --all-targets -- -D warnings` | Passed |
+| `cargo build --release` | Passed |
+
+The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+# Forum success assertion patch summary
+
+Added assertions that pass the successful forum list result through the shared CLI serializer and verify serialized status `complete` plus `ExitCode::SUCCESS`.
+
+The focused test, all 109 requested tests (84 library, 11 CLI, 14 examples), formatting check, Clippy with warnings denied, and release build all passed. See [forums-success-assert-evidence.md](forums-success-assert-evidence.md) for command details.
+
+No production behavior changed. No live API checks are claimed. The target `forums.rs` was already an untracked worktree file, and its existing state was preserved apart from the requested test assertions.
+?? .agent/forums-success-assert-evidence.md
+?? .agent/forums-success-assert-summary.md
+?? spikes/001-auth/src/forums.rs
+
+diff --git a/.agent/forums-success-assert-evidence.md b/.agent/forums-success-assert-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd3b683d185a0e578317c40d99985954ec672db
+--- /dev/null
++++ b/.agent/forums-success-assert-evidence.md
+@@ -0,0 +1,27 @@
++# Forum success assertion evidence
++
++## Scope
++
++Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
++
++```rust
++let (serialized, code) = crate::cli::courses_output(out);
++assert_eq!(serialized["status"], "complete");
++assert_eq!(code, std::process::ExitCode::SUCCESS);
++```
++
++No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
++
++## Verification
++
++All commands ran from `spikes/001-auth` and succeeded:
++
++| Command | Result |
++| --- | --- |
++| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
++| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
++| `cargo fmt --all -- --check` | Passed |
++| `cargo clippy --all-targets -- -D warnings` | Passed |
++| `cargo build --release` | Passed |
++
++The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+diff --git a/.agent/forums-success-assert-summary.md b/.agent/forums-success-assert-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c887ad3bb16b54f4ae695a839576ac4be0b7854f
+--- /dev/null
++++ b/.agent/forums-success-assert-summary.md
+@@ -0,0 +1,7 @@
++# Forum success assertion patch summary
++
++Added assertions that pass the successful forum list result through the shared CLI serializer and verify serialized status `complete` plus `ExitCode::SUCCESS`.
++
++The focused test, all 109 requested tests (84 library, 11 CLI, 14 examples), formatting check, Clippy with warnings denied, and release build all passed. See [forums-success-assert-evidence.md](forums-success-assert-evidence.md) for command details.
++
++No production behavior changed. No live API checks are claimed. The target `forums.rs` was already an untracked worktree file, and its existing state was preserved apart from the requested test assertions.
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+codex
+Added the three approved assertions at the end of the existing forum pipeline test in [forums.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/forums.rs:950). They check the shared serializer’s `complete` status and successful exit code.
+
+The focused test, all-targets suite (84 library, 11 CLI, 14 example tests), formatting check, Clippy with warnings denied, and release build all passed.
+
+Recorded results in [forums-success-assert-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/forums-success-assert-evidence.md) and [forums-success-assert-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/forums-success-assert-summary.md). The target source was already untracked in the worktree; no live API checks are claimed.
+diff --git a/.agent/forums-success-assert-evidence.md b/.agent/forums-success-assert-evidence.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..3fd3b683d185a0e578317c40d99985954ec672db
+--- /dev/null
++++ b/.agent/forums-success-assert-evidence.md
+@@ -0,0 +1,27 @@
++# Forum success assertion evidence
++
++## Scope
++
++Added the approved serializer and success-exit assertions at the end of the existing `list_pipeline_follows_pages_and_uses_verified_route_body_and_headers` test in `spikes/001-auth/src/forums.rs`:
++
++```rust
++let (serialized, code) = crate::cli::courses_output(out);
++assert_eq!(serialized["status"], "complete");
++assert_eq!(code, std::process::ExitCode::SUCCESS);
++```
++
++No production code or other fixtures were changed in this patch. The target source file was already untracked in the repository worktree before this change, so Git's ordinary tracked-file diff does not display its contents; preserve that existing worktree state.
++
++## Verification
++
++All commands ran from `spikes/001-auth` and succeeded:
++
++| Command | Result |
++| --- | --- |
++| `cargo test list_pipeline_follows_pages_and_uses_verified_route_body_and_headers -- --exact forums::tests::list_pipeline_follows_pages_and_uses_verified_route_body_and_headers --test-threads=1` | Passed; 1 focused test |
++| `cargo test --all-targets -- --test-threads=1` | Passed; 84 library tests, 11 CLI tests, 14 example tests |
++| `cargo fmt --all -- --check` | Passed |
++| `cargo clippy --all-targets -- -D warnings` | Passed |
++| `cargo build --release` | Passed |
++
++The checks above are local test/build results. No live API or credential-backed checks were run or are claimed.
+diff --git a/.agent/forums-success-assert-summary.md b/.agent/forums-success-assert-summary.md
+new file mode 100644
+index 0000000000000000000000000000000000000000..c887ad3bb16b54f4ae695a839576ac4be0b7854f
+--- /dev/null
++++ b/.agent/forums-success-assert-summary.md
+@@ -0,0 +1,7 @@
++# Forum success assertion patch summary
++
++Added assertions that pass the successful forum list result through the shared CLI serializer and verify serialized status `complete` plus `ExitCode::SUCCESS`.
++
++The focused test, all 109 requested tests (84 library, 11 CLI, 14 examples), formatting check, Clippy with warnings denied, and release build all passed. See [forums-success-assert-evidence.md](forums-success-assert-evidence.md) for command details.
++
++No production behavior changed. No live API checks are claimed. The target `forums.rs` was already an untracked worktree file, and its existing state was preserved apart from the requested test assertions.
+diff --git a/spikes/001-auth/src/forums.rs b/spikes/001-auth/src/forums.rs
+index c1c791ab9a3668f3ff362c5d37fe1604f3e65dab..192ea8a2d04ca37c8c2c4bcdfa61c8f3332cc3e1
+--- a/spikes/001-auth/src/forums.rs
++++ b/spikes/001-auth/src/forums.rs
+@@ -948,6 +948,9 @@
+             assert_eq!(body.as_object().unwrap().len(), 1);
+         }
+         assert!(req.iter().all(|request| !request.contains("decoy-thread-")));
++        let (serialized, code) = crate::cli::courses_output(out);
++        assert_eq!(serialized["status"], "complete");
++        assert_eq!(code, std::process::ExitCode::SUCCESS);
+     }
+     #[tokio::test]
+     async fn pagination_rejects_convention_switch_and_accepts_zero_based() {
+
+tokens used
+17,761
+Added the three approved assertions at the end of the existing forum pipeline test in [forums.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/forums.rs:950). They check the shared serializer’s `complete` status and successful exit code.
+
+The focused test, all-targets suite (84 library, 11 CLI, 14 example tests), formatting check, Clippy with warnings denied, and release build all passed.
+
+Recorded results in [forums-success-assert-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/forums-success-assert-evidence.md) and [forums-success-assert-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/forums-success-assert-summary.md). The target source was already untracked in the worktree; no live API checks are claimed.

@@ -1,0 +1,7 @@
+Implemented the standalone cross-session mutex prerequisite and stopped before storage, backend, or browser changes.
+
+The native adapter uses the effective Windows token SID, an explicit protected owner and DACL, descriptor checks before waiting, a bounded wait, and a thread-bound RAII guard. Platform-neutral tests exercise the descriptor and wait policies used by the adapter.
+
+Checks passed: **117 all-target tests**, formatting, Clippy with `-D warnings`, release build, and an isolated `x86_64-pc-windows-msvc` typecheck of the real module and native tests. The Windows runtime tests are **PENDING**; no Windows binary was run, and the isolated typecheck does not establish whole-CLI Windows compatibility.
+
+Evidence and the test-first red/green record are in [windows-lock-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-lock-evidence.md); the separate summary is [windows-lock-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-lock-summary.md). The main implementation is [windows_lock.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/windows_lock.rs) and its [native adapter](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/windows_lock/native.rs).

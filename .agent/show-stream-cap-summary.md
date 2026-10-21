@@ -1,0 +1,5 @@
+Added `streamed_oversize_response_is_rejected_after_cumulative_bytes_cross_cap`, which sends a valid primary fixture followed by an oversized, valid JSON body using chunked framing without `Content-Length`. The separate declared-size rejection test remains intact.
+
+The focused test passed. With only the accumulated-byte comparison temporarily disabled, it failed as expected: the oversized response completed instead of producing exit code 3. I restored the source; the production-prefix SHA-256 before and after that check matched: `537d1b98d05b299c03855d6a8136a2ca47cd583e698f55871ceb5a2ef190e5da`.
+
+All-target tests passed (68 library, 10 CLI, 4 example), as did fmt check, clippy with warnings denied, and the release build. Details are in [evidence](</home/abdel/Documents/Coding/binus-cli/.agent/show-stream-cap-evidence.md>) and [summary](</home/abdel/Documents/Coding/binus-cli/.agent/show-stream-cap-summary.md>).

@@ -1,0 +1,5 @@
+Added the diagnostic helper at [transport_diagnostic.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/spikes/001-auth/examples/transport_diagnostic.rs). It compares inherited and reset request construction, and optionally makes up to three bounded GETs. It reports safe error categories without raw error text or identifiers. No live requests were made, and no root cause is claimed.
+
+Usage: `transport_diagnostic --class ID [--construction inherited|reset] [--details]`. Construction defaults to `inherited`. The JSON keys and host run commands are documented in [transport-diagnostic-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/transport-diagnostic-evidence.md).
+
+All requested checks passed: `cargo test --all-targets`, formatting, Clippy with warnings denied, and debug/release example builds. Production source files were left untouched.

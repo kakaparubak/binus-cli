@@ -1,0 +1,606 @@
+    Checking binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:654:18
+    |
+654 |     use std::os::unix::process::CommandExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:40
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                        ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:68
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                                                    ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+   --> src/lib.rs:655:13
+    |
+655 |     command.process_group(0);
+    |             ^^^^^^^^^^^^^ method not found in `std::process::Command`
+
+Some errors have detailed explanations: E0433, E0599.
+For more information about an error, try `rustc --explain E0433`.
+error: could not compile `binus-auth-spike` (lib) due to 4 previous errors
+
+[main --lib exit=101]
+    Checking binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:654:18
+    |
+654 |     use std::os::unix::process::CommandExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:40
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                        ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:68
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                                                    ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:950:18
+    |
+950 |     use std::os::unix::fs::PermissionsExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1621:22
+     |
+1621 |         use std::os::unix::process::CommandExt;
+     |                      ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1337:18
+     |
+1337 |         std::os::unix::fs::symlink(other, &path).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1351:18
+     |
+1351 |         std::os::unix::fs::symlink(&real, &alias).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1375:18
+     |
+1375 |         std::os::unix::fs::symlink(&sentinel, primary.parent().unwrap().join(&temp_name)).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+   --> src/lib.rs:655:13
+    |
+655 |     command.process_group(0);
+    |             ^^^^^^^^^^^^^ method not found in `std::process::Command`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1485:18
+     |
+1485 |         std::os::unix::fs::symlink(&sentinel, &primary).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1239:13
+     |
+1239 |             fs::metadata(&path).unwrap().permissions().mode() & 0o777,
+     |             ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1243:13
+     |
+1243 |             fs::metadata(path.parent().unwrap())
+     |             ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1265:9
+     |
+1265 |         fs::create_dir(&config).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1266:9
+     |
+1266 |         fs::set_permissions(&config, fs::Permissions::from_mode(0o750)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1266:38
+     |
+1266 |         fs::set_permissions(&config, fs::Permissions::from_mode(0o750)).unwrap();
+     |                                      ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1266 -         fs::set_permissions(&config, fs::Permissions::from_mode(0o750)).unwrap();
+1266 +         fs::set_permissions(&config, Permissions::from_mode(0o750)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1271:13
+     |
+1271 |             fs::metadata(&config).unwrap().permissions().mode() & 0o777,
+     |             ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1275:13
+     |
+1275 |             fs::metadata(&app).unwrap().permissions().mode() & 0o777,
+     |             ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1286:9
+     |
+1286 |         fs::write(&blocked, b"not a directory").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1333:9
+     |
+1333 |         fs::create_dir_all(path.parent().unwrap()).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1334:9
+     |
+1334 |         fs::set_permissions(path.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1334:53
+     |
+1334 |         fs::set_permissions(path.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |                                                     ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1334 -         fs::set_permissions(path.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+1334 +         fs::set_permissions(path.parent().unwrap(), Permissions::from_mode(0o700)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1336:9
+     |
+1336 |         fs::write(&other, b"{}").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1347:9
+     |
+1347 |         fs::create_dir_all(&real_app).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1348:9
+     |
+1348 |         fs::set_permissions(&real_app, fs::Permissions::from_mode(0o755)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1348:40
+     |
+1348 |         fs::set_permissions(&real_app, fs::Permissions::from_mode(0o755)).unwrap();
+     |                                        ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1348 -         fs::set_permissions(&real_app, fs::Permissions::from_mode(0o755)).unwrap();
+1348 +         fs::set_permissions(&real_app, Permissions::from_mode(0o755)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1349:22
+     |
+1349 |         let before = fs::metadata(&real_app).unwrap().permissions().mode() & 0o777;
+     |                      ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1360:13
+     |
+1360 |             fs::metadata(&real_app).unwrap().permissions().mode() & 0o777,
+     |             ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1373:9
+     |
+1373 |         fs::write(&sentinel, b"synthetic-safe").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1382:20
+     |
+1382 |         assert_eq!(fs::read(&sentinel).unwrap(), b"synthetic-safe");
+     |                    ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1391:9
+     |
+1391 |         fs::write(&primary, b"synthetic").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1392:9
+     |
+1392 |         fs::set_permissions(&primary, fs::Permissions::from_mode(0o640)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1392:39
+     |
+1392 |         fs::set_permissions(&primary, fs::Permissions::from_mode(0o640)).unwrap();
+     |                                       ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1392 -         fs::set_permissions(&primary, fs::Permissions::from_mode(0o640)).unwrap();
+1392 +         fs::set_permissions(&primary, Permissions::from_mode(0o640)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1394:9
+     |
+1394 |         fs::write(&residue, b"synthetic").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1395:9
+     |
+1395 |         fs::set_permissions(&residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1395:39
+     |
+1395 |         fs::set_permissions(&residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |                                       ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1395 -         fs::set_permissions(&residue, fs::Permissions::from_mode(0o600)).unwrap();
+1395 +         fs::set_permissions(&residue, Permissions::from_mode(0o600)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1397:9
+     |
+1397 |         fs::write(&captured_residue, b"synthetic").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1398:9
+     |
+1398 |         fs::set_permissions(&captured_residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1398:48
+     |
+1398 |         fs::set_permissions(&captured_residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |                                                ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1398 -         fs::set_permissions(&captured_residue, fs::Permissions::from_mode(0o600)).unwrap();
+1398 +         fs::set_permissions(&captured_residue, Permissions::from_mode(0o600)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1400:9
+     |
+1400 |         fs::write(&unrelated, b"keep").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1406:20
+     |
+1406 |         assert_eq!(fs::read(unrelated).unwrap(), b"keep");
+     |                    ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1481:9
+     |
+1481 |         fs::create_dir_all(primary.parent().unwrap()).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1482:9
+     |
+1482 |         fs::set_permissions(primary.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1482:56
+     |
+1482 |         fs::set_permissions(primary.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |                                                        ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this struct
+     |
+ 949 +     use std::fs::Permissions;
+     |
+help: if you import `Permissions`, refer to it directly
+     |
+1482 -         fs::set_permissions(primary.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+1482 +         fs::set_permissions(primary.parent().unwrap(), Permissions::from_mode(0o700)).unwrap();
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1484:9
+     |
+1484 |         fs::write(&sentinel, b"synthetic-safe").unwrap();
+     |         ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+error[E0433]: cannot find module or crate `fs` in this scope
+    --> src/lib.rs:1491:20
+     |
+1491 |         assert_eq!(fs::read(sentinel).unwrap(), b"synthetic-safe");
+     |                    ^^ use of unresolved module or unlinked crate `fs`
+     |
+     = help: if you wanted to use a crate named `fs`, use `cargo add fs` to add it to your `Cargo.toml`
+help: consider importing this module
+     |
+ 949 +     use std::fs;
+     |
+
+Some errors have detailed explanations: E0433, E0599.
+For more information about an error, try `rustc --explain E0433`.
+error: could not compile `binus-auth-spike` (lib) due to 4 previous errors
+warning: build failed, waiting for other jobs to finish...
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+    --> src/lib.rs:1627:14
+     |
+1626 | /         command
+1627 | |             .process_group(0)
+     | |             -^^^^^^^^^^^^^ method not found in `std::process::Command`
+     | |_____________|
+     |
+
+error: could not compile `binus-auth-spike` (lib test) due to 46 previous errors
+
+[main --all-targets exit=101]

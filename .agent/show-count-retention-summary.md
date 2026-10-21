@@ -1,0 +1,5 @@
+Resumed the saved SHOW count-retention work and preserved the existing edits. I ran `cargo fmt`; the README contract note was already present.
+
+From `spikes/001-auth`, `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, and `cargo build --release` passed. The first test run had one timing-sensitive deadline assertion fail while Cargo checks ran concurrently. A standalone rerun passed all 89 tests: 70 library, 10 CLI, and 9 example tests.
+
+The original red-run transcript was unavailable, so I haven’t claimed a reproduced TDD failure or made any live API claims. Verification details and the separate handoff summary are in [show-count-retention-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/show-count-retention-evidence.md) and [show-count-retention-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/show-count-retention-summary.md). Parent review and bounded live LEC/LAB reads remain pending.

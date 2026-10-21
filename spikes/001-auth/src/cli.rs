@@ -1,6 +1,8 @@
+#[cfg(unix)]
+use crate::capture;
 use crate::{
-    CredentialRecord, academic_period_request, capture, load_preferred_record,
-    promote_verified_candidate, remove_spike_artifacts, sanitized_status, store_record,
+    CredentialRecord, academic_period_request, load_preferred_record, promote_verified_candidate,
+    remove_spike_artifacts, sanitized_status, store_record,
 };
 use clap::{Parser, Subcommand};
 use reqwest::redirect::Policy;
@@ -13,6 +15,7 @@ use std::{path::PathBuf, process::ExitCode, time::Duration};
     about = "Experimental BINUS authentication feasibility spike"
 )]
 struct Cli {
+    #[cfg(not(windows))]
     #[arg(long, global = true)]
     allow_plaintext_file: bool,
     #[arg(long, global = true, default_value_t = 300)]
@@ -32,6 +35,32 @@ enum Command {
         #[command(subcommand)]
         action: CoursesAction,
     },
+    Forums {
+        #[command(subcommand)]
+        action: ForumsAction,
+    },
+}
+#[derive(Subcommand)]
+enum ForumsAction {
+    Threads {
+        #[command(subcommand)]
+        action: ForumThreadsAction,
+    },
+}
+#[derive(Subcommand)]
+enum ForumThreadsAction {
+    List {
+        #[arg(long, required=true, value_parser=parse_class)]
+        class: String,
+        #[arg(long,required=true,value_parser=parse_session_id)]
+        session: String,
+    },
+    Show {
+        #[arg(value_parser=parse_session_id)]
+        thread_id: String,
+        #[arg(long,required=true,value_parser=parse_class)]
+        class: String,
+    },
 }
 #[derive(Subcommand)]
 enum CoursesAction {
@@ -50,6 +79,10 @@ enum SessionsAction {
     List {
         #[arg(long, required=true, value_parser=parse_class)]
         class: String,
+    },
+    Show {
+        #[arg(value_parser = parse_session_id)]
+        session_id: String,
     },
 }
 #[derive(Subcommand)]
@@ -82,6 +115,13 @@ fn parse_class(value: &str) -> Result<String, String> {
         Err("class must be a safe catalog identifier".into())
     }
 }
+fn parse_session_id(value: &str) -> Result<String, String> {
+    if crate::courses::safe_segment(value) {
+        Ok(value.to_owned())
+    } else {
+        Err("session ID must be a safe catalog identifier".into())
+    }
+}
 
 pub async fn run() -> ExitCode {
     let mut cli = Cli::parse();
@@ -96,6 +136,40 @@ pub async fn run() -> ExitCode {
     cli.program = Some(program.clone());
     let path = credentials_path();
     match cli.command {
+        Command::Forums {
+            action: ForumsAction::Threads { action },
+        } => {
+            let is_show = matches!(action, ForumThreadsAction::Show { .. });
+            let (class, scope) = match &action {
+                ForumThreadsAction::List { class, session } => {
+                    (class.clone(), Some(session.clone()))
+                }
+                ForumThreadsAction::Show { class, .. } => (class.clone(), None),
+            };
+            if !crate::courses::safe_segment(&class)
+                || scope
+                    .as_deref()
+                    .is_some_and(|v| !crate::courses::safe_segment(v))
+            {
+                return emit(
+                    json!({"schema_version":"1","status":"error","data":[],"errors":[{"code":"unsafe_identifier","stage":"request"}],"warnings":[]}),
+                    false,
+                );
+            }
+            let (record, _) = match load_preferred_record(&path) {
+                Ok(v) => v,
+                Err("not_logged_in") => return emit_forum_missing("not_logged_in", is_show),
+                Err(_) => return emit_forum_missing("storage_error", is_show),
+            };
+            match action {
+                ForumThreadsAction::List { class, session } => {
+                    emit_forum(crate::forums::list(&record, &class, &session).await)
+                }
+                ForumThreadsAction::Show { class, thread_id } => {
+                    emit_forum(crate::forums::show(&record, &class, &thread_id).await)
+                }
+            }
+        }
         Command::Courses { action } => {
             if let CoursesAction::List { ref period } = action
                 && !crate::courses::safe_segment(period)
@@ -109,6 +183,13 @@ pub async fn run() -> ExitCode {
             {
                 return emit_session_error(class, "unsafe_identifier", "request");
             }
+            if let CoursesAction::Sessions {
+                action: SessionsAction::Show { ref session_id },
+            } = action
+                && !crate::courses::safe_segment(session_id)
+            {
+                return emit_detail_error(session_id, "unsafe_identifier", "request");
+            }
             let (record, _) = match load_preferred_record(&path) {
                 Ok(v) => v,
                 Err("not_logged_in") => {
@@ -116,6 +197,9 @@ pub async fn run() -> ExitCode {
                         CoursesAction::Sessions {
                             action: SessionsAction::List { class },
                         } => emit_session_error(&class, "not_logged_in", "credentials"),
+                        CoursesAction::Sessions {
+                            action: SessionsAction::Show { session_id },
+                        } => emit_detail_error(&session_id, "not_logged_in", "credentials"),
                         _ => emit_courses_error("not_logged_in"),
                     };
                 }
@@ -124,6 +208,9 @@ pub async fn run() -> ExitCode {
                         CoursesAction::Sessions {
                             action: SessionsAction::List { class },
                         } => emit_session_error(&class, "storage_error", "credentials"),
+                        CoursesAction::Sessions {
+                            action: SessionsAction::Show { session_id },
+                        } => emit_detail_error(&session_id, "storage_error", "credentials"),
                         _ => emit_courses_error("storage_error"),
                     };
                 }
@@ -136,11 +223,15 @@ pub async fn run() -> ExitCode {
                 CoursesAction::Sessions {
                     action: SessionsAction::List { class },
                 } => emit_sessions(crate::sessions::list(&record, &class).await),
+                CoursesAction::Sessions {
+                    action: SessionsAction::Show { session_id },
+                } => emit_sessions(crate::session_details::show(&record, &session_id).await),
             }
         }
         Command::Auth {
             action: Action::Login,
         } => {
+            #[cfg(not(windows))]
             if !cli.allow_plaintext_file {
                 return emit(
                     json!({"status":"blocked","blocker":"explicit_plaintext_consent_required"}),
@@ -208,6 +299,37 @@ pub async fn run() -> ExitCode {
             ),
         },
     }
+}
+
+fn emit_detail_error(session_id: &str, code: &str, stage: &str) -> ExitCode {
+    let v = json!({"schema_version":"1","status":"error","data":null,"errors":[{"code":code,"stage":stage,"session_id":session_id}],"warnings":[],"coverage":{"scope":"selected_session","selected_sessions":1,"discovery_complete":false,"complete":false,"primary":"failed","additional":"failed"},"fetched_at":crate::courses::timestamp()});
+    println!("{v}");
+    ExitCode::from(1)
+}
+
+fn emit_forum<T: serde::Serialize>(value: T) -> ExitCode {
+    let (v, c) = courses_output(value);
+    println!("{v}");
+    c
+}
+fn emit_forum_missing(code: &str, show: bool) -> ExitCode {
+    let data = if show {
+        serde_json::Value::Null
+    } else {
+        json!([])
+    };
+    let scope = if show {
+        "selected_thread"
+    } else {
+        "selected_session"
+    };
+    let mut output = json!({"schema_version":"1","status":"error","data":data,"coverage":{"scope":scope,"complete":false},"errors":[{"code":code,"stage":"credentials"}],"warnings":[],"fetched_at":crate::courses::timestamp()});
+    if !show {
+        output["coverage"]["pages_fetched"] = json!(0);
+        output["coverage"]["declared_total"] = serde_json::Value::Null;
+    }
+    println!("{output}");
+    ExitCode::from(1)
 }
 
 fn emit_courses<T: serde::Serialize>(value: T) -> ExitCode {
@@ -343,14 +465,39 @@ async fn check_record(record: &CredentialRecord) -> bool {
 }
 
 async fn capture_with_signals(timeout: Duration) -> Result<CredentialRecord, &'static str> {
-    let future = capture(timeout);
-    tokio::pin!(future);
-    let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
-        .map_err(|_| "signal_setup_failed")?;
-    tokio::select! {
-        result = &mut future => result,
-        _ = tokio::signal::ctrl_c() => Err("capture_cancelled"),
-        _ = terminate.recv() => Err("capture_cancelled"),
+    #[cfg(unix)]
+    {
+        let future = capture(timeout);
+        tokio::pin!(future);
+        let mut terminate =
+            tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+                .map_err(|_| "signal_setup_failed")?;
+        tokio::select! {
+            result = &mut future => result,
+            _ = tokio::signal::ctrl_c() => Err("capture_cancelled"),
+            _ = terminate.recv() => Err("capture_cancelled"),
+        }
+    }
+    #[cfg(windows)]
+    {
+        let mut ctrl_break =
+            tokio::signal::windows::ctrl_break().map_err(|_| "signal_setup_failed")?;
+        let mut ctrl_close =
+            tokio::signal::windows::ctrl_close().map_err(|_| "signal_setup_failed")?;
+        let mut ctrl_logoff =
+            tokio::signal::windows::ctrl_logoff().map_err(|_| "signal_setup_failed")?;
+        let mut ctrl_shutdown =
+            tokio::signal::windows::ctrl_shutdown().map_err(|_| "signal_setup_failed")?;
+        let cancellation = async move {
+            tokio::select! {
+                _ = tokio::signal::ctrl_c() => {},
+                _ = ctrl_break.recv() => {},
+                _ = ctrl_close.recv() => {},
+                _ = ctrl_logoff.recv() => {},
+                _ = ctrl_shutdown.recv() => {},
+            }
+        };
+        crate::capture_with_cancellation(timeout, cancellation).await
     }
 }
 

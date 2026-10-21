@@ -1,0 +1,3 @@
+Added the three SHOW deadline regressions and the requested evidence and summary files: [session_details.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/session_details.rs:810), [evidence](/home/abdel/Documents/Coding/binus-cli/.agent/show-deadline-test-evidence.md), and [summary](/home/abdel/Documents/Coding/binus-cli/.agent/show-deadline-test-summary.md).
+
+Each test passed three consecutive repetitions. `cargo test --all-targets`, formatting check, Clippy with warnings denied, and debug and release builds all passed. No production logic was changed.

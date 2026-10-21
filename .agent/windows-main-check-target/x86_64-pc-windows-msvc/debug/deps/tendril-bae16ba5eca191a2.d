@@ -1,0 +1,12 @@
+/home/abdel/Documents/Coding/binus-cli/.agent/windows-main-check-target/x86_64-pc-windows-msvc/debug/deps/tendril-bae16ba5eca191a2.d: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/lib.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/fmt.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/stream.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/buf32.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/tendril.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/utf8_decode.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/util.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/futf.rs
+
+/home/abdel/Documents/Coding/binus-cli/.agent/windows-main-check-target/x86_64-pc-windows-msvc/debug/deps/libtendril-bae16ba5eca191a2.rmeta: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/lib.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/fmt.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/stream.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/buf32.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/tendril.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/utf8_decode.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/util.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/futf.rs
+
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/lib.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/fmt.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/stream.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/buf32.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/tendril.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/utf8_decode.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/util.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tendril-0.5.1/src/futf.rs:

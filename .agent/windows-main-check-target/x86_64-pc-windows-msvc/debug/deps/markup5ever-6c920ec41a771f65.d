@@ -1,0 +1,10 @@
+/home/abdel/Documents/Coding/binus-cli/.agent/windows-main-check-target/x86_64-pc-windows-msvc/debug/deps/markup5ever-6c920ec41a771f65.d: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/lib.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/interface/mod.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/interface/tree_builder.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/serialize.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/util/buffer_queue.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/util/smallcharset.rs
+
+/home/abdel/Documents/Coding/binus-cli/.agent/windows-main-check-target/x86_64-pc-windows-msvc/debug/deps/libmarkup5ever-6c920ec41a771f65.rmeta: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/lib.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/interface/mod.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/interface/tree_builder.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/serialize.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/util/buffer_queue.rs /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/util/smallcharset.rs
+
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/lib.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/interface/mod.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/interface/tree_builder.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/serialize.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/util/buffer_queue.rs:
+/home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/markup5ever-0.39.0/util/smallcharset.rs:

@@ -1,0 +1,5 @@
+Completed the Windows portability preflight and saved the findings in [windows-portability-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-evidence.md) and [windows-portability-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-portability-summary.md).
+
+The Windows target installed successfully. The real `cargo check --all-targets` reached the project and failed with Unix-specific compiler errors: 27 in the library and 47 in tests. No product source or dependency changes were made for this audit.
+
+The evidence recommends evaluating Windows Credential Manager behind a storage boundary, with no plaintext fallback. Its documented 2560-byte credential limit needs to be checked against token-pair sizes before enabling that path. Native Windows acceptance remains pending; no Windows runtime proof is claimed.

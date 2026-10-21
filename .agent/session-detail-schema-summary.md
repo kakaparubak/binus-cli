@@ -1,0 +1,5 @@
+Implemented the schema probe at [session_detail_schema.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/examples/session_detail_schema.rs). It supports only the two approved metadata routes, validates the session ID before credential loading, and reports recursive field types and named array paths/counts without printing scalar values. No production `sessions show` command was added.
+
+Local checks passed: formatting, 2 helper tests, clippy with warnings denied, and the full test suite (50 library tests and 9 CLI tests). `git diff --check` also passed.
+
+Host run commands and limits are in [session-detail-schema-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/session-detail-schema-evidence.md); the separate summary is in [session-detail-schema-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/session-detail-schema-summary.md). No live metadata request was made here; the helper is ready for the parent host run.

@@ -1,0 +1,155 @@
+[
+  {
+    "component": "LEC",
+    "attempt": 1,
+    "exit_code": 0,
+    "diagnostic": {
+      "construction": "inherited",
+      "details": "attempted",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "body_bytes": 3263,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 272,
+          "http_status": 200,
+          "stage": "class",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 9005,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 272,
+          "http_status": 200,
+          "source_counts": {
+            "count_matches": false,
+            "declared_total_resource": 6,
+            "raw_resource_rows": 5
+          },
+          "stage": "primary",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 430,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 74,
+          "http_status": 200,
+          "stage": "additional",
+          "status": "complete"
+        }
+      ],
+      "status": "complete",
+      "total_elapsed_ms": 679
+    }
+  },
+  {
+    "component": "LAB",
+    "attempt": 1,
+    "exit_code": 3,
+    "diagnostic": {
+      "construction": "inherited",
+      "details": "skipped_class_failure",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "elapsed_ms": 16848,
+          "error_categories": {
+            "error_chain_depth": 4,
+            "io_error_kind": "ConnectionRefused",
+            "is_body": false,
+            "is_builder": false,
+            "is_connect": true,
+            "is_decode": false,
+            "is_redirect": false,
+            "is_request": true,
+            "is_status": false,
+            "is_timeout": false
+          },
+          "stage": "execute",
+          "status": "transport_error"
+        }
+      ],
+      "status": "partial",
+      "total_elapsed_ms": 16869
+    }
+  },
+  {
+    "component": "LAB",
+    "attempt": 2,
+    "exit_code": 3,
+    "diagnostic": {
+      "construction": "inherited",
+      "details": "skipped_class_failure",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "elapsed_ms": 16747,
+          "error_categories": {
+            "error_chain_depth": 4,
+            "io_error_kind": "ConnectionRefused",
+            "is_body": false,
+            "is_builder": false,
+            "is_connect": true,
+            "is_decode": false,
+            "is_redirect": false,
+            "is_request": true,
+            "is_status": false,
+            "is_timeout": false
+          },
+          "stage": "execute",
+          "status": "transport_error"
+        }
+      ],
+      "status": "partial",
+      "total_elapsed_ms": 16756
+    }
+  }
+]

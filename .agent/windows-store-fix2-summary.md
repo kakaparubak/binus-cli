@@ -1,0 +1,5 @@
+Restricted test fixture cleanup in [windows_store.rs](/home/abdel/Documents/Coding/binus-cli/spikes/001-auth/src/windows_store.rs): writes register cleanup targets only for isolated adapters, and non-isolated adapters cannot trigger deletes, even with prepopulated cleanup metadata. Added a Linux regression using synthetic metadata only.
+
+All requested Linux tests, formatting, Clippy, release build, and the Windows store harness type check passed. Windows Credential Manager runtime tests remain **PENDING** because Windows 11 was unavailable.
+
+Evidence and summary: [windows-store-fix2-evidence.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-fix2-evidence.md) and [windows-store-fix2-summary.md](/home/abdel/Documents/Coding/binus-cli/.agent/windows-store-fix2-summary.md). `lib.rs` was unchanged by this correction; before/after hashes are recorded in the evidence.

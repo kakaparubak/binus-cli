@@ -1,0 +1,438 @@
+    Checking binus-auth-spike v0.1.0 (/home/abdel/Documents/Coding/binus-cli/spikes/001-auth)
+error[E0432]: unresolved import `rustix::fs`
+   --> src/lib.rs:3:13
+    |
+  3 | use rustix::fs::{self as rfs, AtFlags, Mode, OFlags};
+    |             ^^ could not find `fs` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:223:9
+    |
+220 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+223 | pub mod fs;
+    |         ^^
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:342:16
+    |
+327 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+342 | pub(crate) mod fs;
+    |                ^^
+
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:643:18
+    |
+643 |     use std::os::unix::process::CommandExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0432]: unresolved import `std::os::fd`
+  --> src/lib.rs:14:9
+   |
+14 |     os::fd::{AsRawFd, FromRawFd, IntoRawFd},
+   |         ^^ could not find `fd` in `os`
+   |
+note: found an item that was configured out
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:70:9
+  ::: /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:77:1
+   |
+   = note: the item is gated here
+
+error[E0433]: cannot find `unix` in `os`
+   --> src/lib.rs:939:18
+    |
+939 |     use std::os::unix::fs::PermissionsExt;
+    |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1610:22
+     |
+1610 |         use std::os::unix::process::CommandExt;
+     |                      ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:40
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                        ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `unix` in `signal`
+   --> src/cli.rs:468:68
+    |
+468 |     let mut terminate = tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate())
+    |                                                                    ^^^^ could not find `unix` in `signal`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/mod.rs:56:9
+    |
+ 56 | pub mod unix;
+    |         ^^^^
+    |
+   ::: /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/tokio-1.53.3/src/signal/unix.rs:6:8
+    |
+  6 | #![cfg(unix)]
+    |        ---- the item is gated here
+
+error[E0433]: cannot find `fd` in `os`
+  --> src/lib.rs:90:64
+   |
+90 | fn secure_parent(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+   |                                                                ^^ could not find `fd` in `os`
+   |
+note: found an item that was configured out
+  --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:70:9
+  ::: /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:77:1
+   |
+   = note: the item is gated here
+
+error[E0433]: cannot find `process` in `rustix`
+   --> src/lib.rs:132:27
+    |
+132 |         let uid = rustix::process::geteuid().as_raw();
+    |                           ^^^^^^^ could not find `process` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:266:9
+    |
+263 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+266 | pub mod process;
+    |         ^^^^^^^
+
+error[E0433]: cannot find `process` in `rustix`
+   --> src/lib.rs:161:43
+    |
+161 |                 && meta.st_uid == rustix::process::geteuid().as_raw()
+    |                                           ^^^^^^^ could not find `process` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:266:9
+    |
+263 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+266 | pub mod process;
+    |         ^^^^^^^
+
+error[E0433]: cannot find `process` in `rustix`
+   --> src/lib.rs:333:35
+    |
+333 |         || meta.st_uid != rustix::process::geteuid().as_raw()
+    |                                   ^^^^^^^ could not find `process` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:266:9
+    |
+263 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+266 | pub mod process;
+    |         ^^^^^^^
+
+error[E0433]: cannot find `fd` in `os`
+   --> src/lib.rs:342:44
+    |
+342 | fn validate_private_app_dir(dir: &std::os::fd::OwnedFd) -> Result<(), &'static str> {
+    |                                            ^^ could not find `fd` in `os`
+    |
+note: found an item that was configured out
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:70:9
+   ::: /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:77:1
+    |
+    = note: the item is gated here
+
+error[E0433]: cannot find `process` in `rustix`
+   --> src/lib.rs:345:35
+    |
+345 |         || meta.st_uid != rustix::process::geteuid().as_raw()
+    |                                   ^^^^^^^ could not find `process` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:266:9
+    |
+263 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+266 | pub mod process;
+    |         ^^^^^^^
+
+error[E0433]: cannot find `fd` in `os`
+   --> src/lib.rs:369:63
+    |
+369 | fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
+    |                                                               ^^ could not find `fd` in `os`
+    |
+note: found an item that was configured out
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:70:9
+   ::: /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\os\mod.rs:77:1
+    |
+    = note: the item is gated here
+
+error[E0433]: cannot find `process` in `rustix`
+   --> src/lib.rs:372:31
+    |
+372 |     if meta.st_uid != rustix::process::geteuid().as_raw() || meta.st_mode & 0o170000 != 0o040000 {
+    |                               ^^^^^^^ could not find `process` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:266:9
+    |
+263 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+266 | pub mod process;
+    |         ^^^^^^^
+
+error[E0433]: cannot find `process` in `rustix`
+   --> src/lib.rs:386:35
+    |
+386 |         || meta.st_uid != rustix::process::geteuid().as_raw()
+    |                                   ^^^^^^^ could not find `process` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:266:9
+    |
+263 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+266 | pub mod process;
+    |         ^^^^^^^
+
+error[E0433]: cannot find `fs` in `rustix`
+   --> src/lib.rs:391:29
+    |
+391 |     rfs::flock(&fd, rustix::fs::FlockOperation::LockExclusive).map_err(|_| "storage_error")?;
+    |                             ^^ could not find `fs` in `rustix`
+    |
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:223:9
+    |
+220 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+223 | pub mod fs;
+    |         ^^
+note: found an item that was configured out
+   --> /home/abdel/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.5/src/lib.rs:342:16
+    |
+327 | #[cfg(not(windows))]
+    |          --------- the item is gated here
+...
+342 | pub(crate) mod fs;
+    |                ^^
+
+warning: unused imports: `PathBuf` and `fs`
+  --> src/lib.rs:12:5
+   |
+12 |     fs,
+   |     ^^
+...
+15 |     path::{Path, PathBuf},
+   |                  ^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1326:18
+     |
+1326 |         std::os::unix::fs::symlink(other, &path).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1340:18
+     |
+1340 |         std::os::unix::fs::symlink(&real, &alias).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1364:18
+     |
+1364 |         std::os::unix::fs::symlink(&sentinel, primary.parent().unwrap().join(&temp_name)).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0433]: cannot find `unix` in `os`
+    --> src/lib.rs:1474:18
+     |
+1474 |         std::os::unix::fs::symlink(&sentinel, &primary).unwrap();
+     |                  ^^^^ could not find `unix` in `os`
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+   --> src/lib.rs:644:13
+    |
+644 |     command.process_group(0);
+    |             ^^^^^^^^^^^^^ method not found in `std::process::Command`
+
+error[E0599]: no associated function or constant named `NOENT` found for struct `Errno` in the current scope
+   --> src/lib.rs:115:57
+    |
+115 |             Err(e) if create && e == rustix::io::Errno::NOENT => {
+    |                                                         ^^^^^ associated function or constant not found in `Errno`
+
+error[E0599]: no associated function or constant named `EXIST` found for struct `Errno` in the current scope
+   --> src/lib.rs:117:53
+    |
+117 |                     Ok(()) | Err(rustix::io::Errno::EXIST) => {}
+    |                                                     ^^^^^ associated function or constant not found in `Errno`
+
+error[E0599]: no associated function or constant named `NOENT` found for struct `Errno` in the current scope
+   --> src/lib.rs:128:58
+    |
+128 |             Err(e) if !create && e == rustix::io::Errno::NOENT => return Err("not_logged_in"),
+    |                                                          ^^^^^ associated function or constant not found in `Errno`
+
+error[E0599]: no associated function or constant named `NOENT` found for struct `Errno` in the current scope
+   --> src/lib.rs:164:43
+    |
+164 |         Err(e) if e == rustix::io::Errno::NOENT => {}
+    |                                           ^^^^^ associated function or constant not found in `Errno`
+
+error[E0599]: no associated function or constant named `from_raw_fd` found for struct `std::fs::File` in the current scope
+   --> src/lib.rs:176:44
+    |
+176 |     let mut file = unsafe { std::fs::File::from_raw_fd(fd.into_raw_fd()) };
+    |                                            ^^^^^^^^^^^ associated function or constant not found in `std::fs::File`
+    |
+note: if you're trying to build a new `std::fs::File` consider using one of the following associated functions:
+      std::fs::File::open
+      std::fs::File::create
+      std::fs::File::create_new
+   --> /rustc/58cf8f9c35b355199727627d07ae34a4e2846d67/library\std\src\fs.rs:568:4
+help: there is an associated function `from_raw_handle` with a similar name
+    |
+176 -     let mut file = unsafe { std::fs::File::from_raw_fd(fd.into_raw_fd()) };
+176 +     let mut file = unsafe { std::fs::File::from_raw_handle(fd.into_raw_fd()) };
+    |
+
+error[E0599]: no associated function or constant named `NOENT` found for struct `Errno` in the current scope
+   --> src/lib.rs:329:43
+    |
+329 |         Err(e) if e == rustix::io::Errno::NOENT => return Ok(false),
+    |                                           ^^^^^ associated function or constant not found in `Errno`
+
+warning: unused import: `Read`
+  --> src/lib.rs:13:10
+   |
+13 |     io::{Read, Write},
+   |          ^^^^
+
+Some errors have detailed explanations: E0432, E0433, E0599.
+For more information about an error, try `rustc --explain E0432`.
+warning: `binus-auth-spike` (lib) generated 2 warnings
+error: could not compile `binus-auth-spike` (lib) due to 22 previous errors; 2 warnings emitted
+warning: build failed, waiting for other jobs to finish...
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1228:56
+     |
+1228 |             fs::metadata(&path).unwrap().permissions().mode() & 0o777,
+     |                                                        ^^^^ method not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1235:18
+     |
+1232 | /             fs::metadata(path.parent().unwrap())
+1233 | |                 .unwrap()
+1234 | |                 .permissions()
+1235 | |                 .mode()
+     | |                 -^^^^ method not found in `Permissions`
+     | |_________________|
+     |
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1255:55
+     |
+1255 |         fs::set_permissions(&config, fs::Permissions::from_mode(0o750)).unwrap();
+     |                                                       ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1260:58
+     |
+1260 |             fs::metadata(&config).unwrap().permissions().mode() & 0o777,
+     |                                                          ^^^^ method not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1264:55
+     |
+1264 |             fs::metadata(&app).unwrap().permissions().mode() & 0o777,
+     |                                                       ^^^^ method not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1323:70
+     |
+1323 |         fs::set_permissions(path.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |                                                                      ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1337:57
+     |
+1337 |         fs::set_permissions(&real_app, fs::Permissions::from_mode(0o755)).unwrap();
+     |                                                         ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1338:69
+     |
+1338 |         let before = fs::metadata(&real_app).unwrap().permissions().mode() & 0o777;
+     |                                                                     ^^^^ method not found in `Permissions`
+
+error[E0599]: no method named `mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1349:60
+     |
+1349 |             fs::metadata(&real_app).unwrap().permissions().mode() & 0o777,
+     |                                                            ^^^^ method not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1381:56
+     |
+1381 |         fs::set_permissions(&primary, fs::Permissions::from_mode(0o640)).unwrap();
+     |                                                        ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1384:56
+     |
+1384 |         fs::set_permissions(&residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |                                                        ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1387:65
+     |
+1387 |         fs::set_permissions(&captured_residue, fs::Permissions::from_mode(0o600)).unwrap();
+     |                                                                 ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no associated function or constant named `from_mode` found for struct `Permissions` in the current scope
+    --> src/lib.rs:1471:73
+     |
+1471 |         fs::set_permissions(primary.parent().unwrap(), fs::Permissions::from_mode(0o700)).unwrap();
+     |                                                                         ^^^^^^^^^ associated function or constant not found in `Permissions`
+
+error[E0599]: no method named `process_group` found for struct `std::process::Command` in the current scope
+    --> src/lib.rs:1616:14
+     |
+1615 | /         command
+1616 | |             .process_group(0)
+     | |             -^^^^^^^^^^^^^ method not found in `std::process::Command`
+     | |_____________|
+     |
+
+warning: unused import: `Read`
+  --> src/lib.rs:13:10
+   |
+13 |     io::{Read, Write},
+   |          ^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `binus-auth-spike` (lib test) generated 1 warning
+error: could not compile `binus-auth-spike` (lib test) due to 42 previous errors; 1 warning emitted

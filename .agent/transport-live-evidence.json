@@ -1,0 +1,211 @@
+[
+  {
+    "profile": "release",
+    "construction": "inherited",
+    "exit_code": 0,
+    "diagnostic": {
+      "construction": "inherited",
+      "details": "attempted",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "body_bytes": 3263,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 365,
+          "http_status": 200,
+          "stage": "class",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 9005,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 286,
+          "http_status": 200,
+          "stage": "primary",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 430,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 128,
+          "http_status": 200,
+          "stage": "additional",
+          "status": "complete"
+        }
+      ],
+      "status": "complete",
+      "total_elapsed_ms": 823
+    }
+  },
+  {
+    "profile": "debug",
+    "construction": "inherited",
+    "exit_code": 0,
+    "diagnostic": {
+      "construction": "inherited",
+      "details": "attempted",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "body_bytes": 3263,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 175,
+          "http_status": 200,
+          "stage": "class",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 9005,
+          "body_elapsed_ms": 2,
+          "execute_elapsed_ms": 429,
+          "http_status": 200,
+          "stage": "primary",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 430,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 118,
+          "http_status": 200,
+          "stage": "additional",
+          "status": "complete"
+        }
+      ],
+      "status": "complete",
+      "total_elapsed_ms": 776
+    }
+  },
+  {
+    "profile": "release",
+    "construction": "reset",
+    "exit_code": 0,
+    "diagnostic": {
+      "construction": "reset",
+      "details": "attempted",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "body_bytes": 3263,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 308,
+          "http_status": 200,
+          "stage": "class",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 9005,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 275,
+          "http_status": 200,
+          "stage": "primary",
+          "status": "complete"
+        },
+        {
+          "body_bytes": 430,
+          "body_elapsed_ms": 0,
+          "execute_elapsed_ms": 77,
+          "http_status": 200,
+          "stage": "additional",
+          "status": "complete"
+        }
+      ],
+      "status": "complete",
+      "total_elapsed_ms": 717
+    }
+  },
+  {
+    "profile": "debug",
+    "construction": "reset",
+    "exit_code": 3,
+    "diagnostic": {
+      "construction": "reset",
+      "details": "skipped_class_failure",
+      "request_comparisons_equal": {
+        "additional": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "class": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        },
+        "primary": {
+          "headers_equal": true,
+          "method_equal": true,
+          "url_equal": true
+        }
+      },
+      "requests": [
+        {
+          "elapsed_ms": 17225,
+          "error_categories": {
+            "error_chain_depth": 4,
+            "io_error_kind": "ConnectionRefused",
+            "is_body": false,
+            "is_builder": false,
+            "is_connect": true,
+            "is_decode": false,
+            "is_redirect": false,
+            "is_request": true,
+            "is_status": false,
+            "is_timeout": false
+          },
+          "stage": "execute",
+          "status": "transport_error"
+        }
+      ],
+      "status": "partial",
+      "total_elapsed_ms": 17234
+    }
+  }
+]

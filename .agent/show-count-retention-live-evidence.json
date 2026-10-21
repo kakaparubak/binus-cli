@@ -1,0 +1,127 @@
+[
+  {
+    "stage": "courses",
+    "attempt": 1,
+    "exit_code": 0,
+    "seconds": 1.02,
+    "errors": []
+  },
+  {
+    "stage": "LEC_sessions",
+    "attempt": 1,
+    "exit_code": 0,
+    "seconds": 0.61,
+    "errors": []
+  },
+  {
+    "stage": "show",
+    "component": "LEC",
+    "attempt": 1,
+    "exit_code": 3,
+    "status": "partial",
+    "seconds": 1.087,
+    "coverage": {
+      "additional": "complete",
+      "complete": false,
+      "discovery_complete": false,
+      "primary": "partial",
+      "scope": "selected_session",
+      "selected_sessions": 1
+    },
+    "errors": [
+      {
+        "source": "primary",
+        "code": "source_count_mismatch",
+        "declared_total_resource": 6,
+        "observed_resource_rows": 5
+      }
+    ],
+    "topic_present": true,
+    "component_matches_class": true,
+    "primary_count": 5,
+    "additional_count": 1,
+    "sampled_progress_fields": 25
+  },
+  {
+    "stage": "show",
+    "component": "LEC",
+    "attempt": 2,
+    "exit_code": 3,
+    "status": "partial",
+    "seconds": 0.723,
+    "coverage": {
+      "additional": "complete",
+      "complete": false,
+      "discovery_complete": false,
+      "primary": "partial",
+      "scope": "selected_session",
+      "selected_sessions": 1
+    },
+    "errors": [
+      {
+        "source": "primary",
+        "code": "source_count_mismatch",
+        "declared_total_resource": 6,
+        "observed_resource_rows": 5
+      }
+    ],
+    "topic_present": true,
+    "component_matches_class": true,
+    "primary_count": 5,
+    "additional_count": 1,
+    "sampled_progress_fields": 25,
+    "sampled_progress_unchanged": true
+  },
+  {
+    "stage": "LAB_sessions",
+    "attempt": 1,
+    "exit_code": 0,
+    "seconds": 0.504,
+    "errors": []
+  },
+  {
+    "stage": "show",
+    "component": "LAB",
+    "attempt": 1,
+    "exit_code": 0,
+    "status": "complete",
+    "seconds": 0.933,
+    "coverage": {
+      "additional": "complete",
+      "complete": true,
+      "discovery_complete": true,
+      "primary": "complete",
+      "scope": "selected_session",
+      "selected_sessions": 1
+    },
+    "errors": [],
+    "topic_present": true,
+    "component_matches_class": true,
+    "primary_count": 4,
+    "additional_count": 1,
+    "sampled_progress_fields": 20
+  },
+  {
+    "stage": "show",
+    "component": "LAB",
+    "attempt": 2,
+    "exit_code": 0,
+    "status": "complete",
+    "seconds": 0.74,
+    "coverage": {
+      "additional": "complete",
+      "complete": true,
+      "discovery_complete": true,
+      "primary": "complete",
+      "scope": "selected_session",
+      "selected_sessions": 1
+    },
+    "errors": [],
+    "topic_present": true,
+    "component_matches_class": true,
+    "primary_count": 4,
+    "additional_count": 1,
+    "sampled_progress_fields": 20,
+    "sampled_progress_unchanged": true
+  }
+]

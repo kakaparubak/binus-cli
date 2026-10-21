@@ -1,53 +1,48 @@
 use base64::Engine;
 use futures_util::{SinkExt, StreamExt};
+#[cfg(not(windows))]
 use rustix::fs::{self as rfs, AtFlags, Mode, OFlags};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::{Value, json};
+#[cfg(all(windows, test))]
+use std::fs;
+#[cfg(not(windows))]
+use std::path::Path;
+use std::path::PathBuf;
+#[cfg(not(windows))]
+use std::process::{Child, Command, Stdio};
+use std::{collections::HashMap, time::Duration};
+#[cfg(not(windows))]
 use std::{
-    collections::HashMap,
-    process::{Child, Command, Stdio},
-    time::Duration,
-};
-use std::{
-    fmt, fs,
+    fs,
     io::{Read, Write},
     os::fd::{AsRawFd, FromRawFd, IntoRawFd},
-    path::{Path, PathBuf},
 };
 use tokio_tungstenite::{connect_async, tungstenite::Message};
 
+mod browser;
+mod credential_record;
+#[cfg(windows)]
+use browser::Browser;
+#[cfg(any(windows, test))]
+pub(crate) use credential_record::valid_credential_record;
+pub use credential_record::{CredentialRecord, RoleContext};
+#[cfg(any(windows, test))]
+mod windows_store;
+#[cfg(windows)]
+pub use windows_store::{
+    load_preferred_record, load_record, promote_verified_candidate, remove_record_file,
+    remove_spike_artifacts, store_record,
+};
 pub mod cli;
 pub mod courses;
+pub mod forums;
+pub mod session_details;
 pub mod sessions;
+#[cfg(any(windows, test))]
+pub mod windows_lock;
 
 const CAPTURE_EXPRESSION: &str = "(() => {if(location.origin!=='https://lms.binus.ac.id')return null;const chunks=window['webpackJsonpbinus-lms-web'];if(!chunks)return null;if(!window.__binusResearchRequire)chunks.push([[98768],{98768:function(m,e,r){window.__binusResearchRequire=r}},[[98768]]]);const r=window.__binusResearchRequire;if(!r||!r.c)return null;const cached=r.c[34];if(!cached||cached.l!==true)return null;const api=cached.exports&&cached.exports.b;if(!api||typeof api.getState!=='function')return null;const state=api.getState();const auth=state&&state.auth;const a=auth&&auth.res;if(!a||!a.token||!a.refreshToken)return null;return {accessToken:a.token,refreshToken:a.refreshToken,activeRole:a.activeRole,activeRoleOrganizationId:a.activeRoleOrganizationId,account:a.email||a.originalLoginEmail||''};})()";
-
-#[derive(Clone, Serialize, Deserialize)]
-pub struct CredentialRecord {
-    pub account: String,
-    pub access_token: String,
-    pub refresh_token: String,
-    pub role: RoleContext,
-}
-
-impl fmt::Debug for CredentialRecord {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("CredentialRecord")
-            .field("account", &self.account)
-            .field("secrets", &"[REDACTED]")
-            .field("role", &self.role)
-            .finish()
-    }
-}
-
-#[derive(Clone, Serialize, Deserialize, Debug)]
-pub struct RoleContext {
-    pub academic_career: String,
-    pub institution: String,
-    pub name: String,
-    pub role_id: String,
-    pub organization_id: String,
-}
 
 #[derive(Serialize)]
 pub struct Status {
@@ -99,6 +94,7 @@ pub fn parse_pair(body: &str) -> Result<(String, String), &'static str> {
     Ok((token("accessToken")?, token("refreshToken")?))
 }
 
+#[cfg(not(windows))]
 fn secure_parent(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
     let parent = path.parent().ok_or("storage_error")?;
     if !parent.is_absolute()
@@ -154,11 +150,13 @@ fn secure_parent(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'st
     Ok(fd)
 }
 
+#[cfg(not(windows))]
 pub fn store_record(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
     let _lock = storage_lock(path, true)?;
     store_record_unlocked(path, record)
 }
 
+#[cfg(not(windows))]
 fn store_record_unlocked(path: &Path, record: &CredentialRecord) -> Result<(), &'static str> {
     let name = path
         .file_name()
@@ -198,6 +196,7 @@ fn store_record_unlocked(path: &Path, record: &CredentialRecord) -> Result<(), &
     outcome
 }
 
+#[cfg(not(windows))]
 pub fn load_record(path: &Path) -> Result<CredentialRecord, &'static str> {
     let name = path
         .file_name()
@@ -251,6 +250,7 @@ pub fn load_record(path: &Path) -> Result<CredentialRecord, &'static str> {
     Ok(record)
 }
 
+#[cfg(not(windows))]
 pub fn remove_spike_artifacts(path: &Path) -> Result<bool, &'static str> {
     if path.file_name().and_then(|n| n.to_str()) != Some("credentials.json") {
         return Err("storage_error");
@@ -310,11 +310,13 @@ pub fn remove_spike_artifacts(path: &Path) -> Result<bool, &'static str> {
     }
 }
 
+#[cfg(not(windows))]
 pub fn remove_record_file(path: &Path) -> Result<bool, &'static str> {
     let _lock = storage_lock(path, false)?;
     remove_record_file_unlocked(path)
 }
 
+#[cfg(not(windows))]
 fn remove_record_file_unlocked(path: &Path) -> Result<bool, &'static str> {
     if !matches!(
         path.file_name().and_then(|n| n.to_str()),
@@ -347,6 +349,7 @@ fn remove_record_file_unlocked(path: &Path) -> Result<bool, &'static str> {
     Ok(true)
 }
 
+#[cfg(not(windows))]
 fn validate_private_app_dir(dir: &std::os::fd::OwnedFd) -> Result<(), &'static str> {
     let meta = rfs::fstat(dir).map_err(|_| "storage_error")?;
     if meta.st_mode & 0o170000 != 0o040000
@@ -358,6 +361,7 @@ fn validate_private_app_dir(dir: &std::os::fd::OwnedFd) -> Result<(), &'static s
     Ok(())
 }
 
+#[cfg(not(windows))]
 pub fn promote_verified_candidate(
     primary: &Path,
     candidate: &Path,
@@ -373,6 +377,7 @@ pub fn promote_verified_candidate(
     Ok(true)
 }
 
+#[cfg(not(windows))]
 fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'static str> {
     let dir = secure_parent(path, create)?;
     let meta = rfs::fstat(&dir).map_err(|_| "storage_error")?;
@@ -399,6 +404,7 @@ fn storage_lock(path: &Path, create: bool) -> Result<std::os::fd::OwnedFd, &'sta
     Ok(fd)
 }
 
+#[cfg(not(windows))]
 pub fn load_preferred_record(primary: &Path) -> Result<(CredentialRecord, bool), &'static str> {
     let candidate = primary.with_file_name("credentials.captured.json");
     match load_record(&candidate) {
@@ -408,6 +414,7 @@ pub fn load_preferred_record(primary: &Path) -> Result<(CredentialRecord, bool),
     }
 }
 
+#[cfg(not(windows))]
 fn recognized_temp_name(name: &str) -> bool {
     [
         "credentials.tmp-",
@@ -437,7 +444,18 @@ pub fn academic_period_request(
         .map_err(|_| "request_failed")
 }
 
+#[cfg(not(windows))]
 struct Browser(Child);
+#[cfg(not(windows))]
+impl Browser {
+    fn try_wait(&mut self) -> Result<Option<()>, &'static str> {
+        self.0
+            .try_wait()
+            .map(|status| status.map(|_| ()))
+            .map_err(|_| "browser_launch_failed")
+    }
+}
+#[cfg(not(windows))]
 impl Drop for Browser {
     fn drop(&mut self) {
         #[cfg(target_os = "linux")]
@@ -634,41 +652,115 @@ fn fetch_params() -> Value {
 }
 
 pub async fn capture(timeout: Duration) -> Result<CredentialRecord, &'static str> {
-    match tokio::time::timeout(timeout, capture_inner()).await {
-        Ok(result) => result,
-        Err(_) => Err("capture_timeout"),
+    capture_with_cancellation(timeout, std::future::pending()).await
+}
+
+pub async fn capture_with_cancellation<C>(
+    timeout: Duration,
+    cancellation: C,
+) -> Result<CredentialRecord, &'static str>
+where
+    C: std::future::Future<Output = ()>,
+{
+    #[cfg(windows)]
+    {
+        let temp = tempfile::tempdir().map_err(|_| "browser_launch_failed")?;
+        let profile_path = temp.path().to_path_buf();
+        let binary = browser::resolve_executable()?;
+        let args = [
+            "--remote-debugging-port=0".to_owned(),
+            "--remote-debugging-address=127.0.0.1".to_owned(),
+            "--no-first-run".to_owned(),
+            "--no-default-browser-check".to_owned(),
+            format!("--user-data-dir={}", profile_path.to_string_lossy()),
+            "about:blank".to_owned(),
+        ];
+        let mut browser = Browser::spawn(binary, &args, temp)?;
+        let operation = async {
+            match tokio::time::timeout(timeout, capture_inner(profile_path, &mut browser)).await {
+                Ok(result) => result,
+                Err(_) => Err("capture_timeout"),
+            }
+        };
+        let result = capture_operation(operation, cancellation).await;
+        return finalize_capture(result, || async { browser.cleanup() }).await;
+    }
+    #[cfg(not(windows))]
+    {
+        let operation = async {
+            match tokio::time::timeout(timeout, capture_inner()).await {
+                Ok(result) => result,
+                Err(_) => Err("capture_timeout"),
+            }
+        };
+        capture_operation(operation, cancellation).await
     }
 }
 
-async fn capture_inner() -> Result<CredentialRecord, &'static str> {
+async fn capture_operation<T, Op, Can>(operation: Op, cancellation: Can) -> Result<T, &'static str>
+where
+    Op: std::future::Future<Output = Result<T, &'static str>>,
+    Can: std::future::Future<Output = ()>,
+{
+    tokio::select! {
+        biased;
+        result = operation => result,
+        _ = cancellation => Err("capture_cancelled"),
+    }
+}
+
+#[cfg_attr(not(windows), allow(dead_code))]
+async fn finalize_capture<T, Fin, FinFut>(
+    result: Result<T, &'static str>,
+    finalize: Fin,
+) -> Result<T, &'static str>
+where
+    Fin: FnOnce() -> FinFut,
+    FinFut: std::future::Future<Output = Result<(), &'static str>>,
+{
+    match finalize().await {
+        Ok(()) => result,
+        Err(_) => Err("browser_cleanup_failed"),
+    }
+}
+
+async fn capture_inner(
+    #[cfg(windows)] profile_path: PathBuf,
+    #[cfg(windows)] browser: &mut Browser,
+) -> Result<CredentialRecord, &'static str> {
     use tokio::time::sleep;
+    #[cfg(not(windows))]
     let temp = tempfile::tempdir().map_err(|_| "browser_launch_failed")?;
-    let port_file = temp.path().join("DevToolsActivePort");
-    let binary = std::env::var("BINUS_CHROMIUM").unwrap_or_else(|_| "/usr/bin/chromium".into());
-    let mut command = Command::new(binary);
-    use std::os::unix::process::CommandExt;
-    command.process_group(0);
-    command
-        .args([
-            "--remote-debugging-port=0",
-            "--remote-debugging-address=127.0.0.1",
-            "--no-first-run",
-            "--no-default-browser-check",
-            "--ozone-platform=wayland",
-            "about:blank",
-        ])
-        .arg(format!("--user-data-dir={}", temp.path().display()))
-        .stdin(Stdio::null())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null());
-    command
-        .env("XDG_RUNTIME_DIR", "/run/user/1000")
-        .env("WAYLAND_DISPLAY", "wayland-1");
-    let child = command.spawn().map_err(|_| "browser_launch_failed")?;
-    let mut browser = Browser(child);
+    #[cfg(not(windows))]
+    let profile_path = temp.path().to_path_buf();
+    let port_file = profile_path.join("DevToolsActivePort");
+    #[cfg(not(windows))]
+    let mut browser = {
+        let binary = std::env::var("BINUS_CHROMIUM").unwrap_or_else(|_| "/usr/bin/chromium".into());
+        let mut command = Command::new(binary);
+        use std::os::unix::process::CommandExt;
+        command.process_group(0);
+        command
+            .args([
+                "--remote-debugging-port=0",
+                "--remote-debugging-address=127.0.0.1",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--ozone-platform=wayland",
+                "about:blank",
+            ])
+            .arg(format!("--user-data-dir={}", profile_path.display()))
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null());
+        command
+            .env("XDG_RUNTIME_DIR", "/run/user/1000")
+            .env("WAYLAND_DISPLAY", "wayland-1");
+        let child = command.spawn().map_err(|_| "browser_launch_failed")?;
+        Browser(child)
+    };
     while !port_file.exists() {
         if browser
-            .0
             .try_wait()
             .map_err(|_| "browser_launch_failed")?
             .is_some()
@@ -790,7 +882,7 @@ async fn capture_inner() -> Result<CredentialRecord, &'static str> {
                 let close = json!({"id":cdp.id,"method":"Browser.close","params":{}});
                 let _ = cdp.ws.send(Message::Text(close.to_string().into())).await;
                 for _ in 0..10 {
-                    if browser.0.try_wait().ok().flatten().is_some() {
+                    if browser.try_wait().ok().flatten().is_some() {
                         break;
                     }
                     sleep(Duration::from_millis(100)).await;
@@ -942,7 +1034,102 @@ pub fn azure_request_allowed(method: &str, value: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(not(windows))]
     use std::os::unix::fs::PermissionsExt;
+    use std::process::Command;
+
+    #[tokio::test]
+    async fn capture_finalization_covers_results_timeout_and_cancellation() {
+        use std::sync::{
+            Arc,
+            atomic::{AtomicUsize, Ordering},
+        };
+        let calls = Arc::new(AtomicUsize::new(0));
+        for expected in [
+            Ok::<_, &'static str>("success"),
+            Err("capture_protocol_error"),
+        ] {
+            let result = capture_operation(async move { expected }, std::future::pending()).await;
+            let call = calls.clone();
+            let result = finalize_capture(result, move || {
+                call.fetch_add(1, Ordering::SeqCst);
+                async { Ok(()) }
+            })
+            .await;
+            assert_eq!(result, expected);
+        }
+        let operation = async {
+            tokio::time::timeout(
+                Duration::ZERO,
+                std::future::pending::<Result<(), &'static str>>(),
+            )
+            .await
+            .unwrap_or(Err("capture_timeout"))
+        };
+        let result = capture_operation(operation, std::future::pending()).await;
+        let call = calls.clone();
+        assert_eq!(
+            finalize_capture(result, move || {
+                call.fetch_add(1, Ordering::SeqCst);
+                async { Ok(()) }
+            })
+            .await,
+            Err("capture_timeout")
+        );
+
+        let result = capture_operation(
+            std::future::pending::<Result<(), &'static str>>(),
+            std::future::ready(()),
+        )
+        .await;
+        let call = calls.clone();
+        assert_eq!(
+            finalize_capture(result, move || {
+                call.fetch_add(1, Ordering::SeqCst);
+                async { Ok::<(), &'static str>(()) }
+            })
+            .await,
+            Err("capture_cancelled")
+        );
+        assert_eq!(calls.load(Ordering::SeqCst), 4);
+
+        let result =
+            capture_operation(async { Ok::<_, &'static str>(()) }, std::future::pending()).await;
+        assert_eq!(
+            finalize_capture(result, || async { Err("internal_cleanup_detail") }).await,
+            Err("browser_cleanup_failed")
+        );
+        let result = capture_operation(
+            async { Err::<(), _>("capture_protocol_error") },
+            std::future::pending(),
+        )
+        .await;
+        assert_eq!(
+            finalize_capture(result, || async { Err("internal_cleanup_detail") }).await,
+            Err("browser_cleanup_failed")
+        );
+        let timeout = tokio::time::timeout(
+            Duration::ZERO,
+            std::future::pending::<Result<(), &'static str>>(),
+        )
+        .await
+        .unwrap_or(Err("capture_timeout"));
+        let timeout = capture_operation(async move { timeout }, std::future::pending()).await;
+        assert_eq!(
+            finalize_capture(timeout, || async { Err("internal_cleanup_detail") }).await,
+            Err("browser_cleanup_failed")
+        );
+        let cancelled = capture_operation(
+            std::future::pending::<Result<(), &'static str>>(),
+            std::future::ready(()),
+        )
+        .await;
+        assert_eq!(
+            finalize_capture(cancelled, || async { Err("internal_cleanup_detail") }).await,
+            Err("browser_cleanup_failed")
+        );
+    }
+
     fn record() -> CredentialRecord {
         CredentialRecord {
             account: "synthetic-student".into(),
@@ -1226,6 +1413,7 @@ process.stdout.write(JSON.stringify(ready));
         assert_eq!(record.role.organization_id, "2");
     }
     #[test]
+    #[cfg(not(windows))]
     fn atomic_store_is_private_and_json_is_secret_free() {
         let temp = tempfile::tempdir().unwrap();
         let path = app_file(&temp, "credentials.json");
@@ -1254,6 +1442,7 @@ process.stdout.write(JSON.stringify(ready));
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn store_changes_only_the_app_directory_permissions() {
         let temp = tempfile::tempdir().unwrap();
         let config = temp.path().join("config");
@@ -1311,13 +1500,18 @@ process.stdout.write(JSON.stringify(ready));
     }
     #[test]
     fn status_and_errors_do_not_debug_secret_records() {
-        assert!(!format!("{:?}", record()).contains("synthetic-access-token-value"));
+        let rendered = format!("{:?}", record());
+        assert!(!rendered.contains("synthetic-access-token-value"));
+        assert!(!rendered.contains("synthetic-student"));
+        assert!(!rendered.contains("UGRD"));
+        assert!(!rendered.contains("BINUS"));
         assert_eq!(
             safe_error("request failed at https://example/?subscription-key=secret&token=abc"),
             "request failed"
         );
     }
     #[test]
+    #[cfg(not(windows))]
     fn rejects_symlinked_record() {
         let temp = tempfile::tempdir().unwrap();
         let path = app_file(&temp, "credentials.json");
@@ -1331,6 +1525,7 @@ process.stdout.write(JSON.stringify(ready));
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn secure_store_rejects_symlinked_ancestor_without_touching_target() {
         let temp = tempfile::tempdir().unwrap();
         let real = temp.path().join("real");
@@ -1355,6 +1550,7 @@ process.stdout.write(JSON.stringify(ready));
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn malicious_temp_and_atomic_failure_preserve_primary_and_sentinel() {
         let temp = tempfile::tempdir().unwrap();
         let primary = app_file(&temp, "credentials.json");
@@ -1374,6 +1570,7 @@ process.stdout.write(JSON.stringify(ready));
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn logout_attempts_all_owned_artifacts_and_leaves_unrelated_files() {
         let temp = tempfile::tempdir().unwrap();
         let primary = app_file(&temp, "credentials.json");
@@ -1465,6 +1662,7 @@ process.stdout.write(JSON.stringify(ready));
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn failed_candidate_promotion_keeps_candidate_and_existing_primary_target() {
         let temp = tempfile::tempdir().unwrap();
         let primary = app_file(&temp, "credentials.json");
@@ -1608,6 +1806,7 @@ process.stdout.write(JSON.stringify(ready));
     }
 
     #[test]
+    #[cfg(not(windows))]
     fn browser_drop_kills_only_its_process_group_before_profile_removal() {
         use std::os::unix::process::CommandExt;
         let profile = tempfile::tempdir().unwrap();
