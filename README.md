@@ -1,3 +1,3 @@
-# BINUS CLI experiments
+# BINUS CLI alpha
 
-This repository contains a bounded authentication feasibility spike and an incremental read-only Courses discovery slice. See [spikes/001-auth/README.md](spikes/001-auth/README.md) for auth boundaries. Run course commands with `cargo run --manifest-path spikes/001-auth/Cargo.toml --bin binus -- courses periods` or `... -- courses list --period <catalog-id>`; period selection is explicit.
+The native CLI supports authentication status and checks, academic period and course discovery, session listing and details, and read-only forum thread listing and details. See the [agent-neutral BINUS CLI skill](skills/binus-cli/SKILL.md) for safe setup, command use, and output interpretation. This alpha does not support coursework submissions or downloads.
