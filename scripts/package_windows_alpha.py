@@ -287,8 +287,8 @@ def non_inbox_imports(imports):
     return sorted(name for name in set(imports) - INBOX_DLLS if not name.startswith(("api-ms-win-", "ext-ms-win-")))
 
 
-def notice_text():
-    metadata = json.loads(run(["cargo", "metadata", "--locked", "--filter-platform", "x86_64-pc-windows-msvc", "--manifest-path", "spikes/001-auth/Cargo.toml", "--format-version", "1"]).stdout)
+def notice_text(target="x86_64-pc-windows-msvc"):
+    metadata = json.loads(run(["cargo", "metadata", "--locked", "--filter-platform", target, "--manifest-path", "spikes/001-auth/Cargo.toml", "--format-version", "1"]).stdout)
     packages = {package["id"]: package for package in metadata["packages"]}
     nodes = {node["id"]: node for node in metadata["resolve"]["nodes"]}
     roots = metadata.get("workspace_default_members") or metadata["workspace_members"]
@@ -299,7 +299,7 @@ def notice_text():
             continue
         reachable.add(package_id)
         pending.extend(dep["pkg"] for dep in nodes.get(package_id, {}).get("deps", []))
-    lines = ["Third-party dependency license materials", "", "Based on Cargo metadata --locked --filter-platform x86_64-pc-windows-msvc and its reachable resolve graph. License metadata and included texts are informational; legal review is pending.", ""]
+    lines = ["Third-party dependency license materials", "", f"Based on Cargo metadata --locked --filter-platform {target} and its reachable resolve graph. License metadata and included texts are informational; legal review is pending.", ""]
     missing_text = []
     for package_id in sorted(reachable):
         package = packages[package_id]

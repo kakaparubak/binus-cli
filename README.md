@@ -2,7 +2,9 @@
 
 BINUS CLI is an experimental, unofficial client for BINUS University services. It is not affiliated with or endorsed by BINUS. It provides JSON-first, read-only access for people and shell agents.
 
-**Windows prerelease:** [v0.1.0-alpha.1](https://github.com/kakaparubak/binus-cli/releases/tag/v0.1.0-alpha.1) · [Quick-start guide](docs/QUICKSTART.md)
+**Windows prerelease:** [v0.1.0-alpha.1](https://github.com/kakaparubak/binus-cli/releases/tag/v0.1.0-alpha.1) · [Windows quick-start guide](docs/QUICKSTART.md)
+
+**Linux prerelease:** [v0.1.0-alpha.1](https://github.com/kakaparubak/binus-cli/releases/tag/v0.1.0-alpha.1) · [Linux quick-start guide](docs/LINUX.md)
 
 | Area | Available | Not implemented |
 | --- | --- | --- |

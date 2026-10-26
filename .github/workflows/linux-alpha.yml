@@ -1,0 +1,59 @@
+name: Linux alpha build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout dispatched commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+          submodules: false
+      - name: Install native build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes build-essential pkg-config libssl-dev binutils python3.12
+      - name: Verify toolchain and run prebuild packaging tests
+        run: |
+          rustup toolchain install 1.99.1-x86_64-unknown-linux-gnu --profile minimal
+          rustup toolchain list
+          export RUSTUP_TOOLCHAIN=1.99.1-x86_64-unknown-linux-gnu
+          rustc -vV | grep -Fx 'host: x86_64-unknown-linux-gnu'
+          rustc --version | grep -E '^rustc 1\.99\.1 '
+          python3.12 -B -m unittest discover -s tests -p 'test_package_alpha.py'
+      - name: Build, verify, and smoke test native archive
+        run: |
+          export RUSTUP_TOOLCHAIN=1.99.1-x86_64-unknown-linux-gnu
+          export PYTHONUTF8=1
+          out="$RUNNER_TEMP/binus-linux-alpha"
+          mkdir -m 700 "$out"
+          python3.12 -B scripts/package_alpha.py --output-dir "$out"
+          archive=$(find "$out" -maxdepth 1 -type f -name '*.tar.gz' -print -quit)
+          test -n "$archive"
+          extract="$RUNNER_TEMP/binus-linux-smoke"
+          mkdir -m 700 "$extract"
+          tar -xzf "$archive" -C "$extract"
+          isolated="$RUNNER_TEMP/binus-linux-help-home"
+          mkdir -m 700 "$isolated"
+          HOME="$isolated" XDG_CONFIG_HOME="$isolated/config" "$extract/binus" --help
+      - name: Upload verified archive and checksum
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: binus-linux-x86_64-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/binus-linux-alpha/*.tar.gz
+            ${{ runner.temp }}/binus-linux-alpha/*.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+          overwrite: false
+          include-hidden-files: false

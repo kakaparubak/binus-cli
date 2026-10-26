@@ -15,13 +15,17 @@ import stat
 import tarfile
 import tempfile
 
+import package_windows_alpha as notice_helpers
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_FILES = {
-    "README.md": ROOT / "docs/QUICKSTART.md",
+    "README.md": ROOT / "docs/LINUX.md",
     "skills/binus-cli/SKILL.md": ROOT / "skills/binus-cli/SKILL.md",
+    "LICENSE": ROOT / "LICENSE",
 }
-MEMBERS = ("binus", "README.md", "skills/binus-cli/SKILL.md")
+MEMBERS = ("binus", "README.md", "skills/binus-cli/SKILL.md", "LICENSE", "RUST-STDLIB-LICENSES.html", "THIRD-PARTY-NOTICES.txt")
+CHECKSUM_MEMBERS = MEMBERS + ("BUILD-INFO.json",)
 
 
 def sha256(data):
@@ -131,16 +135,49 @@ def verify_archive(archive, expected_data):
         checksum_entries = {}
         for line in sums.splitlines():
             digest, name = line.split("  ", 1)
-            if name not in MEMBERS + ("BUILD-INFO.json",):
+            if name not in CHECKSUM_MEMBERS:
                 raise ValueError("checksum list contains an unexpected member")
             if name in checksum_entries:
                 raise ValueError("checksum list contains a duplicate member")
             checksum_entries[name] = digest
             if sha256(extracted[name]) != digest:
                 raise ValueError(f"archive checksum mismatch: {name}")
-        if set(checksum_entries) != set(MEMBERS + ("BUILD-INFO.json",)):
+        if set(checksum_entries) != set(CHECKSUM_MEMBERS):
             raise ValueError("archive checksum list is incomplete")
         return extracted
+
+
+def validate_elf_x86_64(data):
+    if len(data) < 64 or data[:4] != b"\x7fELF" or data[4:6] != b"\x02\x01" or int.from_bytes(data[16:18], "little") not in (2, 3) or int.from_bytes(data[18:20], "little") != 62:
+        raise ValueError("binary is not a complete little-endian ELF64 x86_64 executable")
+
+
+def create_archive(path, data, timestamp):
+    validate_members(data)
+    with tarfile.open(path, "x:gz", format=tarfile.PAX_FORMAT) as tar:
+        for name in MEMBERS + ("BUILD-INFO.json", "SHA256SUMS"):
+            member = tarfile.TarInfo(name)
+            member.size = len(data[name])
+            member.mode = 0o555 if name == "binus" else 0o444
+            member.mtime = int(datetime.fromisoformat(timestamp.replace("Z", "+00:00")).timestamp())
+            tar.addfile(member, io.BytesIO(data[name]))
+
+
+def audit_values():
+    values = [b"auth_browser", b"binus-auth-debug"]
+    for path in (Path.home(), ROOT):
+        raw = str(path)
+        for form in {raw, raw.replace("/", "\\"), raw.replace("\\", "/")}:
+            values.extend((form.encode("utf-8"), form.encode("utf-16le")))
+    return tuple(values)
+
+
+def openssl_notice():
+    candidates = (Path("/usr/share/doc/libssl3/copyright"), Path("/usr/share/doc/libssl3t64/copyright"))
+    for path in candidates:
+        if path.exists() or path.is_symlink():
+            return str(path), notice_helpers.read_bounded_regular(path, 2 * 1024 * 1024)
+    raise ValueError("required OpenSSL package copyright notice is unavailable")
 
 
 def run(command, **kwargs):
@@ -190,9 +227,8 @@ def main():
         raise SystemExit("source checkout is dirty; commit reviewed source before packaging")
     commit = run(["git", "rev-parse", "HEAD"], cwd=ROOT).stdout.strip()
     commit_source_inputs(commit)
-    short = commit[:7]
     target, rustc_version, cargo_version, build_glibc = host_facts()
-    archive = output_dir / f"alpha-{short}-linux-x86_64.tar.gz"
+    archive = output_dir / f"alpha-{commit[:7]}-linux-x86_64.tar.gz"
     sidecar = output_dir / f"{archive.name}.sha256"
     if archive.exists() or sidecar.exists():
         raise SystemExit("refusing to overwrite an existing archive or checksum sidecar")
@@ -200,6 +236,11 @@ def main():
     with tempfile.TemporaryDirectory(prefix="binus-alpha-build-") as temp:
         temp_path = Path(temp)
         env = compiler_environment()
+        stdlib_root = run(["rustc", "--print", "sysroot"]).stdout.strip()
+        stdlib_notice = notice_helpers.rust_stdlib_notice(stdlib_root)
+        third_party = notice_helpers.notice_text("x86_64-unknown-linux-gnu")
+        openssl_name, openssl_text = openssl_notice()
+        third_party += f"\n## System OpenSSL\n\nSource: Ubuntu package {openssl_name}.\n\n".encode("utf-8") + openssl_text
         build = run([
             "cargo", "build", "--locked", "--release", "--manifest-path",
             "spikes/001-auth/Cargo.toml", "--bin", "binus", "--target", target,
@@ -217,10 +258,18 @@ def main():
                     executable = Path(candidate)
         if executable is None:
             raise RuntimeError("Cargo did not report the normal binus executable artifact")
+        binary = require_regular_inputs({"binus": executable})["binus"]
+        validate_elf_x86_64(binary)
         facts = dependency_facts(executable)
-        data = {"binus": require_regular_inputs({"binus": executable})["binus"]}
+        if not any(name.startswith("libssl.so") for name in facts["dynamic_sonames"]):
+            raise RuntimeError("the Linux package is expected to dynamically link OpenSSL libssl")
+        if any(value and value in binary for value in audit_values()):
+            raise RuntimeError("binary contains a prohibited diagnostic marker or unremapped local path")
+        data = {"binus": binary}
         data.update(commit_source_inputs(commit))
         data["README.md"] = archive_readme(data["README.md"])
+        data["RUST-STDLIB-LICENSES.html"] = stdlib_notice
+        data["THIRD-PARTY-NOTICES.txt"] = third_party
         timestamp = run(["git", "show", "-s", "--format=%cI", commit], cwd=ROOT).stdout.strip()
         info = {
             "source_commit": commit, "native_target": target,
@@ -231,20 +280,15 @@ def main():
             "compatibility": "Observed x86_64 GNU/Linux build environment and listed dynamic dependencies; not a universal or musl binary.",
         }
         data["BUILD-INFO.json"] = (json.dumps(info, indent=2, sort_keys=True) + "\n").encode()
-        sums_names = MEMBERS + ("BUILD-INFO.json",)
-        data["SHA256SUMS"] = "".join(f"{sha256(data[name])}  {name}\n" for name in sums_names).encode("ascii")
+        data["SHA256SUMS"] = "".join(f"{sha256(data[name])}  {name}\n" for name in CHECKSUM_MEMBERS).encode("ascii")
         validate_members(data)
         staged_archive = temp_path / archive.name
-        with tarfile.open(staged_archive, "w:gz", format=tarfile.PAX_FORMAT) as tar:
-            for name in MEMBERS + ("BUILD-INFO.json", "SHA256SUMS"):
-                member = tarfile.TarInfo(name)
-                member.size = len(data[name])
-                member.mode = 0o555 if name == "binus" else 0o444
-                member.mtime = int(datetime.fromisoformat(timestamp.replace("Z", "+00:00")).timestamp())
-                tar.addfile(member, io.BytesIO(data[name]))
+        create_archive(staged_archive, data, timestamp)
         extracted = verify_archive(staged_archive, data)
         scratch = temp_path / "extract"
         extract_archive(staged_archive, scratch)
+        if extracted["RUST-STDLIB-LICENSES.html"] != stdlib_notice or len(stdlib_notice) > 2 * 1024 * 1024:
+            raise ValueError("Rust standard library notice changed or exceeded its bound")
         isolated_home = temp_path / "help-home"
         isolated_home.mkdir()
         help_env = os.environ.copy()
