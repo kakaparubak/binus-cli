@@ -14,9 +14,9 @@ import tempfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-MEMBERS = ("binus.exe", "README.md", "skills/binus-cli/SKILL.md", "BUILD-INFO.json", "THIRD-PARTY-NOTICES.txt", "SHA256SUMS")
+MEMBERS = ("binus.exe", "README.md", "skills/binus-cli/SKILL.md", "LICENSE", "RUST-STDLIB-LICENSES.html", "BUILD-INFO.json", "THIRD-PARTY-NOTICES.txt", "SHA256SUMS")
 CHECKSUM_MEMBERS = MEMBERS[:-1]
-DOCS = {"README.md": "docs/QUICKSTART.md", "skills/binus-cli/SKILL.md": "skills/binus-cli/SKILL.md"}
+DOCS = {"README.md": "docs/QUICKSTART.md", "skills/binus-cli/SKILL.md": "skills/binus-cli/SKILL.md", "LICENSE": "LICENSE"}
 INBOX_DLLS = {"advapi32.dll", "bcrypt.dll", "bcryptprimitives.dll", "cfgmgr32.dll", "combase.dll", "crypt32.dll", "gdi32.dll", "imm32.dll", "iphlpapi.dll", "kernel32.dll", "kernelbase.dll", "msvcrt.dll", "ntdll.dll", "ole32.dll", "oleaut32.dll", "normaliz.dll", "psapi.dll", "rpcrt4.dll", "secur32.dll", "shell32.dll", "shlwapi.dll", "ucrtbase.dll", "user32.dll", "userenv.dll", "version.dll", "winhttp.dll", "wininet.dll", "ws2_32.dll", "wldap32.dll"}
 MARKERS = (b"auth_browser", b"binus-auth-debug")
 
@@ -196,6 +196,32 @@ def require_regular(path):
         os.close(fd)
 
 
+def read_bounded_regular(path, limit):
+    """Read a required non-symlink regular file, refusing oversized input."""
+    path = Path(path)
+    if path.is_symlink():
+        raise ValueError("required notice must be a regular non-symlink file")
+    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        fd = os.open(path, flags)
+    except OSError as exc:
+        raise ValueError("required notice is missing or not a regular file") from exc
+    try:
+        if not stat.S_ISREG(os.fstat(fd).st_mode):
+            raise ValueError("required notice must be a regular non-symlink file")
+        with os.fdopen(fd, "rb", closefd=False) as source:
+            data = source.read(limit + 1)
+        if len(data) > limit:
+            raise ValueError("required notice exceeds bounded size")
+        return data
+    finally:
+        os.close(fd)
+
+
+def rust_stdlib_notice(sysroot):
+    return read_bounded_regular(Path(sysroot) / "share/doc/rust/COPYRIGHT-library.html", 2 * 1024 * 1024)
+
+
 def create_exclusive(path, data):
     fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0), 0o644)
     with os.fdopen(fd, "wb") as output:
@@ -295,16 +321,8 @@ def notice_text():
         lines.append("")
     rustc = run(["rustc", "--print", "sysroot"]).stdout.strip()
     toolchain_root = Path(rustc)
-    lines += ["## Rust toolchain", "", "Toolchain public license material (when available):"]
-    toolchain_texts = 0
-    for relative in ("LICENSE.txt", "COPYRIGHT", "COPYRIGHT.txt", "share/doc/rust/COPYRIGHT", "share/doc/rust/LICENSE.txt"):
-        candidate = toolchain_root / relative
-        if candidate.is_file() and not candidate.is_symlink() and candidate.stat().st_size <= 256 * 1024:
-            lines += [f"\n### {relative}\n", candidate.read_text(encoding="utf-8", errors="replace").rstrip()]
-            toolchain_texts += 1
-    if not toolchain_texts:
-        lines.append("No Rust toolchain public license text was available at the checked sysroot paths.")
-    lines += ["", "Unavailable package license texts: " + (", ".join(missing_text) if missing_text else "none detected by the bounded scan") + ".", "Project license and legal review remain pending before any formal release.", "No license is inferred for this project."]
+    lines += ["## Rust standard library", "", "The standard library and associated third-party license notices are included verbatim in RUST-STDLIB-LICENSES.html."]
+    lines += ["", "Unavailable package license texts: " + (", ".join(missing_text) if missing_text else "none detected by the bounded scan") + ".", "Project license: MIT; see LICENSE. Dependencies retain their respective licenses. This notice does not change ownership of third-party code."]
     return ("\n".join(lines).rstrip() + "\n").encode("utf-8")
 
 
@@ -339,6 +357,7 @@ def main():
             blob = git_blob(commit, path)
             verify_worktree_doc(require_regular(ROOT / path), blob, path)
             doc_blobs[name] = blob
+        stdlib_notice = rust_stdlib_notice(run(["rustc", "--print", "sysroot"]).stdout.strip())
         build = run(["cargo", "build", "--locked", "--release", "--manifest-path", "spikes/001-auth/Cargo.toml", "--bin", "binus", "--target", target, "--message-format=json-render-diagnostics"], cwd=ROOT, env=env)
         exe = None
         for line in build.stdout.splitlines():
@@ -356,6 +375,7 @@ def main():
         data = {"binus.exe": binary}
         for name, blob in doc_blobs.items():
             data[name] = archive_readme(blob) if name == "README.md" else blob
+        data["RUST-STDLIB-LICENSES.html"] = stdlib_notice
         data["THIRD-PARTY-NOTICES.txt"] = notice_text()
         info = {"source_commit": commit, "native_target": target, "rustc": run(["rustc", "--version" ]).stdout.strip(), "cargo": run(["cargo", "--version"]).stdout.strip(), "platform": platform.platform(), "runner_os": "Windows Server 2025", "evaluation_target": "Windows 11 x86_64 (previous manual-account evaluation evidence)", "validation_scope": "native Windows Server 2025 build and extracted --help only; no Windows 11 observation in this CI run", "crt_static": True, "imports": imports, "binary_sha256": sha256(binary), "compatibility": "Windows 11 x86_64 is the evaluation target; universal compatibility is not claimed."}
         data["BUILD-INFO.json"] = (json.dumps(info, indent=2, sort_keys=True) + "\n").encode()

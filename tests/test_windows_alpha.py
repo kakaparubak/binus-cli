@@ -3,6 +3,7 @@ import io
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 import zipfile
 from pathlib import Path
 
@@ -99,6 +100,27 @@ class WindowsAlphaTests(unittest.TestCase):
                 windows.write_zip_contents(zf, contents)
             self.assertEqual(windows.verify_zip(archive), contents)
             self.assertEqual(windows.extract_zip(archive, dest), contents)
+            self.assertEqual((dest / "LICENSE").read_bytes(), contents["LICENSE"])
+            self.assertEqual((dest / "RUST-STDLIB-LICENSES.html").read_bytes(), contents["RUST-STDLIB-LICENSES.html"])
+
+    def test_license_is_a_committed_packager_input(self):
+        self.assertEqual(windows.DOCS["LICENSE"], "LICENSE")
+        license_bytes = windows.require_regular(windows.ROOT / "LICENSE")
+        with patch.object(windows, "git_blob", return_value=license_bytes) as committed_blob:
+            windows.verify_worktree_doc(windows.require_regular(windows.ROOT / windows.DOCS["LICENSE"]), committed_blob("synthetic-commit", windows.DOCS["LICENSE"]), "LICENSE")
+        committed_blob.assert_called_once_with("synthetic-commit", "LICENSE")
+
+    def test_missing_license_and_checksum_entry_are_rejected(self):
+        with tempfile.TemporaryDirectory() as td:
+            archive = Path(td) / "missing-license.zip"
+            contents = self.contents()
+            self.write(archive, contents, names=tuple(n for n in windows.MEMBERS if n != "LICENSE"))
+            with self.assertRaisesRegex(ValueError, "allowlist"):
+                windows.verify_zip(archive)
+            contents["SHA256SUMS"] = "".join(f"{hashlib.sha256(contents[n]).hexdigest()}  {n}\n" for n in windows.CHECKSUM_MEMBERS if n != "LICENSE").encode()
+            self.write(archive, contents)
+            with self.assertRaisesRegex(ValueError, "incomplete"):
+                windows.verify_zip(archive)
 
     def test_directory_mode_on_allowed_filename_is_rejected(self):
         with tempfile.TemporaryDirectory() as td:
@@ -186,6 +208,24 @@ class WindowsAlphaTests(unittest.TestCase):
             self.assertEqual(windows.bounded_notice_files(root)["LICENSE.txt"], "synthetic license")
             with self.assertRaisesRegex(ValueError, "escapes"):
                 windows.bounded_notice_files(root, "../outside-license.txt")
+
+    def test_rust_stdlib_notice_is_required_regular_and_bounded(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            notice = root / "share/doc/rust/COPYRIGHT-library.html"
+            notice.parent.mkdir(parents=True)
+            notice.write_bytes(b"synthetic public notice")
+            self.assertEqual(windows.rust_stdlib_notice(root), b"synthetic public notice")
+            notice.unlink()
+            with self.assertRaisesRegex(ValueError, "missing"):
+                windows.rust_stdlib_notice(root)
+            notice.mkdir()
+            with self.assertRaisesRegex(ValueError, "regular"):
+                windows.rust_stdlib_notice(root)
+            notice.rmdir()
+            notice.write_bytes(b"x" * (2 * 1024 * 1024 + 1))
+            with self.assertRaisesRegex(ValueError, "bounded size"):
+                windows.rust_stdlib_notice(root)
 
 
 if __name__ == "__main__": unittest.main()
