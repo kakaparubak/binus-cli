@@ -77,30 +77,33 @@ def parse_pe_x64(data):
         raw_size = int.from_bytes(data[off + 16:off + 20], "little")
         raw_ptr = int.from_bytes(data[off + 20:off + 24], "little")
         need(raw_ptr, raw_size)
-        ranges.append((virtual_address, max(virtual_size, raw_size), raw_ptr))
-    def offset_for(rva):
-        for va, size, raw in ranges:
-            if va <= rva < va + size:
+        ranges.append((virtual_address, virtual_size, raw_size, raw_ptr))
+    def section_for(rva):
+        for va, _virtual_size, raw_size, raw in ranges:
+            if va <= rva < va + raw_size:
                 pos = raw + rva - va
                 need(pos, 1)
-                return pos
+                return va, raw_size, raw, pos
         raise ValueError("PE import RVA is outside sections")
     if import_rva and import_size:
         if import_size < 20:
             raise ValueError("invalid PE import directory bounds")
-        pos = offset_for(import_rva)
+        section_va, section_raw_size, section_raw, pos = section_for(import_rva)
+        section_end = min(len(data), section_raw + section_raw_size)
         count = min(import_size // 20, 512)
         terminated = False
-        for _ in range(count):
+        for index in range(count):
+            pos = section_raw + import_rva - section_va + index * 20
+            if pos + 20 > section_end:
+                raise ValueError("PE import table exceeds bounded descriptor count")
             need(pos, 20)
             desc = data[pos:pos + 20]
             if not any(desc):
                 terminated = True
                 break
             name_rva = int.from_bytes(desc[12:16], "little")
-            name_pos = offset_for(name_rva)
-            section = next((item for item in ranges if item[0] <= name_rva < item[0] + item[1]), None)
-            name_limit = min(len(data), name_pos + 260, section[2] + section[1] - (name_rva - section[0]))
+            name_va, name_raw_size, name_raw, name_pos = section_for(name_rva)
+            name_limit = min(len(data), name_pos + 260, name_raw + name_raw_size)
             end = data.find(b"\0", name_pos, name_limit)
             if end < 0:
                 raise ValueError("unterminated PE import name")

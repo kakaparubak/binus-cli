@@ -44,6 +44,19 @@ def fixture_pe_import(dll=b"kernel32.dll"):
     return bytes(data)
 
 
+def fixture_pe_import_section(dll_rva, raw_size=0x400, virtual_size=0x400, file_size=None):
+    data = bytearray(fixture_pe_import())
+    data.extend(bytes(max(0, 0x200 + raw_size - len(data))))
+    data[0x188 + 8:0x188 + 12] = virtual_size.to_bytes(4, "little")
+    data[0x188 + 16:0x188 + 20] = raw_size.to_bytes(4, "little")
+    data[0x20c:0x210] = dll_rva.to_bytes(4, "little")
+    name_pos = 0x200 + dll_rva - 0x1000
+    data[name_pos:name_pos + 13] = b"kernel32.dll\0"
+    if file_size is not None:
+        del data[file_size:]
+    return bytes(data)
+
+
 class WindowsAlphaTests(unittest.TestCase):
     def contents(self):
         data = {name: ("synthetic " + name).encode() for name in windows.CHECKSUM_MEMBERS}
@@ -131,6 +144,13 @@ class WindowsAlphaTests(unittest.TestCase):
         self.assertEqual(windows.non_inbox_imports(["vcruntime140.dll"]), ["vcruntime140.dll"])
         with self.assertRaisesRegex(ValueError, "invalid PE import DLL name"):
             windows.parse_pe_x64(fixture_pe_import(b"bad name.dll"))
+
+    def test_pe_import_names_are_bounded_by_backed_raw_section(self):
+        self.assertEqual(windows.parse_pe_x64(fixture_pe_import_section(0x1380)), ["kernel32.dll"])
+        with self.assertRaisesRegex(ValueError, "outside sections"):
+            windows.parse_pe_x64(fixture_pe_import_section(0x1380, raw_size=0x200, virtual_size=0x400))
+        with self.assertRaisesRegex(ValueError, "truncated"):
+            windows.parse_pe_x64(fixture_pe_import_section(0x1380, file_size=0x500))
 
     def test_doc_normalization_only_allows_crlf_difference(self):
         committed = b"alpha\nbeta\n"
