@@ -1,0 +1,64 @@
+name: Windows alpha build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Checkout dispatched commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+          submodules: false
+      - name: Verify native toolchain and build archive
+        run: |
+          rustup toolchain install 1.99.1-x86_64-pc-windows-msvc --profile minimal
+          if ($LASTEXITCODE -ne 0) { throw 'Pinned Rust 1.99.1 toolchain installation failed' }
+          $env:RUSTUP_TOOLCHAIN = '1.99.1-x86_64-pc-windows-msvc'
+          rustup toolchain list
+          if ($LASTEXITCODE -ne 0) { throw 'Rustup toolchain check failed' }
+          $hostInfo = (rustc -vV) -join "`n"
+          if ($LASTEXITCODE -ne 0 -or $hostInfo -notmatch '(?m)^host: x86_64-pc-windows-msvc$') { throw 'Native x86_64 MSVC Rust host required' }
+          $rustVersion = rustc --version
+          if ($LASTEXITCODE -ne 0 -or $rustVersion -notmatch '^rustc 1\.99\.1 ') { throw 'Pinned Rust 1.99.1 required' }
+          $out = Join-Path $env:RUNNER_TEMP 'binus-windows-alpha'
+          New-Item -ItemType Directory -Path $out -ErrorAction Stop | Out-Null
+          python -B -m unittest discover -s tests -p 'test_windows_alpha.py'
+          if ($LASTEXITCODE -ne 0) { throw 'Windows packaging tests failed' }
+          $env:PYTHONUTF8 = '1'
+          python -B scripts/package_windows_alpha.py --output-dir $out
+          if ($LASTEXITCODE -ne 0) { throw 'Windows package build failed' }
+          $env:BINUS_ALPHA_OUTPUT = $out
+      - name: Run extracted CLI help and packaging regression tests
+        run: |
+          $exe = Get-ChildItem (Join-Path $env:RUNNER_TEMP 'binus-windows-alpha') -Filter 'binus-*-windows-x86_64.zip' | Select-Object -First 1
+          if (-not $exe) { throw 'Verified archive missing' }
+          $extract = Join-Path $env:RUNNER_TEMP 'binus-alpha-smoke'
+          Expand-Archive -LiteralPath $exe.FullName -DestinationPath $extract
+          & (Join-Path $extract 'binus.exe') --help
+          if ($LASTEXITCODE -ne 0) { throw 'Extracted binary help failed' }
+          python -B -m unittest discover -s tests -p 'test_windows_alpha.py'
+          if ($LASTEXITCODE -ne 0) { throw 'Windows packaging tests failed' }
+      - name: Upload verified package
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: binus-windows-x86_64-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/binus-windows-alpha/*.zip
+            ${{ runner.temp }}/binus-windows-alpha/*.zip.sha256
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+          overwrite: false
+          include-hidden-files: false

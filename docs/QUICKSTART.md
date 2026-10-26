@@ -13,6 +13,12 @@ On Windows, use an ordinary interactive PowerShell window. Check a supplied exec
 & 'C:\path with spaces\binus.exe' --help
 ```
 
+## Windows alpha CI artifact
+
+The repository's **Actions → Windows alpha build → Run workflow** builds from the selected commit on a native Windows Server 2025 x64 MSVC runner. The workflow is manually dispatched and uploads a 14-day CI artifact; it does not publish a release or tag. Download the artifact from that workflow run, extract GitHub's outer artifact ZIP if your browser downloaded one, then extract the included `binus-<commit>-windows-x86_64.zip`. Verify the package SHA-256 sidecar against the package ZIP before extracting it. The package's `README.md` and `skills/binus-cli/SKILL.md` are available beside `binus.exe`.
+
+A successful build and extracted `--help` check show that the native executable starts in the Windows Server 2025 CI runner context. They do not validate GUI sign-in, Windows Credential Manager use by a colleague, or clean-machine onboarding. Windows 11 x64 remains the evaluation target, supported by earlier manual-account evaluation evidence; this CI run does not observe Windows 11. Compatibility with every Windows version is not claimed. Do not elevate the program or disable operating-system warnings.
+
 Windows login stores credentials in Windows Credential Manager:
 
 ```powershell
@@ -69,4 +75,4 @@ The bundled [agent skill](../skills/binus-cli/SKILL.md) describes safe command u
 
 ## Validation status
 
-Existing own-account Windows flows and the native Linux Rust `--all-targets` regression (130 passed, 0 failed) passed. Project license and third-party notice review, clean-machine Windows onboarding, and a distributable Windows build/package remain pending. This packaging pass creates a Linux archive only. A Windows dual-boot cross-check does not establish that a Windows package was built or tested. This is not a release-ready publication.
+Existing own-account Windows flows and the native Linux Rust `--all-targets` regression (130 passed, 0 failed) passed. The Windows alpha workflow is implemented but has not yet run; no Windows archive success is claimed. Project license and legal review, clean-machine Windows onboarding, and formal distribution remain pending. The Linux archive remains governed by the separate native Linux packaging process above. A Windows dual-boot cross-check does not establish that a Windows package was built or tested. This is not a release-ready publication.
